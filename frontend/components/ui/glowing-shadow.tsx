@@ -86,12 +86,10 @@ export function GlowingShadow({ children }: GlowingShadowButtonProps) {
           --glow-rotate-unit: 1deg;
 
           width: 100%;
-          height: 100%;
+          height: auto;
           color: white;
           margin: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
+          display: block;
           position: relative;
           z-index: 2;
           border-radius: var(--card-radius);
@@ -109,15 +107,14 @@ export function GlowingShadow({ children }: GlowingShadowButtonProps) {
         }
 
         .glow-content {
-          position: absolute; 
-          background: var(--card-color);
+          position: relative; 
+          background: transparent;
           border-radius: calc(var(--card-radius) * 0.9);
-          display: flex;
-          align-items: center;
-          justify-content: center;  
+          display: block;
           padding: 0;
           width: 100%;
-          height: 100%;
+          height: auto;
+          z-index: 2;
         }
 
         .glow-content span {
@@ -153,8 +150,8 @@ export function GlowingShadow({ children }: GlowingShadowButtonProps) {
           --glow-translate-y: 0;
           display: block;
           position: absolute;
-          width: 20%;
-          height: 20%;
+          width: 150px;
+          height: 150px;
           animation: rotate var(--animation-speed) linear infinite;
           transform: rotateZ(calc(var(--rotate) * var(--glow-rotate-unit)));
           transform-origin: center;
