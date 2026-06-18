@@ -4,7 +4,7 @@ import { API_BASE_URL } from '@/config';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, Eye, EyeOff, ShieldAlert, ArrowRight, Sparkles, CheckCircle2, Wrench, Code2, Truck, GraduationCap, Star, Zap } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ShieldAlert, ArrowRight, ArrowLeft, Sparkles, CheckCircle2, Wrench, Code2, Truck, GraduationCap, Star, Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const floatingItems = [
@@ -258,7 +258,13 @@ export default function LoginPage() {
         </div>
 
         {/* ── RIGHT FORM ── */}
-        <div className="flex-1 flex items-center justify-center p-6 sm:p-12 bg-white dark:bg-[#0a0a0a]">
+        <div className="flex-1 flex items-center justify-center p-6 sm:p-12 bg-white dark:bg-[#0a0a0a] relative">
+          
+          {/* Mobile Back Button */}
+          <Link href="/" className="absolute top-6 left-6 lg:hidden flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors bg-gray-100 dark:bg-white/5 px-3 py-2 rounded-xl z-50">
+            <ArrowLeft size={14} />
+            Ana Sayfa
+          </Link>
           <motion.div
             initial={{ opacity: 0, y: 40, filter: 'blur(12px)', scale: 0.95 }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)', scale: 1 }}

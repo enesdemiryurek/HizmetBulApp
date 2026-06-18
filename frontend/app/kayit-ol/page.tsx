@@ -5,7 +5,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  User, Mail, Phone, Lock, Eye, EyeOff, ShieldAlert, ArrowRight,
+  User, Mail, Phone, Lock, Eye, EyeOff, ShieldAlert, ArrowRight, ArrowLeft,
   Sparkles, Truck, Wrench, Code2, GraduationCap, Camera, Leaf,
   Car, UserCheck, Briefcase, Search, X, CheckCircle2, Star,
   Heart, Scissors, PawPrint, PartyPopper, MapPin
@@ -286,7 +286,13 @@ export default function RegisterPage() {
         </div>
 
         {/* ─── RIGHT Form Panel ─── */}
-        <div className="flex-1 flex flex-col justify-center items-center p-5 sm:p-10 overflow-y-auto">
+        <div className="flex-1 flex flex-col justify-center items-center p-5 sm:p-10 overflow-y-auto relative">
+
+          {/* Mobile Back Button */}
+          <Link href="/" className="absolute top-6 left-6 lg:hidden flex items-center gap-1.5 text-xs font-bold text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors bg-gray-100 dark:bg-white/5 px-3 py-2 rounded-xl z-50">
+            <ArrowLeft size={14} />
+            Ana Sayfa
+          </Link>
           <motion.div
             initial={{ opacity: 0, y: 40, filter: 'blur(12px)', scale: 0.95 }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)', scale: 1 }}
