@@ -131,9 +131,21 @@ export function GlowingShadow({ children }: GlowingShadowButtonProps) {
           width: calc(100% + var(--border-width));
           height: calc(100% + var(--border-width));
           border-radius: calc(var(--card-radius) * 0.9);
-          box-shadow: 0 0 20px black;
-          mix-blend-mode: color-burn;
+          box-shadow: 0 0 20px rgba(0,0,0,0.05);
           z-index: -1;
+          background: hsl(0deg 0% 90%) radial-gradient(
+            30% 30% at calc(var(--bg-x) * 1%) calc(var(--bg-y) * 1%),
+            hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 70%) calc(0% * var(--bg-size)),
+            hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 60%) calc(20% * var(--bg-size)),
+            hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 50%) calc(40% * var(--bg-size)),
+            transparent 100%
+          );
+          animation: hue-animation var(--animation-speed) linear infinite,
+                     rotate-bg var(--animation-speed) linear infinite;
+          transition: --bg-size var(--interaction-speed) ease;
+        }
+
+        :global(.dark) .glow-content:before {
           background: hsl(0deg 0% 16%) radial-gradient(
             30% 30% at calc(var(--bg-x) * 1%) calc(var(--bg-y) * 1%),
             hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 90%) calc(0% * var(--bg-size)),
@@ -141,9 +153,6 @@ export function GlowingShadow({ children }: GlowingShadowButtonProps) {
             hsl(calc(var(--hue) * var(--hue-speed) * 1deg) 100% 60%) calc(40% * var(--bg-size)),
             transparent 100%
           );
-          animation: hue-animation var(--animation-speed) linear infinite,
-                     rotate-bg var(--animation-speed) linear infinite;
-          transition: --bg-size var(--interaction-speed) ease;
         }
 
         .glow {
@@ -178,10 +187,13 @@ export function GlowingShadow({ children }: GlowingShadowButtonProps) {
         }
 
         .glow-container:hover .glow-content {
-          mix-blend-mode: darken;
           --text-color: white;
-          box-shadow: 0 0 calc(var(--white-shadow) * 1vw) calc(var(--white-shadow) * 0.15vw) rgb(255 255 255 / 20%);
+          box-shadow: 0 0 calc(var(--white-shadow) * 1vw) calc(var(--white-shadow) * 0.15vw) rgb(0 0 0 / 10%);
           animation: shadow-pulse calc(var(--animation-speed) * 2) linear infinite;
+        }
+
+        :global(.dark) .glow-container:hover .glow-content {
+           box-shadow: 0 0 calc(var(--white-shadow) * 1vw) calc(var(--white-shadow) * 0.15vw) rgb(255 255 255 / 20%);
         }
 
         .glow-container:hover .glow-content:before {
@@ -192,12 +204,12 @@ export function GlowingShadow({ children }: GlowingShadowButtonProps) {
 
         .glow-container:hover .glow {
           --glow-blur: 1.5;
-          --glow-opacity: 0.6;
-          --glow-scale: 2.5;
+          --glow-opacity: 0.3;
+          --glow-scale: 1.5;
           --glow-radius: 0;
           --rotate: 900;
           --glow-rotate-unit: 0;
-          --scale-factor: 1.25;
+          --scale-factor: 1;
           animation-play-state: paused;
         }
 
