@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useRef } from "react";
-import { cn } from "@/lib/utils";
 
 interface NeuralBackgroundProps {
   className?: string;
@@ -162,7 +161,7 @@ export default function NeuralBackground({
   }, [color, trailOpacity, particleCount, speed]);
 
   return (
-    <div ref={containerRef} className={cn("absolute inset-0 w-full h-full bg-gray-50 dark:bg-[#050505] overflow-hidden pointer-events-none z-0", className)}>
+    <div ref={containerRef} className={`absolute inset-0 w-full h-full bg-gray-50 dark:bg-[#050505] overflow-hidden pointer-events-none z-0 ${className || ''}`}>
       <canvas ref={canvasRef} className="block w-full h-full opacity-60" />
     </div>
   );
