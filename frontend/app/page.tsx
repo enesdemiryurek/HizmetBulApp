@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { providers, categories } from '@/lib/data';
 import SearchBar from '@/components/SearchBar';
+import { CTASection } from '@/components/blocks/cta-with-rectangle';
 
 /* ── Animation variants ─────────────────────────── */
 const fadeUp = {
@@ -442,44 +443,17 @@ export default function HomePage() {
       </section>
 
       {/* ╔══ CTA BANNER ════════════════════════════════════╗ */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-5xl mx-auto">
-          <Section>
-            <motion.div
-              variants={scaleIn}
-              className="relative bg-gradient-to-br from-[#c40003] to-[#9a0002] rounded-[32px] overflow-hidden p-10 md:p-16 text-center shadow-2xl shadow-[#9a0002]/20"
-            >
-              <div className="relative z-10">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#efe6dd]/20 border border-[#efe6dd]/30 text-[#efe6dd] text-sm font-semibold mb-6">
-                  <TrendingUp size={14} />
-                  Hizmet Veren misiniz?
-                </div>
-                <h2 className="text-4xl md:text-6xl font-black text-[#efe6dd] mb-6 leading-tight">
-                  Kazanmaya<br />bugün başlayın.
-                </h2>
-                <p className="text-[#efe6dd]/80 text-lg mb-10 max-w-lg mx-auto font-medium">
-                  0 TL lead ücreti. Sabit paket. Doğrudan müşteri araması.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <Link
-                    href="/hizmet-veren"
-                    id="home-cta-primary"
-                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#efe6dd] hover:bg-white text-[#9a0002] font-black rounded-2xl text-base transition-all hover:shadow-xl active:scale-95"
-                  >
-                    Ücretsiz Başla <ArrowRight size={18} />
-                  </Link>
-                  <Link
-                    href="/arama"
-                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 border border-[#efe6dd]/20 hover:bg-white/20 text-[#efe6dd] font-bold rounded-2xl text-base transition-all"
-                  >
-                    Hizmet Ara
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
-          </Section>
-        </div>
-      </section>
+      <CTASection
+        badge={{ text: "Hemen Başla" }}
+        title="İşini Büyütmek İçin HizmetBul'a Katıl"
+        description="Uzman profilini oluştur, binlerce müşteriye anında ulaş ve iş hacmini büyütmeye başla. 0 TL lead ücreti, %0 komisyon."
+        action={{
+          text: "Ücretsiz Kayıt Ol",
+          href: "/hizmet-veren",
+          variant: "default"
+        }}
+        className="mb-24"
+      />
 
     </div>
   );

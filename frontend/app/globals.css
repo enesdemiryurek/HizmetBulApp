@@ -56,6 +56,42 @@
   --color-red-800: var(--color-rose-800);
   --color-red-900: var(--color-rose-900);
   --color-red-950: var(--color-rose-950);
+
+  /* CTA Component Extensions */
+  --shadow-glow: 0 -16px 128px 0 rgba(154, 0, 2, 0.1) inset, 0 -16px 32px 0 rgba(154, 0, 2, 0.1) inset;
+  
+  --animate-fade-in-up: fade-in-up 0.5s ease-out forwards;
+  --animate-fade-in: fade-in 0.5s ease-out forwards;
+  --animate-scale-in: scale-in 0.5s ease-out forwards;
+
+  @keyframes fade-in-up {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  @keyframes scale-in {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+}
+
+/* ── CTA Utilities ── */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-700 { animation-delay: 700ms; }
+
+.fade-top-lg {
+  mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1) 8rem);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1) 8rem);
+}
+
+.dark .fade-top-lg {
+  box-shadow: 0 -16px 128px 0 rgba(255, 255, 255, 0.05) inset, 0 -16px 32px 0 rgba(255, 255, 255, 0.05) inset;
 }
 
 @font-face {
