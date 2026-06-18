@@ -80,7 +80,7 @@ function PeopleCard({
           // eslint-disable-next-line @next/next/no-img-element
           <img src={provider.coverUrl} alt="Cover" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" />
         ) : (
-          <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-rose-50 to-orange-50 dark:from-rose-950/30 dark:to-orange-950/30 group-hover:scale-105 transition-transform duration-700" />
+          <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#e11d48] to-[#9a0002] group-hover:scale-105 transition-transform duration-700" />
         )}
         {/* Category Badge on Cover */}
         <span className="absolute top-3 left-3 text-[10px] font-black text-white bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-md uppercase tracking-wider">
