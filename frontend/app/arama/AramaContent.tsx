@@ -694,7 +694,7 @@ export default function AramaContent() {
 
       <div className="relative z-10 flex flex-col h-full">
       {/* ── Content ── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-8">
         
         {/* Search & Filters */}
         <div className="bg-white dark:bg-[#111] p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 mb-8 flex flex-col lg:flex-row gap-4 relative z-20">

@@ -256,7 +256,7 @@ export default function Navbar() {
             <div className="w-7 h-7 bg-white/15 rounded-lg flex items-center justify-center border border-white/25 group-hover:bg-white/25 transition-colors">
               <Zap size={14} className="text-white fill-white" />
             </div>
-            <span className="font-black text-lg tracking-tight font-celinda text-white hidden sm:block">
+            <span className="font-black text-lg tracking-tight font-celinda text-white">
               Hizmet<span className="text-white">Bul</span>
             </span>
           </Link>
@@ -503,9 +503,6 @@ export default function Navbar() {
         </div>
         </header>
       </div>
-
-      {/* Spacer */}
-      <div className="h-20" />
     </>
   );
 }
