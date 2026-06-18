@@ -359,14 +359,11 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
       {/* Cover */}
       <div className="relative h-56 md:h-72 bg-gradient-to-br from-rose-900 to-[#1a0010] overflow-hidden">
         {provider.coverUrl && (
-          <Image
+          <img
             src={provider.coverUrl}
-            alt=""
-            fill
-            className="object-cover opacity-60"
-            sizes="100vw"
-            priority
-            unoptimized={true}
+            alt="Cover"
+            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            className="absolute inset-0 w-full h-full object-cover opacity-60"
           />
         )}
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
@@ -471,11 +468,15 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
             <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show" className="bento-item premium-glow p-6 lg:p-8">
               <div className="flex items-end justify-between mb-4">
                 <div className="relative">
-                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden ring-4 ring-white dark:ring-black shadow-xl bg-gradient-to-br from-rose-600 to-rose-800 flex items-center justify-center text-white font-black text-3xl">
-                    {provider.avatarUrl ? (
-                      <Image src={provider.avatarUrl} alt={provider.name} width={112} height={112} className="object-cover" unoptimized={true} />
-                    ) : (
-                      provider.name.charAt(0).toUpperCase()
+                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden ring-4 ring-white dark:ring-black shadow-xl bg-gradient-to-br from-rose-600 to-rose-800 flex items-center justify-center text-white font-black text-3xl relative">
+                    {provider.name.charAt(0).toUpperCase()}
+                    {provider.avatarUrl && (
+                      <img 
+                        src={provider.avatarUrl} 
+                        alt={provider.name} 
+                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                        className="absolute inset-0 w-full h-full object-cover" 
+                      />
                     )}
                   </div>
                   {provider.verified && (

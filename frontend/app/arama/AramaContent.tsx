@@ -75,12 +75,15 @@ function PeopleCard({
       )}
 
       {/* COVER IMAGE */}
-      <div className={`relative w-full h-28 bg-gray-100 dark:bg-[#1a1a1a] shrink-0 overflow-hidden ${isPromoted ? 'mt-6' : ''}`}>
-        {provider.coverUrl ? (
+      <div className={`relative w-full h-28 bg-gradient-to-br from-[#e11d48] to-[#9a0002] shrink-0 overflow-hidden ${isPromoted ? 'mt-6' : ''}`}>
+        {provider.coverUrl && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={provider.coverUrl} alt="Cover" className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" />
-        ) : (
-          <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-[#e11d48] to-[#9a0002] group-hover:scale-105 transition-transform duration-700" />
+          <img 
+            src={provider.coverUrl} 
+            alt="Cover" 
+            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+            className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700" 
+          />
         )}
         {/* Category Badge on Cover */}
         <span className="absolute top-3 left-3 text-[10px] font-black text-white bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-md uppercase tracking-wider">
@@ -93,14 +96,16 @@ function PeopleCard({
         {/* Profile Info Row (Avatar overlaps cover) */}
         <div className="flex gap-3 mb-4 -mt-8 relative z-10 items-end">
           <div className="relative shrink-0">
-            <div className="w-16 h-16 rounded-full overflow-hidden border-4 border-white dark:border-[#111] shadow-sm bg-white dark:bg-[#111]">
-              {provider.avatarUrl ? (
+            <div className="w-16 h-16 rounded-full overflow-hidden border-4 border-white dark:border-[#111] shadow-sm bg-gray-50 dark:bg-white/5 relative flex items-center justify-center text-gray-400 font-black text-xl">
+              {provider.name.charAt(0).toUpperCase()}
+              {provider.avatarUrl && (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={provider.avatarUrl} alt={provider.name} className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400 font-black text-xl bg-gray-50 dark:bg-white/5">
-                  {provider.name.charAt(0).toUpperCase()}
-                </div>
+                <img 
+                  src={provider.avatarUrl} 
+                  alt={provider.name} 
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  className="absolute inset-0 w-full h-full object-cover" 
+                />
               )}
             </div>
             {provider.verified && (
