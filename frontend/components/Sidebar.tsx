@@ -21,7 +21,8 @@ export default function Sidebar() {
   useEffect(() => {
     setMounted(true);
     const storedUser = localStorage.getItem('user');
-    if (storedUser) {
+    const token = localStorage.getItem('auth_token');
+    if (storedUser && token) {
       setUserRole(JSON.parse(storedUser).role);
     }
 
@@ -92,11 +93,21 @@ export default function Sidebar() {
     window.location.href = '/giris-yap';
   };
 
+  const isLoggedIn = !!userRole;
+
   const menuItems = [
     { label: 'Hizmet Bul', icon: Compass, href: '/arama' },
-    { label: 'Hizmet Sayfam', icon: Briefcase, href: '/hizmet-sayfam' },
-    { label: 'Mesajlar', icon: MessageCircle, href: '/mesajlar', badge: 'Yeni' },
-    { label: 'Ayarlar', icon: Settings, href: '/ayarlar' },
+    ...(isLoggedIn 
+      ? [
+          { label: 'Hizmet Sayfam', icon: Briefcase, href: userRole === 'hizmet_veren' ? '/hizmet-sayfam' : '/hizmet-alan' },
+          { label: 'Mesajlar', icon: MessageCircle, href: '/mesajlar', badge: 'Yeni' },
+          { label: 'Ayarlar', icon: Settings, href: '/ayarlar' }
+        ]
+      : [
+          { label: 'Hizmet Alan', icon: Home, href: '/hizmet-alan' },
+          { label: 'Hizmet Veren', icon: Briefcase, href: '/hizmet-veren' }
+        ]
+    ),
     { label: 'AI Asistan', icon: Bot, href: '#', onClick: () => { setAiOpen(true); setIsExpanded(false); } }
   ];
 
@@ -188,16 +199,33 @@ export default function Sidebar() {
             </div>
           )}
 
-          {/* Logout Button */}
-          <button 
-            onClick={handleLogout}
-            className={`flex items-center justify-center px-3 py-3.5 bg-white/5 hover:bg-rose-600 border border-white/10 hover:border-rose-500 text-white rounded-2xl transition-all duration-300 w-full overflow-hidden group`}
-          >
-            <LogOut size={20} className="shrink-0 group-hover:scale-110 transition-transform" />
-            <span className={`ml-3 font-bold text-sm transition-all duration-300 ${(isExpanded || mobileOpen) ? 'opacity-100 w-auto' : 'opacity-0 w-0'}`}>
-              Çıkış Yap
-            </span>
-          </button>
+          {/* Auth Buttons */}
+          {mounted && isLoggedIn ? (
+            <button 
+              onClick={handleLogout}
+              className={`flex items-center justify-center px-3 py-3.5 bg-white/5 hover:bg-rose-600 border border-white/10 hover:border-rose-500 text-white rounded-2xl transition-all duration-300 w-full overflow-hidden group`}
+            >
+              <LogOut size={20} className="shrink-0 group-hover:scale-110 transition-transform" />
+              <span className={`ml-3 font-bold text-sm transition-all duration-300 ${(isExpanded || mobileOpen) ? 'opacity-100 w-auto' : 'opacity-0 w-0'}`}>
+                Çıkış Yap
+              </span>
+            </button>
+          ) : mounted ? (
+            <div className={`flex flex-col gap-2 transition-all duration-300 ${(isExpanded || mobileOpen) ? 'opacity-100 h-auto' : 'opacity-0 h-0 overflow-hidden'}`}>
+              <Link 
+                href="/giris-yap"
+                className="flex items-center justify-center px-3 py-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white rounded-xl transition-all duration-300 w-full font-bold text-sm"
+              >
+                Giriş Yap
+              </Link>
+              <Link 
+                href="/kayit-ol"
+                className="flex items-center justify-center px-3 py-3 bg-white hover:bg-rose-50 text-rose-600 rounded-xl transition-all duration-300 w-full font-black text-sm shadow-md"
+              >
+                Ücretsiz Üye Ol
+              </Link>
+            </div>
+          ) : null}
         </div>
       </div>
 

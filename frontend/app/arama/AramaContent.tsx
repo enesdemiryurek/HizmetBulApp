@@ -686,6 +686,7 @@ export default function AramaContent() {
     <div className="min-h-screen relative bg-slate-50 dark:bg-[#050505] overflow-hidden">
       
       <NeuralBackground 
+        className="!fixed !inset-0 !h-screen !w-screen"
         color="#e11d48"
         trailOpacity={0.15}
         particleCount={800}
