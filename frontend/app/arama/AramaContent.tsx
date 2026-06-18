@@ -10,6 +10,7 @@ import { Search, SlidersHorizontal, Star, MapPin, Shield, Phone, X, ChevronDown,
 import { districts, categories } from '@/lib/data';
 import PixarLoader from '@/components/PixarLoader';
 import NeuralBackground from '@/components/ui/flow-field-background';
+import { GlowingShadow } from '@/components/ui/glowing-shadow';
 
 const ratingOptions = [
   { label: 'Tümü', value: 0 },
@@ -62,7 +63,7 @@ function PeopleCard({
       initial="hidden"
       animate="show"
       transition={{ delay: index * 0.05 }}
-      className={`group relative flex flex-col bg-white dark:bg-[#111] rounded-3xl overflow-hidden transition-all duration-300 hover:-translate-y-1 ${
+      className={`group relative flex flex-col w-full h-full bg-white dark:bg-[#111] rounded-[calc(20px*0.9)] overflow-hidden transition-all duration-300 hover:-translate-y-1 ${
         isPromoted
           ? 'ring-2 ring-amber-400 shadow-[0_8px_30px_rgba(0,0,0,0.06)]'
           : 'border border-gray-100 dark:border-white/5 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-[0_12px_35px_rgba(154,0,2,0.06)] hover:border-rose-200/60'
@@ -797,7 +798,11 @@ export default function AramaContent() {
         ) : filtered.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map(({ provider, metrics }, i) => (
-              <PeopleCard key={provider.id} provider={provider} index={i} aiMetrics={query.trim() !== '' ? metrics : undefined} />
+              <div key={provider.id} className="h-full w-full">
+                <GlowingShadow>
+                  <PeopleCard provider={provider} index={i} aiMetrics={query.trim() !== '' ? metrics : undefined} />
+                </GlowingShadow>
+              </div>
             ))}
           </div>
         ) : (

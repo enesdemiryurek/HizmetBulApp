@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { providers, categories } from '@/lib/data';
 import SearchBar from '@/components/SearchBar';
+import { GlowingShadow } from '@/components/ui/glowing-shadow';
 
 /* ── Animation variants ─────────────────────────── */
 const fadeUp = {
@@ -334,8 +335,10 @@ export default function HomePage() {
             {/* Provider grid — LinkedIn style */}
             <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {displayProviders.map((p) => (
-                <motion.div key={p.id} variants={scaleIn}>
-                  <LinkedInCard provider={p} />
+                <motion.div key={p.id} variants={scaleIn} className="h-full w-full">
+                  <GlowingShadow>
+                    <LinkedInCard provider={p} />
+                  </GlowingShadow>
                 </motion.div>
               ))}
             </motion.div>
@@ -488,7 +491,7 @@ export default function HomePage() {
 /* ── LinkedIn-style Provider Card ─────────────── */
 function LinkedInCard({ provider }: { provider: any }) {
   return (
-    <Link href={`/esnaf/${provider.slug}`} className="block group bento-item premium-glow cursor-pointer">
+    <Link href={`/esnaf/${provider.slug}`} className="block w-full h-full group cursor-pointer overflow-hidden rounded-2xl bg-white dark:bg-white/5">
       {/* Cover */}
       <div className="relative h-24 overflow-hidden bg-gradient-to-br from-[#e11d48] to-[#9a0002]">
         {provider.previewImages[0] && (
