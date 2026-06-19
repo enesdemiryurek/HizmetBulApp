@@ -470,11 +470,11 @@ function LinkedInCard({ provider }: { provider: any }) {
       className={`group relative [perspective:1000px] w-full ${isPromoted ? 'mt-6' : ''}`}
     >
       <div 
-        className={`relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] cursor-pointer ${isFlipped ? '[transform:rotateY(180deg)]' : ''}`}
+        className={`relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] [-webkit-transform-style:preserve-3d] cursor-pointer ${isFlipped ? '[transform:rotateY(180deg)]' : ''}`}
         onClick={() => setIsFlipped(!isFlipped)}
       >
         {/* FRONT SIDE */}
-        <div className="[backface-visibility:hidden] relative flex flex-col h-full bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden">
+        <div className="[backface-visibility:hidden] [-webkit-backface-visibility:hidden] relative flex flex-col h-full bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden">
       {/* Decorative Grid Pattern */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-10 bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:1rem_1rem] z-0" />
 
@@ -585,49 +585,74 @@ function LinkedInCard({ provider }: { provider: any }) {
       </div>
 
       {/* BACK SIDE */}
-      <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col h-full bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden p-5">
+      <div className="absolute inset-0 [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col h-full bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden p-5">
         <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-10 bg-[linear-gradient(to_right,#e11d48_1px,transparent_1px),linear-gradient(to_bottom,#e11d48_1px,transparent_1px)] bg-[size:1rem_1rem] z-0" />
         
         <div className="relative z-10 flex flex-col h-full">
-          {provider.reviews && provider.reviews.length > 0 ? (
-            <div className="mb-4 flex-shrink-0">
-              <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest border-b-[3px] border-gray-950 dark:border-white pb-2 mb-3">Öne Çıkan Yorum</h3>
-              <p className="text-sm font-bold text-gray-900 dark:text-white leading-relaxed italic line-clamp-3">
-                "{provider.reviews[0].comment}"
-              </p>
-              <div className="flex items-center gap-2 mt-3">
-                <div className="w-6 h-6 rounded-full border-[2px] border-gray-950 dark:border-white overflow-hidden bg-rose-100 shrink-0">
-                  {provider.reviews[0].avatar ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={provider.reviews[0].avatar} className="w-full h-full object-cover" alt="" />
-                  ) : (
-                    <span className="flex items-center justify-center w-full h-full text-[10px] font-black text-rose-600">{provider.reviews[0].author.charAt(0)}</span>
-                  )}
-                </div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-gray-950 dark:text-white bg-gray-100 dark:bg-white/10 border-[2px] border-gray-950 dark:border-white rounded-md px-2 py-1">
-                  {provider.reviews[0].author}
-                </span>
+          {(!provider.reviews || provider.reviews.length === 0) && (!provider.previewImages || provider.previewImages.length === 0) ? (
+            <div className="flex flex-col items-center justify-center flex-1 text-center px-2">
+              <div className="w-16 h-16 bg-rose-50 dark:bg-rose-950 border-[3px] border-gray-950 dark:border-white rounded-full flex items-center justify-center mb-4 shadow-[4px_4px_0_0_rgba(225,29,72,1)]">
+                <Star className="text-rose-600" size={24} />
+              </div>
+              <h3 className="font-black text-gray-950 dark:text-white text-lg mb-2">Henüz Detay Yok</h3>
+              <p className="text-xs font-bold text-gray-600 dark:text-gray-400 mb-4">Bu uzmanın henüz bir yorumu veya portföy görseli bulunmuyor. İlk iletişime geçen siz olun!</p>
+              <div className="bg-gray-100 dark:bg-white/5 border-[2px] border-gray-950 dark:border-white rounded-md p-3 w-full text-left">
+                <p className="text-xs font-bold text-gray-950 dark:text-white line-clamp-3">
+                  {provider.about || provider.description || 'Uzman profiline giderek doğrudan iletişime geçebilirsiniz.'}
+                </p>
               </div>
             </div>
           ) : (
-            <div className="mb-4 flex-shrink-0">
-              <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest border-b-[3px] border-gray-950 dark:border-white pb-2 mb-3">Hakkında</h3>
-              <p className="text-sm font-bold text-gray-900 dark:text-white leading-relaxed line-clamp-4">
-                {provider.about || provider.description || 'Bu uzman henüz hakkında detaylı bir bilgi girmemiş.'}
-              </p>
-            </div>
-          )}
-          
-          {provider.previewImages && provider.previewImages.length > 0 && (
-            <div className="flex-1 mt-auto">
-              <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest border-b-[3px] border-gray-950 dark:border-white pb-1 mb-2">Portföy</h3>
-              <div className="grid grid-cols-2 gap-2 h-20 sm:h-24">
-                {provider.previewImages.slice(0, 2).map((img: string, i: number) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img key={i} src={img} className="w-full h-full object-cover border-[2px] border-gray-950 dark:border-white rounded-md shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)]" alt="" />
-                ))}
-              </div>
-            </div>
+            <>
+              {provider.reviews && provider.reviews.length > 0 ? (
+                <div className="mb-4 flex-shrink-0">
+                  <div className="flex items-center justify-between border-b-[3px] border-gray-950 dark:border-white pb-2 mb-3">
+                    <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest">Öne Çıkan Yorum</h3>
+                    {provider.reviews[0].rating && (
+                      <div className="flex items-center gap-1 bg-amber-400 border-[2px] border-gray-950 px-1.5 py-0.5 rounded shadow-[2px_2px_0_0_rgba(3,7,18,1)]">
+                        <Star size={10} className="fill-gray-950 text-gray-950" />
+                        <span className="text-[10px] font-black text-gray-950">{provider.reviews[0].rating}</span>
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-sm font-bold text-gray-900 dark:text-white leading-relaxed italic line-clamp-3">
+                    "{provider.reviews[0].comment}"
+                  </p>
+                  <div className="flex items-center gap-2 mt-3">
+                    <div className="w-6 h-6 rounded-full border-[2px] border-gray-950 dark:border-white overflow-hidden bg-rose-100 shrink-0">
+                      {provider.reviews[0].avatar ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={provider.reviews[0].avatar} className="w-full h-full object-cover" alt="" />
+                      ) : (
+                        <span className="flex items-center justify-center w-full h-full text-[10px] font-black text-rose-600">{provider.reviews[0].author.charAt(0)}</span>
+                      )}
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-wider text-gray-950 dark:text-white bg-gray-100 dark:bg-white/10 border-[2px] border-gray-950 dark:border-white rounded-md px-2 py-1">
+                      {provider.reviews[0].author}
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div className="mb-4 flex-shrink-0">
+                  <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest border-b-[3px] border-gray-950 dark:border-white pb-2 mb-3">Hakkında</h3>
+                  <p className="text-sm font-bold text-gray-900 dark:text-white leading-relaxed line-clamp-4">
+                    {provider.about || provider.description || 'Bu uzman henüz hakkında detaylı bir bilgi girmemiş.'}
+                  </p>
+                </div>
+              )}
+              
+              {provider.previewImages && provider.previewImages.length > 0 && (
+                <div className="flex-1 mt-auto">
+                  <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest border-b-[3px] border-gray-950 dark:border-white pb-1 mb-2">Portföy</h3>
+                  <div className="grid grid-cols-3 gap-2 h-16 sm:h-20">
+                    {provider.previewImages.slice(0, 3).map((img: string, i: number) => (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img key={i} src={img} className="w-full h-full object-cover border-[2px] border-gray-950 dark:border-white rounded-md shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)]" alt="" />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </>
           )}
 
           <Link
