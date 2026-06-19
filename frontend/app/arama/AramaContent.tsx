@@ -91,12 +91,12 @@ function PeopleCard({
         </span>
       </div>
 
-      <div className="flex flex-col flex-1 px-5 pb-5">
+      <div className="flex flex-col flex-1 px-4 sm:px-5 pb-4 sm:pb-5">
         
         {/* Profile Info Row (Avatar overlaps cover) */}
-        <div className="flex gap-3 mb-4 -mt-8 relative z-10 items-end">
+        <div className="flex justify-between items-start -mt-8 relative z-10 mb-2">
           <div className="relative shrink-0">
-            <div className="w-16 h-16 rounded-full overflow-hidden border-4 border-white dark:border-[#111] shadow-sm bg-gray-50 dark:bg-white/5 relative flex items-center justify-center text-gray-400 font-black text-xl">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full overflow-hidden border-4 border-white dark:border-[#111] shadow-sm bg-gray-50 dark:bg-white/5 relative flex items-center justify-center text-gray-400 font-black text-xl">
               {provider.name.charAt(0).toUpperCase()}
               {provider.avatarUrl && (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -114,55 +114,56 @@ function PeopleCard({
               </div>
             )}
           </div>
-          <div className="pb-1 flex-1 flex justify-between items-start">
-             <div>
-               <Link href={`/esnaf/${provider.slug}`} onClick={() => trackAction('click')} className="block group/link">
-                 <h2 className="font-black text-gray-900 dark:text-white text-[15px] leading-tight group-hover/link:text-rose-600 transition-colors line-clamp-1">
-                   {provider.name}
-                 </h2>
-               </Link>
-               <p className="text-[11px] text-rose-600 dark:text-rose-400 font-bold line-clamp-1 mt-0.5">{provider.jobTitle}</p>
-             </div>
-             {/* Rating Box */}
-             <div className="flex items-center gap-1 bg-amber-50 dark:bg-amber-500/10 px-2 py-1 rounded-md shrink-0">
-               <Star size={11} className="fill-amber-500 text-amber-500" />
-               <span className="text-amber-700 dark:text-amber-400 font-bold text-xs">
-                 {isNew ? 'Yeni' : provider.rating.toFixed(1)}
-               </span>
-               {!isNew && (
-                 <span className="text-amber-600/60 dark:text-amber-500/50 text-[10px]">({provider.reviewCount})</span>
-               )}
-             </div>
+          
+          {/* Rating Box */}
+          <div className="mt-10 flex items-center gap-1 bg-amber-50 dark:bg-amber-500/10 px-2 py-1 rounded-md shrink-0 border border-amber-100 dark:border-amber-500/20 shadow-sm">
+            <Star size={11} className="fill-amber-500 text-amber-500" />
+            <span className="text-amber-700 dark:text-amber-400 font-black text-xs">
+              {isNew ? 'Yeni' : provider.rating.toFixed(1)}
+            </span>
+            {!isNew && (
+              <span className="text-amber-600/80 dark:text-amber-500/80 text-[10px] font-bold">({provider.reviewCount})</span>
+            )}
           </div>
         </div>
 
+        {/* Name and Title below avatar */}
+        <div className="mb-3">
+          <Link href={`/esnaf/${provider.slug}`} onClick={() => trackAction('click')} className="block group/link">
+            <h2 className="font-black text-gray-900 dark:text-white text-[15px] sm:text-[17px] leading-tight group-hover/link:text-rose-600 transition-colors line-clamp-1">
+              {provider.name}
+            </h2>
+          </Link>
+          <p className="text-[11px] sm:text-xs text-rose-600 dark:text-rose-400 font-black line-clamp-1 mt-1">{provider.jobTitle}</p>
+        </div>
+
         {/* Location & Stats */}
-        <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-white/40 mb-3">
-          <div className="flex items-center gap-1">
-            <MapPin size={12} className="text-rose-400 shrink-0" />
-            <span>{[provider.district, provider.city].filter(Boolean).join(', ') || 'Konum belirtilmemiş'}</span>
+        <div className="flex flex-col gap-2 text-[11px] sm:text-xs font-bold text-gray-700 dark:text-white/70 mb-3">
+          <div className="flex items-center gap-1.5">
+            <MapPin size={14} className="text-rose-500 shrink-0" />
+            <span className="line-clamp-1">{[provider.district, provider.city].filter(Boolean).join(', ') || 'Konum belirtilmemiş'}</span>
           </div>
-          <div className="flex items-center gap-1 ml-auto">
-            <Users size={12} className="text-gray-400" />
-            <span>{provider.reviewCount} iş</span>
+          <div className="flex items-center gap-1.5 w-max bg-rose-50 dark:bg-rose-500/10 px-2 py-1 rounded-md border border-rose-100 dark:border-rose-500/20">
+            <Users size={14} className="text-rose-600 dark:text-rose-400 shrink-0" />
+            <span className="text-rose-800 dark:text-rose-300 font-black">{provider.reviewCount} bitirilen iş</span>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-xs text-gray-500 dark:text-white/50 leading-relaxed line-clamp-2 mb-4 flex-1">
+        <p className="text-[11px] sm:text-xs text-gray-600 dark:text-white/60 leading-relaxed line-clamp-2 mb-4 flex-1 font-medium">
           {provider.description || 'Bu uzman henüz bir açıklama eklememiş.'}
         </p>
 
         {/* AI Score (arama yapılınca) */}
         {aiMetrics && (
-          <div className="mb-4 p-2 bg-gradient-to-r from-rose-50 to-amber-50 dark:from-rose-500/5 dark:to-amber-500/5 rounded-xl border border-rose-100/50 dark:border-rose-500/10">
-            <div className="flex items-center justify-between mb-1">
+          <div className="mb-4 p-2.5 bg-gradient-to-r from-rose-50 to-amber-50 dark:from-rose-500/5 dark:to-amber-500/5 rounded-xl border border-rose-100/50 dark:border-rose-500/10">
+            <div className="flex items-center justify-between mb-1.5">
               <span className="text-[10px] font-black text-rose-600 dark:text-rose-400 flex items-center gap-1">
                 AI Eşleşme
               </span>
-              <span className="text-[10px] font-black text-rose-600">%{Math.round(aiMetrics.score * 100)}</span>
+              <span className="text-[11px] font-black text-rose-600">%{Math.round(aiMetrics.score * 100)}</span>
             </div>
-            <div className="w-full bg-white dark:bg-black/20 h-1.5 rounded-full overflow-hidden">
+            <div className="w-full bg-white dark:bg-black/20 h-2 rounded-full overflow-hidden shadow-inner">
               <div
                 className="bg-gradient-to-r from-rose-500 to-amber-500 h-full rounded-full"
                 style={{ width: `${Math.round(aiMetrics.score * 100)}%` }}
@@ -173,9 +174,9 @@ function PeopleCard({
 
         {/* Skills */}
         {(provider.subServices?.length > 0 || provider.tags?.length > 0) && (
-          <div className="flex flex-wrap gap-1 mb-4">
-            {[...(provider.subServices?.slice(0, 2) || []), ...(provider.tags?.slice(0, 2) || [])].slice(0, 3).map((t: string) => (
-              <span key={t} className="text-[10px] font-bold px-2 py-1 bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-white/50 rounded-lg border border-gray-100 dark:border-white/5">
+          <div className="flex flex-wrap gap-1.5 mb-4">
+            {[...(provider.subServices?.slice(0, 2) || []), ...(provider.tags?.slice(0, 2) || [])].slice(0, 2).map((t: string) => (
+              <span key={t} className="text-[9px] sm:text-[10px] font-black px-2 py-1 bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-white/60 rounded-lg border border-gray-200 dark:border-white/10">
                 {t}
               </span>
             ))}
@@ -183,37 +184,48 @@ function PeopleCard({
         )}
 
         {/* Actions */}
-        <div className="flex gap-2 mt-auto pt-4 border-t border-gray-100 dark:border-white/5">
-          <Link
-            href={`/esnaf/${provider.slug}`}
-            onClick={() => trackAction('click')}
-            id={`card-profile-${provider.id}`}
-            className="flex-1 flex items-center justify-center py-2.5 bg-gray-900 hover:bg-black dark:bg-white dark:text-black dark:hover:bg-gray-100 text-white text-xs font-black rounded-xl transition-all shadow-sm active:scale-95"
-          >
-            Profili İncele
-          </Link>
-          {provider.userId && (
+        <div className="flex items-center gap-2 mt-auto pt-4 border-t border-gray-100 dark:border-white/5">
+          <div className="relative inline-flex items-center justify-center group flex-1">
+            <div className="absolute inset-0 duration-1000 opacity-60 transition-all bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 rounded-xl blur-md filter group-hover:opacity-100 group-hover:duration-200" />
             <Link
-              href={`/mesajlar?to=${provider.userId}`}
-              onClick={() => trackAction('message')}
-              id={`card-message-${provider.id}`}
-              className="flex items-center justify-center w-10 h-10 rounded-xl bg-gray-50 dark:bg-white/5 hover:bg-rose-50 dark:hover:bg-rose-500/10 text-gray-600 dark:text-white/60 hover:text-rose-600 dark:hover:text-rose-400 border border-gray-200 dark:border-white/10 transition-all"
-              title="Mesaj Gönder"
+              href={`/esnaf/${provider.slug}`}
+              onClick={() => trackAction('click')}
+              id={`card-profile-${provider.id}`}
+              className="group relative inline-flex items-center justify-center text-[11px] sm:text-xs rounded-xl bg-gray-900 dark:bg-black px-3 py-2.5 sm:px-4 sm:py-2.5 font-bold text-white transition-all duration-200 hover:bg-gray-800 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30 w-full"
+              title="Profili İncele"
             >
-              <MessageSquare size={14} />
+              Profili İncele
+              <svg aria-hidden="true" viewBox="0 0 10 10" height={10} width={10} fill="none" className="ml-1.5 sm:ml-2 -mr-1 stroke-white stroke-2">
+                <path d="M0 5h7" className="transition opacity-0 group-hover:opacity-100" />
+                <path d="M1 1l4 4-4 4" className="transition group-hover:translate-x-[3px]" />
+              </svg>
             </Link>
-          )}
-          {provider.phone && (
-            <a
-              href={`tel:${provider.phone}`}
-              onClick={() => trackAction('phone')}
-              id={`card-call-${provider.id}`}
-              className="flex items-center justify-center w-10 h-10 rounded-xl bg-gray-50 dark:bg-white/5 hover:bg-rose-50 dark:hover:bg-rose-500/10 text-gray-600 dark:text-white/60 hover:text-rose-600 dark:hover:text-rose-400 border border-gray-200 dark:border-white/10 transition-all"
-              title="Ara"
-            >
-              <Phone size={14} />
-            </a>
-          )}
+          </div>
+          
+          <div className="flex gap-1.5 shrink-0">
+            {provider.userId && (
+              <Link
+                href={`/mesajlar?to=${provider.userId}`}
+                onClick={() => trackAction('message')}
+                id={`card-message-${provider.id}`}
+                className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-50 dark:bg-white/5 hover:bg-rose-50 dark:hover:bg-rose-500/10 text-gray-600 dark:text-white/60 hover:text-rose-600 dark:hover:text-rose-400 border border-gray-200 dark:border-white/10 transition-all shrink-0"
+                title="Mesaj Gönder"
+              >
+                <MessageSquare size={14} />
+              </Link>
+            )}
+            {provider.phone && (
+              <a
+                href={`tel:${provider.phone}`}
+                onClick={() => trackAction('phone')}
+                id={`card-call-${provider.id}`}
+                className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-50 dark:bg-white/5 hover:bg-rose-50 dark:hover:bg-rose-500/10 text-gray-600 dark:text-white/60 hover:text-rose-600 dark:hover:text-rose-400 border border-gray-200 dark:border-white/10 transition-all shrink-0"
+                title="Ara"
+              >
+                <Phone size={14} />
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </motion.article>
@@ -801,7 +813,7 @@ export default function AramaContent() {
             <PixarLoader fullScreen={false} />
           </div>
         ) : filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6">
             {filtered.map(({ provider, metrics }, i) => (
               <PeopleCard key={provider.id} provider={provider} index={i} aiMetrics={query.trim() !== '' ? metrics : undefined} />
             ))}
