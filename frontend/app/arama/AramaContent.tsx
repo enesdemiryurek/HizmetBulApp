@@ -620,14 +620,77 @@ export default function AramaContent() {
   const searchParams = useSearchParams();
   const initialCity = searchParams.get('sehir') || '';
   const initialQuery = searchParams.get('q') || '';
+  const initialCategorySlug = searchParams.get('kategori') || '';
 
-  const [query, setQuery] = useState(initialQuery);
-  const [city, setCity] = useState(initialCity);
+  const CATEGORY_MAP: Record<string, string> = {
+    'temizlik': 'Temizlik',
+    'nakliyat': 'Nakliyat',
+    'tamirat': 'Tamirat & İnşaat',
+    'yazilim-tasarim': 'Yazılım & Tasarım',
+    'ozel-ders': 'Özel Ders',
+    'fotografcilik': 'Fotoğrafçılık',
+    'arac-kiralama': 'Araç Kiralama',
+    'bahce-peyzaj': 'Bahçe & Peyzaj',
+    'saglik-yasam': 'Sağlık & Yaşam',
+    'guzellik-bakim': 'Güzellik & Bakım',
+    'evcil-hayvan': 'Evcil Hayvan',
+    'organizasyon-etkinlik': 'Organizasyon & Etkinlik',
+    'reklamcilik-matbaa': 'Reklamcılık & Matbaa'
+  };
+
+  const initialCategory = initialCategorySlug ? CATEGORY_MAP[initialCategorySlug] || '' : '';
+
+  const [query, setQuery] = useState(() => {
+    if (typeof window !== 'undefined') {
+      if (initialQuery) return initialQuery;
+      const saved = sessionStorage.getItem('search_query');
+      if (saved !== null) return saved;
+    }
+    return '';
+  });
+
+  const [city, setCity] = useState(() => {
+    if (typeof window !== 'undefined') {
+      if (initialCity) return initialCity;
+      const saved = sessionStorage.getItem('search_city');
+      if (saved !== null) return saved;
+    }
+    return '';
+  });
+
+  const [selectedCategory, setSelectedCategory] = useState(() => {
+    if (typeof window !== 'undefined') {
+      if (initialCategory) return initialCategory;
+      const saved = sessionStorage.getItem('search_category');
+      if (saved !== null) return saved;
+    }
+    return '';
+  });
+
+  const [selectedDistrict, setSelectedDistrict] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return sessionStorage.getItem('search_district') || '';
+    }
+    return '';
+  });
+
   const [minRating, setMinRating] = useState(0);
-  const [selectedDistrict, setSelectedDistrict] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('');
   const [searchMinPrice, setSearchMinPrice] = useState('');
   const [searchMaxPrice, setSearchMaxPrice] = useState('');
+
+  // Sync to session storage
+  useEffect(() => {
+    sessionStorage.setItem('search_query', query);
+  }, [query]);
+  useEffect(() => {
+    sessionStorage.setItem('search_city', city);
+  }, [city]);
+  useEffect(() => {
+    sessionStorage.setItem('search_category', selectedCategory);
+  }, [selectedCategory]);
+  useEffect(() => {
+    sessionStorage.setItem('search_district', selectedDistrict);
+  }, [selectedDistrict]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [dbProviders, setDbProviders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
