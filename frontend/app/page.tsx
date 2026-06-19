@@ -9,7 +9,7 @@ import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import {
   Search, MapPin, ArrowRight, Star, Shield, Zap,
   Sparkles, Truck, Wrench, Code2, GraduationCap, Car, Camera, Leaf,
-  ChevronDown, TrendingUp, Heart, Scissors, PawPrint, PartyPopper, Megaphone
+  ChevronDown, TrendingUp, Heart, Scissors, PawPrint, PartyPopper, Megaphone, Users
 } from 'lucide-react';
 import { providers, categories } from '@/lib/data';
 import SearchBar from '@/components/SearchBar';
