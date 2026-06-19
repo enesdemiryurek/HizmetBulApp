@@ -21,9 +21,7 @@ const ratingOptions = [
 const scaleIn = {
   hidden: { opacity: 0, scale: 0.95, y: 16 },
   show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
-};
-
-/* ── Premium Provider Card ─────────────────────── */
+}/* ── Premium Liquid/Glassmorphism Provider Card ─────────────────────── */
 function PeopleCard({
   provider,
   index,
@@ -71,46 +69,48 @@ function PeopleCard({
         onClick={() => setIsFlipped(!isFlipped)}
       >
         {/* FRONT SIDE */}
-        <div className="[backface-visibility:hidden] [-webkit-backface-visibility:hidden] relative flex flex-col h-full bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden">
-      {/* Decorative Grid Pattern (Neo-brutalism touch) */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-10 bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:1rem_1rem] z-0" />
+        <div className="[backface-visibility:hidden] [-webkit-backface-visibility:hidden] relative flex flex-col h-full bg-white/70 dark:bg-[#0a0a0a]/70 backdrop-blur-xl border border-white/60 dark:border-white/10 rounded-[2rem] shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[0_16px_48px_0_rgba(225,29,72,0.15)] overflow-hidden">
+      
+      {/* Liquid Blobs Background */}
+      <div className="absolute -top-16 -right-16 w-40 h-40 bg-rose-400/30 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
+      <div className="absolute -bottom-16 -left-16 w-40 h-40 bg-purple-400/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
 
       {isPromoted && (
-        <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-center py-1.5 bg-rose-600 border-b-[3px] border-gray-950 text-white text-[10px] font-black uppercase tracking-[0.2em]">
+        <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-center py-1.5 bg-gradient-to-r from-rose-500 to-rose-600 text-white text-[10px] font-bold uppercase tracking-[0.1em] shadow-sm">
           ⭐ Sponsorlu
         </div>
       )}
 
       {/* COVER IMAGE BANNER */}
-      <div className={`relative w-full h-28 border-b-[3px] border-gray-950 dark:border-white shrink-0 overflow-hidden bg-rose-600 ${isPromoted ? 'mt-6' : ''}`}>
+      <div className={`relative w-full h-32 shrink-0 overflow-hidden bg-gradient-to-br from-rose-500 to-purple-600 ${isPromoted ? 'mt-6' : ''}`}>
         {provider.coverUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img 
             src={provider.coverUrl} 
             alt="Cover" 
             onError={(e) => { e.currentTarget.style.display = 'none'; }}
-            className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-80" 
+            className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-70 group-hover:scale-105 transition-transform duration-700" 
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-tr from-rose-700 to-rose-500" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-rose-600 to-rose-400 opacity-80" />
         )}
         
-        {/* Category Label */}
-        <div className="absolute top-3 left-3 bg-white dark:bg-black border-[2px] border-gray-950 dark:border-white text-gray-950 dark:text-white px-2 py-1 text-[10px] font-black uppercase tracking-widest shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] z-10">
+        {/* Glass Category Label */}
+        <div className="absolute top-4 left-4 bg-white/20 dark:bg-black/30 backdrop-blur-md border border-white/30 text-white px-3 py-1 text-[11px] font-bold rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.1)] z-10">
           {provider.category}
         </div>
 
-        {/* Rating Star (Prominent) */}
-        <div className="absolute top-3 right-3 bg-amber-400 border-[2px] border-gray-950 px-2 py-1 flex items-center gap-1 text-gray-950 font-black text-sm shadow-[2px_2px_0_0_rgba(3,7,18,1)] z-10">
-          <Star size={14} className="fill-gray-950" />
+        {/* Glass Rating Star */}
+        <div className="absolute top-4 right-4 bg-white/20 dark:bg-black/30 backdrop-blur-md border border-white/30 px-3 py-1 flex items-center gap-1.5 text-white font-bold text-xs shadow-[0_4px_12px_rgba(0,0,0,0.1)] rounded-full z-10">
+          <Star size={12} className="fill-white" />
           {isNew ? 'Yeni' : provider.rating.toFixed(1)}
         </div>
       </div>
 
-      <div className="flex flex-col flex-1 p-5 relative z-10">
-        {/* Avatar and Basic Info */}
-        <div className="flex items-start gap-4 mb-4">
-          <div className="w-16 h-16 rounded-full border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] bg-rose-50 overflow-hidden shrink-0 flex items-center justify-center relative">
+      <div className="flex flex-col flex-1 px-6 pb-6 relative z-10">
+        {/* Floating Avatar */}
+        <div className="flex items-start gap-4 mb-4 -mt-8 relative z-20">
+          <div className="w-16 h-16 rounded-full ring-4 ring-white dark:ring-[#0a0a0a] shadow-lg bg-gradient-to-tr from-rose-100 to-rose-50 overflow-hidden shrink-0 flex items-center justify-center relative">
             <span className="text-xl font-black text-rose-600">{provider.name.charAt(0).toUpperCase()}</span>
             {provider.avatarUrl && (
               // eslint-disable-next-line @next/next/no-img-element
@@ -118,93 +118,95 @@ function PeopleCard({
             )}
           </div>
           
-          <div className="flex-1 min-w-0 pt-1">
+          <div className="flex-1 min-w-0 pt-9">
             <Link href={`/esnaf/${provider.slug}`} onClick={() => trackAction('click')} className="block group/link">
-              <h2 className="font-black text-gray-950 dark:text-white text-lg leading-tight truncate group-hover/link:text-rose-600 transition-colors">
+              <h2 className="font-bold text-gray-900 dark:text-white text-lg leading-tight truncate group-hover/link:text-rose-600 transition-colors">
                 {provider.name}
               </h2>
             </Link>
-            <p className="text-[11px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest mt-1 truncate">
+            <p className="text-[11px] font-semibold text-rose-500 mt-0.5 truncate">
               {provider.jobTitle}
             </p>
           </div>
         </div>
 
-        {/* Finished Jobs & Location */}
-        <div className="flex items-center gap-3 mb-4 text-[11px] font-black uppercase text-gray-950 dark:text-white">
-          <div className="flex items-center gap-1.5 bg-[#efe6dd] dark:bg-white/10 px-2 py-1.5 border-[2px] border-gray-950 dark:border-white shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] rounded-md">
-            <Users size={12} className="shrink-0" />
-            <span>{provider.reviewCount} Bitirilen İş</span>
+        {/* Stats */}
+        <div className="flex items-center gap-4 mb-4 text-[12px] font-semibold text-gray-700 dark:text-gray-300">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 dark:bg-white/5 rounded-xl border border-gray-100 dark:border-white/10">
+            <Users size={14} className="text-rose-500 shrink-0" />
+            <span>{provider.reviewCount} İş</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <MapPin size={12} className="text-rose-600 shrink-0" />
+          <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 dark:bg-white/5 rounded-xl border border-gray-100 dark:border-white/10">
+            <MapPin size={14} className="text-rose-500 shrink-0" />
             <span className="truncate">{[provider.district, provider.city].filter(Boolean).join(', ')}</span>
           </div>
         </div>
 
         {/* Description */}
-        <p className="text-xs font-semibold text-gray-700 dark:text-white/70 line-clamp-2 mb-5 leading-relaxed">
+        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-5 leading-relaxed font-medium">
           {provider.description || 'Bu uzman henüz açıklama eklememiş.'}
         </p>
 
-        {/* Tags */}
+        {/* Liquid Tags */}
         {(provider.subServices?.length > 0 || provider.tags?.length > 0) && (
           <div className="flex flex-wrap gap-2 mb-6">
             {[...(provider.subServices?.slice(0, 2) || []), ...(provider.tags?.slice(0, 2) || [])].slice(0, 2).map((t: string) => (
-              <span key={t} className="text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-gray-100 dark:bg-white/10 text-gray-950 dark:text-white border-[2px] border-gray-950 dark:border-white rounded-md shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)]">
+              <span key={t} className="text-[10px] font-semibold px-3 py-1.5 bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 rounded-full border border-rose-100 dark:border-rose-500/20">
                 {t}
               </span>
             ))}
           </div>
         )}
 
-        {/* AI Score (arama yapılınca) */}
+        {/* AI Score */}
         {aiMetrics && (
-          <div className="mb-6 p-2 bg-rose-50 dark:bg-rose-500/10 border-[2px] border-rose-600 rounded-md shadow-[2px_2px_0_0_#e11d48]">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-400 flex items-center gap-1">
-                Akıllı Eşleşme
+          <div className="mb-6 px-3 py-2.5 bg-gradient-to-r from-rose-50 to-white dark:from-rose-950/20 dark:to-black/20 border border-rose-100 dark:border-rose-900/30 rounded-2xl">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-rose-600 flex items-center gap-1">
+                <Sparkles size={10} /> Akıllı Eşleşme
               </span>
-              <span className="text-[11px] font-black text-rose-600">%{Math.round(aiMetrics.score * 100)}</span>
+              <span className="text-xs font-black text-rose-600">%{Math.round(aiMetrics.score * 100)}</span>
             </div>
-            <div className="w-full bg-white dark:bg-black border-[2px] border-rose-600 h-2 rounded-full overflow-hidden">
+            <div className="w-full bg-rose-100 dark:bg-rose-950 h-1.5 rounded-full overflow-hidden">
               <div
-                className="bg-rose-600 h-full rounded-full"
+                className="bg-gradient-to-r from-rose-400 to-rose-600 h-full rounded-full"
                 style={{ width: `${Math.round(aiMetrics.score * 100)}%` }}
               />
             </div>
           </div>
         )}
 
-        {/* Profili İncele Button (Neo-brutalism) */}
+        {/* Liquid Glass Button */}
         <div className="mt-auto">
           <Link
             href={`/esnaf/${provider.slug}`}
             onClick={(e) => { e.stopPropagation(); trackAction('click'); }}
             id={`card-profile-${provider.id}`}
-            className="group/btn relative flex items-center justify-center w-full h-[46px] bg-rose-600 text-white font-black uppercase tracking-[0.2em] text-[11px] border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] hover:bg-gray-950 dark:hover:bg-white hover:text-white dark:hover:text-black hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] transition-all duration-200 rounded-md"
+            className="group/btn relative flex items-center justify-center w-full h-[46px] bg-gradient-to-r from-rose-500 to-rose-600 text-white font-bold text-sm rounded-2xl shadow-[0_8px_20px_rgba(225,29,72,0.3)] hover:shadow-[0_12px_25px_rgba(225,29,72,0.4)] hover:-translate-y-0.5 transition-all duration-300 overflow-hidden"
           >
+            <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700 skew-x-12" />
             Profili İncele
           </Link>
         </div>
       </div>
       </div>
 
-      {/* BACK SIDE */}
-      <div className="absolute inset-0 [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col h-full bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden p-5">
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-10 bg-[linear-gradient(to_right,#e11d48_1px,transparent_1px),linear-gradient(to_bottom,#e11d48_1px,transparent_1px)] bg-[size:1rem_1rem] z-0" />
+      {/* BACK SIDE (Liquid) */}
+      <div className="absolute inset-0 [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col h-full bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-2xl border border-white/60 dark:border-white/10 rounded-[2rem] shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] dark:shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] transition-all duration-500 group-hover:-translate-y-2 overflow-hidden p-6">
+        <div className="absolute -top-16 -left-16 w-48 h-48 bg-rose-400/20 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-16 -right-16 w-48 h-48 bg-purple-400/20 rounded-full blur-3xl pointer-events-none" />
         
         <div className="relative z-10 flex flex-col h-full overflow-hidden">
-          <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pb-4 space-y-5">
+          <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pb-4 space-y-6">
             {(!provider.reviews || provider.reviews.length === 0) && (!provider.previewImages || provider.previewImages.length === 0) ? (
-              <div className="flex flex-col items-center justify-center h-full text-center px-2">
-                <div className="w-16 h-16 bg-rose-50 dark:bg-rose-950 border-[3px] border-gray-950 dark:border-white rounded-full flex items-center justify-center mb-4 shadow-[4px_4px_0_0_rgba(225,29,72,1)]">
-                  <Star className="text-rose-600" size={24} />
+              <div className="flex flex-col items-center justify-center h-full text-center px-4">
+                <div className="w-16 h-16 bg-gradient-to-tr from-rose-100 to-white dark:from-rose-900/30 dark:to-white/5 rounded-2xl flex items-center justify-center mb-4 shadow-[0_4px_12px_rgba(225,29,72,0.1)] border border-white/50 dark:border-white/10">
+                  <Star className="text-rose-500" size={24} />
                 </div>
-                <h3 className="font-black text-gray-950 dark:text-white text-lg mb-2">Henüz Detay Yok</h3>
-                <p className="text-xs font-bold text-gray-600 dark:text-gray-400 mb-4">Bu uzmanın henüz bir yorumu veya portföy görseli bulunmuyor. İlk iletişime geçen siz olun!</p>
-                <div className="bg-gray-100 dark:bg-white/5 border-[2px] border-gray-950 dark:border-white rounded-md p-3 w-full text-left">
-                  <p className="text-xs font-bold text-gray-950 dark:text-white line-clamp-3">
+                <h3 className="font-bold text-gray-900 dark:text-white text-lg mb-2">Henüz Detay Yok</h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-6 font-medium">Bu uzmanın henüz bir yorumu veya portföy görseli bulunmuyor. İlk iletişime geçen siz olun!</p>
+                <div className="bg-white/50 dark:bg-white/5 backdrop-blur-md border border-white/40 dark:border-white/10 rounded-2xl p-4 w-full text-left shadow-sm">
+                  <p className="text-xs text-gray-700 dark:text-gray-300 line-clamp-3 font-medium">
                     {provider.about || provider.description || 'Uzman profiline giderek doğrudan iletişime geçebilirsiniz.'}
                   </p>
                 </div>
@@ -213,35 +215,35 @@ function PeopleCard({
               <>
                 {provider.reviews && provider.reviews.length > 0 ? (
                   <div className="flex-shrink-0">
-                    <div className="flex items-center justify-between border-b-[3px] border-gray-950 dark:border-white pb-2 mb-3 sticky top-0 bg-white dark:bg-black z-10">
-                      <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest">Yorumlar</h3>
-                      <span className="text-[10px] font-black text-gray-950 dark:text-white bg-gray-100 dark:bg-white/10 px-2 py-1 rounded-md border-[2px] border-gray-950 dark:border-white">{provider.reviewCount || provider.reviews.length} Değerlendirme</span>
+                    <div className="flex items-center justify-between pb-3 mb-4 sticky top-0 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md z-10 border-b border-gray-100 dark:border-white/10">
+                      <h3 className="font-bold text-gray-900 dark:text-white text-sm">Değerlendirmeler</h3>
+                      <span className="text-[10px] font-semibold text-rose-600 bg-rose-50 dark:bg-rose-500/10 px-2.5 py-1 rounded-full border border-rose-100 dark:border-rose-500/20">{provider.reviewCount || provider.reviews.length} Yorum</span>
                     </div>
                     <div className="space-y-3">
                       {provider.reviews.slice(0, 3).map((review: any, i: number) => (
-                        <div key={i} className="bg-gray-50 dark:bg-white/5 border-[2px] border-gray-950 dark:border-white p-3 rounded-lg shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)]">
+                        <div key={i} className="bg-white/50 dark:bg-white/5 backdrop-blur-md border border-white/60 dark:border-white/10 p-3.5 rounded-2xl shadow-sm">
                           <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
-                              <div className="w-6 h-6 rounded-full border-[2px] border-gray-950 dark:border-white overflow-hidden bg-rose-100 shrink-0">
+                              <div className="w-7 h-7 rounded-full overflow-hidden bg-gradient-to-tr from-rose-100 to-rose-50 shrink-0">
                                 {review.avatar ? (
                                   // eslint-disable-next-line @next/next/no-img-element
                                   <img src={review.avatar} className="w-full h-full object-cover" alt="" />
                                 ) : (
-                                  <span className="flex items-center justify-center w-full h-full text-[10px] font-black text-rose-600">{review.author.charAt(0)}</span>
+                                  <span className="flex items-center justify-center w-full h-full text-[10px] font-bold text-rose-500">{review.author.charAt(0)}</span>
                                 )}
                               </div>
-                              <span className="text-[10px] font-black uppercase tracking-wider text-gray-950 dark:text-white">
+                              <span className="text-[11px] font-semibold text-gray-800 dark:text-gray-200">
                                 {review.author}
                               </span>
                             </div>
                             {review.rating && (
-                              <div className="flex items-center gap-1 bg-amber-400 border-[2px] border-gray-950 px-1.5 py-0.5 rounded shadow-[2px_2px_0_0_rgba(3,7,18,1)]">
-                                <Star size={10} className="fill-gray-950 text-gray-950" />
-                                <span className="text-[10px] font-black text-gray-950">{review.rating}</span>
+                              <div className="flex items-center gap-1 bg-amber-50 dark:bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-100 dark:border-amber-500/20">
+                                <Star size={10} className="fill-amber-400 text-amber-400" />
+                                <span className="text-[10px] font-bold text-amber-600 dark:text-amber-400">{review.rating}</span>
                               </div>
                             )}
                           </div>
-                          <p className="text-xs font-bold text-gray-900 dark:text-white leading-relaxed italic">
+                          <p className="text-xs text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
                             "{review.comment}"
                           </p>
                         </div>
@@ -250,8 +252,8 @@ function PeopleCard({
                   </div>
                 ) : (
                   <div className="flex-shrink-0">
-                    <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest border-b-[3px] border-gray-950 dark:border-white pb-2 mb-3 sticky top-0 bg-white dark:bg-black z-10">Hakkında</h3>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white leading-relaxed">
+                    <h3 className="font-bold text-gray-900 dark:text-white text-sm pb-3 mb-4 sticky top-0 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md z-10 border-b border-gray-100 dark:border-white/10">Hakkında</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-medium">
                       {provider.about || provider.description || 'Bu uzman henüz hakkında detaylı bir bilgi girmemiş.'}
                     </p>
                   </div>
@@ -259,11 +261,11 @@ function PeopleCard({
                 
                 {provider.previewImages && provider.previewImages.length > 0 && (
                   <div className="flex-shrink-0">
-                    <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest border-b-[3px] border-gray-950 dark:border-white pb-1 mb-3 sticky top-0 bg-white dark:bg-black z-10">Portföy</h3>
+                    <h3 className="font-bold text-gray-900 dark:text-white text-sm pb-2 mb-4 sticky top-0 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md z-10 border-b border-gray-100 dark:border-white/10">Portföy</h3>
                     <div className="grid grid-cols-3 gap-2">
                       {provider.previewImages.slice(0, 6).map((img: string, i: number) => (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img key={i} src={img} className="w-full aspect-square object-cover border-[2px] border-gray-950 dark:border-white rounded-md shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)]" alt="" />
+                        <img key={i} src={img} className="w-full aspect-square object-cover rounded-xl shadow-sm border border-white/20" alt="" />
                       ))}
                     </div>
                   </div>
@@ -275,16 +277,15 @@ function PeopleCard({
           <Link
             href={`/esnaf/${provider.slug}`}
             onClick={(e) => { e.stopPropagation(); trackAction('click'); }}
-            className="shrink-0 mt-2 flex items-center justify-center w-full h-[46px] bg-gray-950 dark:bg-white text-white dark:text-black font-black uppercase tracking-[0.2em] text-[11px] border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(225,29,72,1)] hover:bg-rose-600 hover:text-white hover:border-gray-950 dark:hover:border-white hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0_0_rgba(225,29,72,1)] transition-all rounded-md"
+            className="shrink-0 mt-3 flex items-center justify-center w-full h-[46px] bg-white/60 dark:bg-white/10 backdrop-blur-md text-rose-600 dark:text-rose-400 font-bold text-sm border border-white/60 dark:border-white/20 shadow-sm hover:bg-rose-50 hover:border-rose-200 transition-all rounded-2xl"
           >
-            Profili İncele
+            Detaylı İncele
           </Link>
         </div>
       </div>
-      </div>
     </motion.article>
   );
-}
+
 
 /* ────────────────────────────────── Arama & Algoritma Yardımları ────────────────────────────────── */
 const normalizeText = (text: string) => {
