@@ -461,16 +461,20 @@ export default function HomePage() {
 
 /* ── LinkedIn-style Provider Card ─────────────── */
 function LinkedInCard({ provider }: { provider: any }) {
+  const [isFlipped, setIsFlipped] = useState(false);
   const isNew = provider.reviewCount === 0;
   const isPromoted = provider.is_promoted || false;
 
   return (
-    <Link 
-      href={`/esnaf/${provider.slug}`} 
-      className={`block group relative flex flex-col bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden ${
-        isPromoted ? 'mt-6' : ''
-      }`}
+    <div 
+      className={`group relative [perspective:1000px] w-full ${isPromoted ? 'mt-6' : ''}`}
     >
+      <div 
+        className={`relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] cursor-pointer ${isFlipped ? '[transform:rotateY(180deg)]' : ''}`}
+        onClick={() => setIsFlipped(!isFlipped)}
+      >
+        {/* FRONT SIDE */}
+        <div className="[backface-visibility:hidden] relative flex flex-col h-full bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden">
       {/* Decorative Grid Pattern */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-10 bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:1rem_1rem] z-0" />
 
@@ -569,13 +573,54 @@ function LinkedInCard({ provider }: { provider: any }) {
 
         {/* Profili İncele Button (Neo-brutalism) */}
         <div className="mt-auto">
-          <div
-            className="flex items-center justify-center w-full h-[46px] bg-rose-600 text-white font-black uppercase tracking-[0.2em] text-[11px] border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] transition-all duration-200 rounded-md group-hover:bg-gray-950 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black group-hover:translate-y-0.5 group-hover:translate-x-0.5 group-hover:shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)]"
+          <Link
+            href={`/esnaf/${provider.slug}`}
+            onClick={(e) => e.stopPropagation()}
+            className="group/btn relative flex items-center justify-center w-full h-[46px] bg-rose-600 text-white font-black uppercase tracking-[0.2em] text-[11px] border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] hover:bg-gray-950 dark:hover:bg-white hover:text-white dark:hover:text-black hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] transition-all duration-200 rounded-md"
           >
             Profili İncele
-          </div>
+          </Link>
         </div>
       </div>
-    </Link>
+      </div>
+
+      {/* BACK SIDE */}
+      <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col h-full bg-amber-300 dark:bg-amber-500 border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden p-5">
+        <div className="absolute inset-0 pointer-events-none opacity-[0.05] dark:opacity-10 bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:1rem_1rem] z-0" />
+        
+        <div className="relative z-10 flex flex-col h-full">
+          <div className="mb-4">
+            <h3 className="font-black text-gray-950 text-sm uppercase tracking-widest border-b-2 border-gray-950 pb-2 mb-3">Öne Çıkan Yorum</h3>
+            <p className="text-sm font-bold text-gray-900 leading-relaxed italic line-clamp-3">
+              "İşini çok temiz ve titizlikle yaptı. Kesinlikle tavsiye ederim, harika bir uzman!"
+            </p>
+            <span className="block mt-2 text-[10px] font-black uppercase tracking-wider text-gray-950 bg-white/50 border-[2px] border-gray-950 rounded-md px-2 py-1 w-max">Doğrulanmış Müşteri</span>
+          </div>
+          
+          <div className="flex-1 mt-auto">
+            <h3 className="font-black text-gray-950 text-sm uppercase tracking-widest border-b-2 border-gray-950 pb-1 mb-2">Portföy</h3>
+            <div className="grid grid-cols-2 gap-2 h-20 sm:h-24">
+              {provider.previewImages && provider.previewImages.length > 0 ? (
+                provider.previewImages.slice(0, 2).map((img: string, i: number) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img key={i} src={img} className="w-full h-full object-cover border-[2px] border-gray-950 rounded-md shadow-[2px_2px_0_0_rgba(0,0,0,1)]" />
+                ))
+              ) : (
+                <div className="col-span-2 flex items-center justify-center border-[2px] border-dashed border-gray-950 rounded-md bg-white/20 text-[10px] uppercase font-black tracking-widest text-gray-950/70">Görsel Yok</div>
+              )}
+            </div>
+          </div>
+
+          <Link
+            href={`/esnaf/${provider.slug}`}
+            onClick={(e) => e.stopPropagation()}
+            className="mt-5 flex items-center justify-center w-full h-[46px] bg-gray-950 dark:bg-black text-white font-black uppercase tracking-[0.2em] text-[11px] border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(0,0,0,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] hover:bg-white hover:text-gray-950 hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0_0_rgba(0,0,0,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] transition-all rounded-md"
+          >
+            Profili İncele
+          </Link>
+        </div>
+      </div>
+      </div>
+    </div>
   );
 }
