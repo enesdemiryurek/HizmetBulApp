@@ -283,6 +283,7 @@ function PeopleCard({
           </Link>
         </div>
       </div>
+      </div>
     </motion.article>
   );
 }
