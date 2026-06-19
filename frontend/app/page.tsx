@@ -461,96 +461,119 @@ export default function HomePage() {
 
 /* ── LinkedIn-style Provider Card ─────────────── */
 function LinkedInCard({ provider }: { provider: any }) {
+  const isNew = provider.reviewCount === 0;
+  const isPromoted = provider.is_promoted || false;
+
   return (
-    <Link href={`/esnaf/${provider.slug}`} className="block group bento-item premium-glow cursor-pointer">
-      {/* Cover */}
-      <div className="relative h-24 overflow-hidden bg-gradient-to-br from-[#e11d48] to-[#9a0002]">
-        {provider.previewImages[0] && (
+    <Link 
+      href={`/esnaf/${provider.slug}`} 
+      className={`block group relative flex flex-col bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden ${
+        isPromoted ? 'mt-6' : ''
+      }`}
+    >
+      {/* Decorative Grid Pattern */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-10 bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:1rem_1rem] z-0" />
+
+      {isPromoted && (
+        <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-center py-1.5 bg-rose-600 border-b-[3px] border-gray-950 text-white text-[10px] font-black uppercase tracking-[0.2em]">
+          ⭐ Sponsorlu
+        </div>
+      )}
+
+      {/* COVER IMAGE BANNER */}
+      <div className={`relative w-full h-28 border-b-[3px] border-gray-950 dark:border-white shrink-0 overflow-hidden bg-rose-600 ${isPromoted ? 'mt-6' : ''}`}>
+        {(provider.coverUrl || provider.previewImages?.[0]) ? (
           <Image
-            src={provider.previewImages[0]}
-            alt=""
+            src={provider.coverUrl || provider.previewImages[0]}
+            alt="Cover"
             fill
-            className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+            className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-80"
             sizes="400px"
           />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-tr from-rose-700 to-rose-500" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-        {provider.is_promoted && (
-          <span className="absolute bottom-3 right-3 flex items-center gap-1 text-[10px] font-black text-white bg-black/60 backdrop-blur-md border border-white/20 px-2.5 py-1 rounded-full shadow-lg uppercase tracking-wide">
-            ⭐ Sponsorlu
-          </span>
+        
+        {/* Category Label */}
+        {provider.category && (
+          <div className="absolute top-3 left-3 bg-white dark:bg-black border-[2px] border-gray-950 dark:border-white text-gray-950 dark:text-white px-2 py-1 text-[10px] font-black uppercase tracking-widest shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] z-10">
+            {provider.category}
+          </div>
         )}
+
+        {/* Rating Star */}
+        <div className="absolute top-3 right-3 bg-amber-400 border-[2px] border-gray-950 px-2 py-1 flex items-center gap-1 text-gray-950 font-black text-sm shadow-[2px_2px_0_0_rgba(3,7,18,1)] z-10">
+          <Star size={14} className="fill-gray-950" />
+          {isNew ? 'Yeni' : (provider.rating || 0).toFixed(1)}
+        </div>
       </div>
 
-      {/* Avatar */}
-      <div className="px-5 pb-5">
-        <div className="relative -mt-7 mb-3">
-          <div className="w-14 h-14 rounded-full overflow-hidden ring-3 ring-white shadow-lg bg-gray-100 flex items-center justify-center">
-            {provider.avatarUrl ? (
-              <Image
-                src={provider.avatarUrl}
-                alt={provider.name}
-                width={56}
-                height={56}
-                className="object-cover"
+      <div className="flex flex-col flex-1 p-5 relative z-10">
+        {/* Avatar and Basic Info */}
+        <div className="flex items-start gap-4 mb-4">
+          <div className="w-16 h-16 rounded-full border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] bg-rose-50 overflow-hidden shrink-0 flex items-center justify-center relative">
+            <span className="text-xl font-black text-rose-600">{provider.name.charAt(0).toUpperCase()}</span>
+            {provider.avatarUrl && (
+              <Image 
+                src={provider.avatarUrl} 
+                alt="" 
+                width={64}
+                height={64}
+                className="absolute inset-0 w-full h-full object-cover" 
                 unoptimized={true}
               />
-            ) : (
-              <div className="text-xl font-bold text-gray-400">{provider.name.charAt(0)}</div>
             )}
           </div>
-          {provider.verified && (
-            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-[#9a0002] rounded-full flex items-center justify-center ring-2 ring-white">
-              <Shield size={10} className="text-white fill-white" />
-            </div>
-          )}
-        </div>
-
-        <h3 className="font-black text-gray-900 dark:text-white text-base group-hover:text-[#9a0002] transition-colors leading-tight">
-          {provider.name}
-        </h3>
-        <p className="text-xs text-gray-500 dark:text-white/60 font-medium mt-0.5 mb-1 line-clamp-2 transition-colors">
-          {provider.jobTitle}
-        </p>
-        <p className="text-xs text-gray-400 dark:text-white/40 flex items-center gap-1 mb-3 transition-colors">
-          <MapPin size={10} className="shrink-0" />
-          {provider.district}, {provider.city}
-        </p>
-
-        {/* Rating */}
-        <div className="flex items-center gap-1.5 mb-3">
-          <div className="flex items-center gap-0.5">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                size={11}
-                className={i < Math.floor(provider.rating) ? 'fill-amber-400 text-amber-400' : 'fill-gray-200 text-gray-200'}
-              />
-            ))}
+          
+          <div className="flex-1 min-w-0 pt-1">
+            <h2 className="font-black text-gray-950 dark:text-white text-lg leading-tight truncate group-hover:text-rose-600 transition-colors">
+              {provider.name}
+            </h2>
+            <p className="text-[11px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest mt-1 truncate">
+              {provider.jobTitle}
+            </p>
           </div>
-          <span className="text-xs font-black text-gray-800">{provider.rating}</span>
-          <span className="text-xs text-gray-400">({provider.reviewCount})</span>
         </div>
+
+        {/* Finished Jobs & Location */}
+        <div className="flex items-center gap-3 mb-4 text-[11px] font-black uppercase text-gray-950 dark:text-white">
+          <div className="flex items-center gap-1.5 bg-[#efe6dd] dark:bg-white/10 px-2 py-1.5 border-[2px] border-gray-950 dark:border-white shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] rounded-md">
+            <Users size={12} className="shrink-0" />
+            <span>
+              {provider.id?.toString().startsWith('db-') 
+                ? `${provider.reviewCount || 0} Bitirilen İş` 
+                : `${provider.connections?.toLocaleString('tr') || 0} Bağlantı`}
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <MapPin size={12} className="text-rose-600 shrink-0" />
+            <span className="truncate">{[provider.district, provider.city].filter(Boolean).join(', ')}</span>
+          </div>
+        </div>
+
+        {/* Description */}
+        <p className="text-xs font-semibold text-gray-700 dark:text-white/70 line-clamp-2 mb-5 leading-relaxed">
+          {provider.description || 'Bu uzman henüz açıklama eklememiş.'}
+        </p>
 
         {/* Tags */}
-        <div className="flex flex-wrap gap-1 mb-4">
-          {provider.tags.slice(0, 3).map((t: string) => (
-            <span key={t} className="text-[10px] font-semibold px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">
-              {t}
-            </span>
-          ))}
-        </div>
+        {(provider.tags?.length > 0) && (
+          <div className="flex flex-wrap gap-2 mb-6">
+            {provider.tags.slice(0, 2).map((t: string) => (
+              <span key={t} className="text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-gray-100 dark:bg-white/10 text-gray-950 dark:text-white border-[2px] border-gray-950 dark:border-white rounded-md shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)]">
+                {t}
+              </span>
+            ))}
+          </div>
+        )}
 
-        {/* Footer */}
-        <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-          <span className="text-xs font-bold text-gray-500">
-            {provider.id?.toString().startsWith('db-') 
-              ? `${provider.reviewCount} iş bitirdi` 
-              : `${provider.connections.toLocaleString('tr')} bağlantı`}
-          </span>
-          <span className="text-xs font-black text-[#9a0002] group-hover:underline">
-            Profili Gör →
-          </span>
+        {/* Profili İncele Button (Neo-brutalism) */}
+        <div className="mt-auto">
+          <div
+            className="flex items-center justify-center w-full h-[46px] bg-rose-600 text-white font-black uppercase tracking-[0.2em] text-[11px] border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] transition-all duration-200 rounded-md group-hover:bg-gray-950 dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black group-hover:translate-y-0.5 group-hover:translate-x-0.5 group-hover:shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)]"
+          >
+            Profili İncele
+          </div>
         </div>
       </div>
     </Link>

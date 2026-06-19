@@ -53,19 +53,24 @@ const steps = [
 
 const benefits = [
   {
+    icon: Star,
+    title: 'Gerçek Yorumlar',
+    desc: 'Tüm yorumlar gerçek müşterilerden gelir. Sahte yorum ve satın alınmış puan yoktur.',
+  },
+  {
     icon: Clock,
     title: 'Teklif Beklemeyin',
     desc: 'Diğer platformlarda saatlerce teklif bekliyorsunuz. Burada hizmet vereni kendiniz seçip anında arıyorsunuz.',
   },
   {
     icon: Shield,
-    title: 'Doğrulanmış Profiller',
-    desc: '"Doğrulanmış Üye" rozetli hizmet verenler kimlik ve referans kontrolünden geçmiştir.',
+    title: 'Param Güvende Sistemi',
+    desc: 'Paranız iş bitene kadar güvenli havuz hesabımızda bekler. İşlem sonrası şeffaf fiyat bilgisi ile puan bırakarak diğerlerine rehber olursunuz.',
   },
   {
-    icon: Star,
-    title: 'Gerçek Yorumlar',
-    desc: 'Tüm yorumlar gerçek müşterilerden gelir. Sahte yorum ve satın alınmış puan yoktur.',
+    icon: Shield,
+    title: 'Doğrulanmış Profiller',
+    desc: '"Doğrulanmış Üye" rozetli hizmet verenler kimlik ve referans kontrolünden geçmiştir.',
   },
   {
     icon: Phone,
@@ -76,11 +81,6 @@ const benefits = [
     icon: MapPin,
     title: 'Yerel Hizmet',
     desc: 'Yalnızca kendi şehrinizde ve ilçenizde hizmet veren profesyoneller listelenir.',
-  },
-  {
-    icon: Shield,
-    title: 'Güvenli Havuz Sistemi',
-    desc: 'Paranız iş bitene kadar güvenli havuz hesabımızda bekler. İşlem sonrası şeffaf fiyat bilgisi ile puan bırakarak diğerlerine rehber olursunuz.',
   },
 ];
 
@@ -147,19 +147,22 @@ export default function HizmetAlanPage() {
             Teklif beklemeyin. Güvenilir, yorumlanmış ve doğrulanmış hizmet verenlerden istediğinizi seçin ve direkt arayın.
           </p>
 
-          <div className="w-full max-w-3xl mx-auto mb-12 relative z-20">
-            <SearchBar />
+          <div className="w-full max-w-3xl mx-auto mb-10 relative z-20">
+            <div className="absolute -inset-1 sm:inset-0 bg-[#ff003c] rounded-full blur opacity-20 sm:opacity-0 transition duration-1000 pointer-events-none"></div>
+            <div className="relative">
+              <SearchBar />
+            </div>
           </div>
 
           {/* Stats Row */}
-          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 md:gap-10">
             {[
               { icon: Shield, text: '12K+ Doğrulanmış Uzman' },
               { icon: Star, text: '98K+ Müşteri Yorumu' },
               { icon: MapPin, text: '81 Şehirde Hizmet' },
             ].map(({ icon: Icon, text }) => (
-              <div key={text} className="flex items-center gap-2 text-sm font-bold text-gray-700 dark:text-white/70 bg-white/50 dark:bg-white/5 px-4 py-2 rounded-full border border-gray-200 dark:border-white/10 backdrop-blur-md transition-colors duration-300">
-                <Icon size={16} className="text-[#ff003c]" />
+              <div key={text} className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-sm font-bold text-gray-700 dark:text-white/70 bg-white/50 dark:bg-white/5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-gray-200 dark:border-white/10 backdrop-blur-md transition-colors duration-300">
+                <Icon size={14} className="text-[#ff003c] sm:w-4 sm:h-4" />
                 {text}
               </div>
             ))}

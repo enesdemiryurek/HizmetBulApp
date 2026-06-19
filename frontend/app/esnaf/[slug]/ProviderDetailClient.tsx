@@ -432,11 +432,6 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                         className="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full"
                       />
                     </div>
-                    {provider.gamificationNextXp && (
-                      <div className="mt-2 text-xs font-semibold text-gray-500 dark:text-white/60 text-center">
-                        Sonraki seviyeye geçmek için <span className="font-black text-amber-600 dark:text-amber-400">{provider.gamificationNextXp - provider.gamificationXp} XP</span> daha gerekiyor. (Her 5 yıldızlı yorum 50 XP)
-                      </div>
-                    )}
                   </div>
                 </motion.div>
               )}
@@ -539,6 +534,44 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                 ))}
               </div>
             </motion.div>
+
+            {/* Mobile CTA Buttons (Visible only on mobile) */}
+            <div className="lg:hidden bento-item premium-glow p-6">
+              <div className="text-center mb-6">
+                <div className="text-4xl font-black text-gray-900 dark:text-white flex items-center justify-center gap-2 mb-1">
+                  {provider.rating > 0 ? provider.rating.toFixed(1) : 'Yeni'} <Star size={24} className="fill-amber-400 text-amber-400" />
+                </div>
+                <p className="text-sm text-gray-500">{provider.reviewCount} müşteri değerlendirmesi</p>
+              </div>
+
+              <a
+                href={`tel:${provider.phone}`}
+                id="detail-call-btn-mobile"
+                className="w-full flex items-center justify-center gap-3 py-4 bg-rose-600 hover:bg-rose-700 text-white font-black text-lg rounded-2xl transition-all duration-200 hover:shadow-xl hover:shadow-rose-500/20 active:scale-95 mb-3"
+              >
+                <Phone size={22} /> Doğrudan Ara
+              </a>
+
+              {provider.userId && (
+                <button
+                  onClick={() => setIsOfferModalOpen(true)}
+                  className="w-full flex items-center justify-center gap-3 py-4 bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-800 dark:text-white font-black text-lg rounded-2xl transition-all duration-200 hover:shadow-xl hover:border-gray-300 dark:hover:border-white/20 active:scale-95 mb-3"
+                >
+                  <MessageSquare size={22} /> Teklif Ver
+                </button>
+              )}
+              <p className="text-center text-xs text-gray-400 mb-5">
+                <span className="font-bold text-gray-600 dark:text-white/60">{provider.phone}</span>
+              </p>
+
+              <div className="space-y-2.5">
+                {['Komisyon yok, direkt iletişim', 'Doğrulanmış hizmet veren', 'Teklif beklemenize gerek yok', 'Gerçek müşteri yorumları'].map(b => (
+                  <div key={b} className="flex items-center gap-2 text-sm text-gray-600 dark:text-white/70">
+                    <CheckCircle2 size={14} className="text-rose-500 shrink-0" /> {b}
+                  </div>
+                ))}
+              </div>
+            </div>
 
 
             {/* Portfolio */}
@@ -759,7 +792,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
           <aside className="w-full lg:w-[280px] xl:w-[320px] shrink-0 order-3">
             <div className="sticky top-24 space-y-4">
 
-              <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show" className="bento-item premium-glow p-6 lg:p-8">
+              <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show" className="hidden lg:block bento-item premium-glow p-6 lg:p-8">
                 <div className="text-center mb-6">
                   <div className="text-4xl font-black text-gray-900 dark:text-white flex items-center justify-center gap-2 mb-1">
                     {provider.rating > 0 ? provider.rating.toFixed(1) : 'Yeni'} <Star size={24} className="fill-amber-400 text-amber-400" />
