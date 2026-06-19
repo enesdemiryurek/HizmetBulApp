@@ -285,7 +285,7 @@ function PeopleCard({
       </div>
     </motion.article>
   );
-
+}
 
 /* ────────────────────────────────── Arama & Algoritma Yardımları ────────────────────────────────── */
 const normalizeText = (text: string) => {
