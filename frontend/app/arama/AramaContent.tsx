@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, SlidersHorizontal, Star, MapPin, Shield, Phone, X, ChevronDown, Users, CheckCircle2, Info, MessageSquare } from 'lucide-react';
+import { Search, SlidersHorizontal, Star, MapPin, Shield, Phone, X, ChevronDown, Users, CheckCircle2, Info, MessageSquare, Sparkles } from 'lucide-react';
 import { districts, categories } from '@/lib/data';
 import PixarLoader from '@/components/PixarLoader';
 import NeuralBackground from '@/components/ui/flow-field-background';
