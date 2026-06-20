@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
   Star, MapPin, Shield, Phone, Clock, Award, ChevronLeft, ChevronDown,
-  CheckCircle2, Calendar, Users, Share2, Bookmark, Send, MessageSquare, Camera, X
+  CheckCircle2, Calendar, Users, Share2, Bookmark, Send, MessageSquare, Camera, X, Sparkles
 } from 'lucide-react';
 import { providers } from '@/lib/data';
 import PixarLoader from '@/components/PixarLoader';
