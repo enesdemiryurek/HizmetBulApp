@@ -218,10 +218,10 @@ export default function HizmetVerenPage() {
       <section id="ozellikler" className="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
-          {/* Card 1: White */}
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-white rounded-[2rem] p-10 border-2 border-gray-900 shadow-sm relative overflow-hidden group hover:shadow-xl transition-shadow flex flex-col justify-between min-h-[280px]">
+          {/* Card 1: Cream */}
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-[#f0eadd] rounded-[2rem] p-10 border-2 border-gray-900 shadow-sm relative overflow-hidden group hover:shadow-xl transition-shadow flex flex-col justify-between min-h-[280px]">
             <div className="relative z-10">
-              <div className="inline-block bg-rose-200 text-gray-900 font-black px-3 py-1.5 text-lg rounded-lg mb-4">
+              <div className="inline-block bg-[#ffcdd2] text-gray-900 font-black px-3 py-1.5 text-lg rounded-lg mb-4">
                 0 TL Komisyon
               </div>
               <p className="text-gray-600 font-medium">Teklif başı ücret veya gizli kesintiler yok. Ne kazanırsanız sizindir.</p>
@@ -230,7 +230,7 @@ export default function HizmetVerenPage() {
                <Zap size={100} className="text-gray-900" />
             </div>
             <div className="flex items-center gap-3 mt-8 text-gray-900 font-black relative z-10">
-              <div className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-white group-hover:translate-x-1 transition-transform">
+              <div className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-[#f0eadd] group-hover:translate-x-1 transition-transform">
                 <ArrowRight size={18} />
               </div>
               Daha fazla bilgi
@@ -238,7 +238,7 @@ export default function HizmetVerenPage() {
           </motion.div>
 
           {/* Card 2: Black */}
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-gray-900 text-white rounded-[2rem] p-10 shadow-sm relative overflow-hidden group hover:shadow-xl transition-shadow flex flex-col justify-between min-h-[280px]">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-[#151a25] text-white rounded-[2rem] p-10 shadow-sm relative overflow-hidden group hover:shadow-xl transition-shadow flex flex-col justify-between min-h-[280px]">
             <div className="relative z-10">
               <div className="inline-block bg-white/10 text-white font-black px-3 py-1.5 text-lg rounded-lg mb-4">
                 Doğrudan İletişim
@@ -249,7 +249,7 @@ export default function HizmetVerenPage() {
                <Phone size={100} className="text-white" />
             </div>
             <div className="flex items-center gap-3 mt-8 text-white font-black relative z-10">
-              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-900 group-hover:translate-x-1 transition-transform">
+              <div className="w-10 h-10 rounded-full bg-[#f0eadd] flex items-center justify-center text-gray-900 group-hover:translate-x-1 transition-transform">
                 <ArrowRight size={18} />
               </div>
               Daha fazla bilgi
@@ -257,7 +257,7 @@ export default function HizmetVerenPage() {
           </motion.div>
 
           {/* Card 3: Black */}
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-gray-900 text-white rounded-[2rem] p-10 shadow-sm relative overflow-hidden group hover:shadow-xl transition-shadow flex flex-col justify-between min-h-[280px]">
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-[#151a25] text-white rounded-[2rem] p-10 shadow-sm relative overflow-hidden group hover:shadow-xl transition-shadow flex flex-col justify-between min-h-[280px]">
             <div className="relative z-10">
               <div className="inline-block bg-white/10 text-white font-black px-3 py-1.5 text-lg rounded-lg mb-4">
                 Güven Rozeti
@@ -268,17 +268,17 @@ export default function HizmetVerenPage() {
                <Shield size={100} className="text-white" />
             </div>
             <div className="flex items-center gap-3 mt-8 text-white font-black relative z-10">
-              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-900 group-hover:translate-x-1 transition-transform">
+              <div className="w-10 h-10 rounded-full bg-[#f0eadd] flex items-center justify-center text-gray-900 group-hover:translate-x-1 transition-transform">
                 <ArrowRight size={18} />
               </div>
               Daha fazla bilgi
             </div>
           </motion.div>
 
-          {/* Card 4: White */}
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-white rounded-[2rem] p-10 border-2 border-gray-900 shadow-sm relative overflow-hidden group hover:shadow-xl transition-shadow flex flex-col justify-between min-h-[280px]">
+          {/* Card 4: Cream */}
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-[#f0eadd] rounded-[2rem] p-10 border-2 border-gray-900 shadow-sm relative overflow-hidden group hover:shadow-xl transition-shadow flex flex-col justify-between min-h-[280px]">
             <div className="relative z-10">
-              <div className="inline-block bg-rose-200 text-gray-900 font-black px-3 py-1.5 text-lg rounded-lg mb-4">
+              <div className="inline-block bg-[#ffcdd2] text-gray-900 font-black px-3 py-1.5 text-lg rounded-lg mb-4">
                 Analitik ve Takip
               </div>
               <p className="text-gray-600 font-medium">Profiliniz kaç kez görüntülendi, kaç tık aldı? Hepsini panoda görün.</p>
@@ -287,7 +287,7 @@ export default function HizmetVerenPage() {
                <BarChart3 size={100} className="text-gray-900" />
             </div>
             <div className="flex items-center gap-3 mt-8 text-gray-900 font-black relative z-10">
-              <div className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-white group-hover:translate-x-1 transition-transform">
+              <div className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-[#f0eadd] group-hover:translate-x-1 transition-transform">
                 <ArrowRight size={18} />
               </div>
               Daha fazla bilgi
@@ -342,7 +342,7 @@ export default function HizmetVerenPage() {
                 <div className="relative w-36 h-36 flex items-center justify-center mb-4">
                   <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="40" fill="none" stroke="#f1f5f9" strokeWidth="12" strokeLinecap="round" />
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="#34d399" strokeWidth="12" strokeLinecap="round" strokeDasharray="251" strokeDashoffset="75" />
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#e11d48" strokeWidth="12" strokeLinecap="round" strokeDasharray="251" strokeDashoffset="75" />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <span className="text-3xl font-black text-gray-900 dark:text-white">12K</span>
