@@ -356,7 +356,7 @@ export default function HomePage() {
                 İhtiyacınız olan<br />hizmet burada.
               </motion.h2>
               <motion.div variants={fadeUp}>
-                <Link href="/arama" className="flex items-center gap-2 text-sm font-black text-gray-900 dark:text-white hover:text-rose-600 dark:hover:text-rose-400 transition-colors group px-5 py-2.5 bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[4px_4px_0_0_rgba(225,29,72,1)] hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[2px_2px_0_0_rgba(225,29,72,1)]">
+                <Link href="/arama" className="flex items-center gap-2 text-sm font-black text-white hover:text-rose-100 transition-colors group px-6 py-3 bg-rose-600 rounded-full shadow-lg hover:shadow-rose-600/30 hover:-translate-y-0.5">
                   Tüm Kategoriler <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
               </motion.div>
@@ -370,10 +370,10 @@ export default function HomePage() {
                     <Link
                       href={`/arama?kategori=${cat.slug}`}
                       id={`cat-${cat.id}`}
-                      className="group flex flex-col items-center justify-center gap-3 p-4 rounded-2xl bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white shadow-[6px_6px_0_0_rgba(225,29,72,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0_0_rgba(225,29,72,1)] transition-all duration-200 cursor-pointer w-[140px] sm:w-[150px] h-[140px] sm:h-[150px]"
+                      className="group flex flex-col items-center justify-center gap-3 p-4 rounded-[2rem] bg-white dark:bg-[#0a0a0a] border border-gray-100 dark:border-white/5 shadow-xl hover:-translate-y-1 hover:shadow-2xl hover:shadow-rose-600/20 transition-all duration-300 cursor-pointer w-[140px] sm:w-[150px] h-[140px] sm:h-[150px]"
                     >
-                      <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-rose-50 dark:bg-rose-950/30 border-[2px] border-gray-950 dark:border-white group-hover:bg-rose-600 transition-colors duration-300">
-                        <Icon size={24} className="text-gray-950 dark:text-white group-hover:text-white transition-colors" />
+                      <div className="w-14 h-14 flex items-center justify-center rounded-2xl bg-rose-50 dark:bg-rose-900/20 group-hover:bg-rose-600 transition-colors duration-300">
+                        <Icon size={24} className="text-rose-600 dark:text-rose-400 group-hover:text-white transition-colors" />
                       </div>
                       <span className="text-xs sm:text-sm font-black text-gray-900 dark:text-white text-center leading-tight">
                         {cat.name}
@@ -547,18 +547,18 @@ function LinkedInCard({ provider }: { provider: any }) {
         onClick={() => setIsFlipped(!isFlipped)}
       >
         {/* FRONT SIDE */}
-        <div className="[backface-visibility:hidden] [-webkit-backface-visibility:hidden] relative flex flex-col h-full bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden">
+        <div className="[backface-visibility:hidden] [-webkit-backface-visibility:hidden] relative flex flex-col h-full bg-white dark:bg-[#0a0a0a] border border-gray-100 dark:border-white/5 rounded-[2rem] shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-rose-600/20 overflow-hidden">
       {/* Decorative Grid Pattern */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-10 bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:1rem_1rem] z-0" />
 
       {isPromoted && (
-        <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-center py-1.5 bg-rose-600 border-b-[3px] border-gray-950 text-white text-[10px] font-black uppercase tracking-[0.2em]">
+        <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-center py-1.5 bg-rose-600 text-white text-[10px] font-black uppercase tracking-[0.2em]">
           ⭐ Sponsorlu
         </div>
       )}
 
       {/* COVER IMAGE BANNER */}
-      <div className={`relative w-full h-28 border-b-[3px] border-gray-950 dark:border-white shrink-0 overflow-hidden bg-rose-600 ${isPromoted ? 'mt-6' : ''}`}>
+      <div className={`relative w-full h-28 shrink-0 overflow-hidden bg-rose-600 ${isPromoted ? 'mt-6' : ''}`}>
         {(provider.coverUrl || provider.previewImages?.[0]) ? (
           <Image
             src={provider.coverUrl || provider.previewImages[0]}
@@ -573,22 +573,22 @@ function LinkedInCard({ provider }: { provider: any }) {
         
         {/* Category Label */}
         {provider.category && (
-          <div className="absolute top-3 left-3 bg-white dark:bg-black border-[2px] border-gray-950 dark:border-white text-gray-950 dark:text-white px-2 py-1 text-[10px] font-black uppercase tracking-widest shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] z-10">
+          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md dark:bg-black/50 text-gray-950 dark:text-white px-2 py-1 text-[10px] font-black uppercase tracking-widest rounded-lg z-10">
             {provider.category}
           </div>
         )}
 
         {/* Rating Star */}
-        <div className="absolute top-3 right-3 bg-amber-400 border-[2px] border-gray-950 px-2 py-1 flex items-center gap-1 text-gray-950 font-black text-sm shadow-[2px_2px_0_0_rgba(3,7,18,1)] z-10">
-          <Star size={14} className="fill-gray-950" />
+        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md dark:bg-black/50 px-2 py-1 flex items-center gap-1 text-gray-950 dark:text-white font-black text-sm rounded-lg z-10">
+          <Star size={14} className="fill-amber-400 text-amber-400" />
           {isNew ? 'Yeni' : (provider.rating || 0).toFixed(1)}
         </div>
       </div>
 
-      <div className="flex flex-col flex-1 p-5 relative z-10">
+      <div className="flex flex-col flex-1 p-6 relative z-10">
         {/* Avatar and Basic Info */}
         <div className="flex items-start gap-4 mb-4">
-          <div className="w-16 h-16 rounded-full border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] bg-rose-50 overflow-hidden shrink-0 flex items-center justify-center relative">
+          <div className="w-16 h-16 rounded-full shadow-lg bg-rose-50 overflow-hidden shrink-0 flex items-center justify-center relative ring-4 ring-white dark:ring-[#0a0a0a] -mt-10 z-20">
             <span className="text-xl font-black text-rose-600">{provider.name.charAt(0).toUpperCase()}</span>
             {provider.avatarUrl && (
               <Image 
@@ -603,7 +603,7 @@ function LinkedInCard({ provider }: { provider: any }) {
           </div>
           
           <div className="flex-1 min-w-0 pt-1">
-            <h2 className="font-black text-gray-950 dark:text-white text-lg leading-tight truncate group-hover:text-rose-600 transition-colors">
+            <h2 className="font-black text-gray-900 dark:text-white text-lg leading-tight truncate group-hover:text-rose-600 transition-colors">
               {provider.name}
             </h2>
             <p className="text-[11px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest mt-1 truncate">
@@ -613,17 +613,17 @@ function LinkedInCard({ provider }: { provider: any }) {
         </div>
 
         {/* Finished Jobs & Location */}
-        <div className="flex items-center gap-3 mb-4 text-[11px] font-black uppercase text-gray-950 dark:text-white">
-          <div className="flex items-center gap-1.5 bg-[#efe6dd] dark:bg-white/10 px-2 py-1.5 border-[2px] border-gray-950 dark:border-white shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] rounded-md">
+        <div className="flex items-center gap-3 mb-4 text-[11px] font-black uppercase text-gray-700 dark:text-gray-300">
+          <div className="flex items-center gap-1.5 bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400 px-2.5 py-1.5 rounded-lg">
             <Users size={12} className="shrink-0" />
             <span>
               {provider.id?.toString().startsWith('db-') 
-                ? `${provider.reviewCount || 0} Bitirilen İş` 
+                ? `${provider.reviewCount || 0} İş` 
                 : `${provider.connections?.toLocaleString('tr') || 0} Bağlantı`}
             </span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <MapPin size={12} className="text-rose-600 shrink-0" />
+          <div className="flex items-center gap-1.5 bg-gray-50 dark:bg-white/5 px-2.5 py-1.5 rounded-lg">
+            <MapPin size={12} className="text-gray-400 shrink-0" />
             <span className="truncate">{[provider.district, provider.city].filter(Boolean).join(', ')}</span>
           </div>
         </div>
@@ -637,19 +637,19 @@ function LinkedInCard({ provider }: { provider: any }) {
         {(provider.tags?.length > 0) && (
           <div className="flex flex-wrap gap-2 mb-6">
             {provider.tags.slice(0, 2).map((t: string) => (
-              <span key={t} className="text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-gray-100 dark:bg-white/10 text-gray-950 dark:text-white border-[2px] border-gray-950 dark:border-white rounded-md shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)]">
+              <span key={t} className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 bg-gray-50 dark:bg-white/5 text-gray-600 dark:text-gray-400 rounded-full">
                 {t}
               </span>
             ))}
           </div>
         )}
 
-        {/* Profili İncele Button (Neo-brutalism) */}
+        {/* Profili İncele Button */}
         <div className="mt-auto">
           <Link
             href={`/esnaf/${provider.slug}`}
             onClick={(e) => e.stopPropagation()}
-            className="group/btn relative flex items-center justify-center w-full h-[46px] bg-rose-600 text-white font-black uppercase tracking-[0.2em] text-[11px] border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] hover:bg-gray-950 dark:hover:bg-white hover:text-white dark:hover:text-black hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] transition-all duration-200 rounded-md"
+            className="group/btn relative flex items-center justify-center w-full h-[46px] bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white dark:bg-white/5 dark:text-white dark:hover:bg-rose-600 font-bold text-sm transition-all duration-300 rounded-xl"
           >
             Profili İncele
           </Link>
@@ -658,13 +658,13 @@ function LinkedInCard({ provider }: { provider: any }) {
       </div>
 
       {/* BACK SIDE */}
-      <div className="absolute inset-0 [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col h-full bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden p-5">
+      <div className="absolute inset-0 [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)] flex flex-col h-full bg-white dark:bg-[#0a0a0a] border border-gray-100 dark:border-white/5 rounded-[2rem] shadow-xl overflow-hidden p-6">
         <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-10 bg-[linear-gradient(to_right,#e11d48_1px,transparent_1px),linear-gradient(to_bottom,#e11d48_1px,transparent_1px)] bg-[size:1rem_1rem] z-0" />
         
         <div className="relative z-10 flex flex-col h-full">
           {(!provider.reviews || provider.reviews.length === 0) && (!provider.previewImages || provider.previewImages.length === 0) ? (
             <div className="flex flex-col items-center justify-center flex-1 text-center px-2">
-              <div className="w-16 h-16 bg-rose-50 dark:bg-rose-950 border-[3px] border-gray-950 dark:border-white rounded-full flex items-center justify-center mb-4 shadow-[4px_4px_0_0_rgba(225,29,72,1)]">
+              <div className="w-16 h-16 bg-rose-50 dark:bg-rose-900/20 rounded-full flex items-center justify-center mb-4">
                 <Star className="text-rose-600" size={24} />
               </div>
               <h3 className="font-black text-gray-950 dark:text-white text-lg mb-2">Henüz Detay Yok</h3>
@@ -716,11 +716,11 @@ function LinkedInCard({ provider }: { provider: any }) {
               
               {provider.previewImages && provider.previewImages.length > 0 && (
                 <div className="flex-1 mt-auto">
-                  <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest border-b-[3px] border-gray-950 dark:border-white pb-1 mb-2">Portföy</h3>
+                  <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest pb-1 mb-2">Portföy</h3>
                   <div className="grid grid-cols-3 gap-2 h-16 sm:h-20">
                     {provider.previewImages.slice(0, 3).map((img: string, i: number) => (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img key={i} src={img} className="w-full h-full object-cover border-[2px] border-gray-950 dark:border-white rounded-md shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)]" alt="" />
+                      <img key={i} src={img} className="w-full h-full object-cover rounded-lg" alt="" />
                     ))}
                   </div>
                 </div>
@@ -731,7 +731,7 @@ function LinkedInCard({ provider }: { provider: any }) {
           <Link
             href={`/esnaf/${provider.slug}`}
             onClick={(e) => { e.stopPropagation(); }}
-            className="mt-auto flex items-center justify-center w-full h-[46px] bg-gray-950 dark:bg-white text-white dark:text-black font-black uppercase tracking-[0.2em] text-[11px] border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(225,29,72,1)] hover:bg-rose-600 hover:text-white hover:border-gray-950 dark:hover:border-white hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0_0_rgba(225,29,72,1)] transition-all rounded-md"
+            className="mt-auto flex items-center justify-center w-full h-[46px] bg-rose-600 text-white font-bold text-sm transition-all rounded-xl hover:bg-rose-700"
           >
             Profili İncele
           </Link>

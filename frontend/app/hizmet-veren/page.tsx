@@ -284,38 +284,38 @@ export default function HizmetVerenPage() {
       <section id="ozellikler" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           
-          {/* Card 1: Red (was Cream) */}
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-gradient-to-br from-rose-500 to-rose-700 text-white rounded-[2rem] p-8 shadow-xl relative overflow-hidden group hover:-translate-y-1 hover:shadow-rose-600/20 transition-all flex flex-col justify-between min-h-[280px]">
+          {/* Card 1: Black (was Red) */}
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-[#0a0a0a] text-white rounded-[2rem] p-8 shadow-xl border border-white/5 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between min-h-[280px]">
             <div className="relative z-10">
-              <div className="inline-block bg-white/20 text-white font-black px-3 py-1.5 text-lg rounded-lg mb-4 backdrop-blur-sm">
+              <div className="inline-block bg-white/10 text-white font-black px-3 py-1.5 text-lg rounded-lg mb-4 backdrop-blur-sm">
                 0 TL Komisyon
               </div>
               <p className="text-white/80 font-medium">Teklif başı ücret veya gizli kesintiler yok. Ne kazanırsanız sizindir.</p>
             </div>
-            <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-500">
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-5 group-hover:opacity-10 group-hover:scale-110 transition-all duration-500">
                <Zap size={100} className="text-white" />
             </div>
             <div className="flex items-center gap-3 mt-8 text-white font-black relative z-10">
-              <div className="w-10 h-10 rounded-full bg-white text-rose-600 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+              <div className="w-10 h-10 rounded-full bg-rose-600 flex items-center justify-center text-white group-hover:translate-x-1 transition-transform shadow-lg shadow-rose-600/20">
                 <ArrowRight size={18} />
               </div>
               Daha fazla bilgi
             </div>
           </motion.div>
 
-          {/* Card 2: Black */}
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-[#0a0a0a] text-white rounded-[2rem] p-8 shadow-xl border border-white/5 relative overflow-hidden group hover:-translate-y-1 transition-all flex flex-col justify-between min-h-[280px]">
+          {/* Card 2: Red (was Black) */}
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-gradient-to-br from-rose-500 to-rose-700 text-white rounded-[2rem] p-8 shadow-xl relative overflow-hidden group hover:-translate-y-1 hover:shadow-rose-600/20 transition-all flex flex-col justify-between min-h-[280px]">
             <div className="relative z-10">
-              <div className="inline-block bg-white/10 text-white font-black px-3 py-1.5 text-lg rounded-lg mb-4">
+              <div className="inline-block bg-white/20 text-white font-black px-3 py-1.5 text-lg rounded-lg mb-4">
                 Doğrudan İletişim
               </div>
-              <p className="text-gray-400 font-medium">Müşteriler mesajlaşma beklemeden sizi doğrudan telefonunuzdan arar.</p>
+              <p className="text-white/80 font-medium">Müşteriler mesajlaşma beklemeden sizi doğrudan telefonunuzdan arar.</p>
             </div>
-            <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-5 group-hover:opacity-10 group-hover:scale-110 transition-all duration-500">
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-10 group-hover:opacity-20 group-hover:scale-110 transition-all duration-500">
                <Phone size={100} className="text-white" />
             </div>
             <div className="flex items-center gap-3 mt-8 text-white font-black relative z-10">
-              <div className="w-10 h-10 rounded-full bg-rose-600 flex items-center justify-center text-white group-hover:translate-x-1 transition-transform shadow-lg shadow-rose-600/20">
+              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-rose-600 group-hover:translate-x-1 transition-transform">
                 <ArrowRight size={18} />
               </div>
               Daha fazla bilgi
