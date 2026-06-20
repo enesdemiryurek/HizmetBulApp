@@ -480,7 +480,7 @@ function ProfileContent() {
                     <h2 className="font-black text-gray-900 dark:text-white">Kişisel Bilgiler</h2>
                   </div>
                   {!editing ? (
-                    <button onClick={() => setEditing(true)} className="btn-outline text-sm"><Edit3 size={13} /> Düzenle</button>
+                    <Link href="/ayarlar" className="btn-outline text-sm"><Settings size={13} /> Profili Düzenle</Link>
                   ) : (
                     <div className="flex gap-2">
                       <button onClick={() => setEditing(false)} className="btn-ghost text-sm"><X size={13} /> İptal</button>
@@ -747,7 +747,6 @@ function ProfileContent() {
                   {[
                     { icon: isProvider ? Briefcase : Star, label: isProvider ? 'Hizmet Sayfam' : 'Hizmet Bul', href: '/hizmet-sayfam' },
                     { icon: Settings, label: 'Ayarlar', href: '/ayarlar' },
-                    { icon: MapPin, label: 'Konumum', href: '#' },
                   ].map(item => (
                     <Link key={item.label} href={item.href} className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors group">
                       <item.icon className="text-gray-400 group-hover:text-rose-500 transition-colors" size={15} />

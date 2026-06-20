@@ -17,42 +17,7 @@ import {
 import Link from 'next/link';
 import PixarLoader from '@/components/PixarLoader';
 
-/* ── Categories ── */
-const ALL_CATEGORIES = [
-  { id: '1', name: 'Ev Temizliği', icon: Sparkles, group: 'Temizlik' },
-  { id: '2', name: 'Ofis Temizliği', icon: Sparkles, group: 'Temizlik' },
-  { id: '3', name: 'Cam Temizliği', icon: Sparkles, group: 'Temizlik' },
-  { id: '4', name: 'Derin Temizlik', icon: Sparkles, group: 'Temizlik' },
-  { id: '5', name: 'Ev Taşıma', icon: Truck, group: 'Nakliyat' },
-  { id: '6', name: 'Ofis Taşıma', icon: Truck, group: 'Nakliyat' },
-  { id: '7', name: 'Şehirlerarası Nakliye', icon: Truck, group: 'Nakliyat' },
-  { id: '8', name: 'Elektrik Tamiri', icon: Wrench, group: 'Tamirat' },
-  { id: '9', name: 'Tesisat', icon: Wrench, group: 'Tamirat' },
-  { id: '10', name: 'Boyacılık', icon: Wrench, group: 'Tamirat' },
-  { id: '11', name: 'Web Tasarım', icon: Code2, group: 'Yazılım & Tasarım' },
-  { id: '12', name: 'Mobil Uygulama', icon: Code2, group: 'Yazılım & Tasarım' },
-  { id: '13', name: 'UI/UX Tasarım', icon: Code2, group: 'Yazılım & Tasarım' },
-  { id: '14', name: 'SEO', icon: Code2, group: 'Yazılım & Tasarım' },
-  { id: '15', name: 'Matematik Dersi', icon: GraduationCap, group: 'Özel Ders' },
-  { id: '16', name: 'İngilizce Dersi', icon: GraduationCap, group: 'Özel Ders' },
-  { id: '17', name: 'Müzik Dersi', icon: GraduationCap, group: 'Özel Ders' },
-  { id: '18', name: 'YKS / LGS Hazırlık', icon: GraduationCap, group: 'Özel Ders' },
-  { id: '19', name: 'Düğün Fotoğrafçılığı', icon: Camera, group: 'Fotoğrafçılık' },
-  { id: '20', name: 'Ürün Çekimi', icon: Camera, group: 'Fotoğrafçılık' },
-  { id: '21', name: 'Portre Fotoğrafçılığı', icon: Camera, group: 'Fotoğrafçılık' },
-  { id: '22', name: 'Araç Kiralama', icon: Car, group: 'Araç Kiralama' },
-  { id: '23', name: 'Bahçe Bakımı', icon: Leaf, group: 'Bahçe & Peyzaj' },
-  { id: '24', name: 'Peyzaj Tasarımı', icon: Leaf, group: 'Bahçe & Peyzaj' },
-  { id: '25', name: 'Kişisel Spor Antrenörü (PT)', icon: Heart, group: 'Sağlık & Yaşam' },
-  { id: '26', name: 'Diyetisyen', icon: Heart, group: 'Sağlık & Yaşam' },
-  { id: '27', name: 'Psikolog ve Danışmanlık', icon: Heart, group: 'Sağlık & Yaşam' },
-  { id: '28', name: 'Kuaför & Berber', icon: Scissors, group: 'Güzellik & Bakım' },
-  { id: '29', name: 'Makyaj & Cilt Bakımı', icon: Scissors, group: 'Güzellik & Bakım' },
-  { id: '30', name: 'Evcil Hayvan Bakımı', icon: PawPrint, group: 'Evcil Hayvan' },
-  { id: '31', name: 'Köpek Gezdirme', icon: PawPrint, group: 'Evcil Hayvan' },
-  { id: '32', name: 'Organizasyon & Davet', icon: PartyPopper, group: 'Organizasyon & Etkinlik' },
-  { id: '33', name: 'Catering & Özel Aşçı', icon: PartyPopper, group: 'Organizasyon & Etkinlik' },
-];
+import { ALL_CATEGORIES } from '@/lib/data';
 
 type Section = 'performans' | 'hesap' | 'gizlilik' | 'bildirimler' | 'hizmetler' | 'faturalar';
 
