@@ -16,7 +16,13 @@ import {
   Check,
   Heart,
   Activity,
-  Award
+  Award,
+  Eye,
+  MessageCircle,
+  MessageSquare,
+  Plus,
+  User,
+  Home
 } from 'lucide-react';
 
 const fadeUp: Variants = {
@@ -100,115 +106,175 @@ export default function HizmetVerenPage() {
             initial={{ opacity: 0, scale: 0.9, rotate: 5 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, type: 'spring' }}
-            className="flex-1 relative z-10 perspective-1000 flex justify-center lg:justify-end"
+            className="flex-1 relative z-10 flex justify-center lg:justify-end"
           >
-            {/* The Phone (Realistic) */}
-            <div className="w-[320px] sm:w-[350px] bg-black rounded-[3.5rem] p-2.5 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5),0_0_0_2px_rgba(255,255,255,0.1)_inset] relative rotate-[-2deg] hover:rotate-0 transition-transform duration-500 border-4 border-gray-800">
-              
-              {/* Dynamic Island */}
-              <div className="absolute top-5 inset-x-0 flex justify-center z-50 pointer-events-none">
-                <div className="w-28 h-8 bg-black rounded-full shadow-[0_0_0_1px_rgba(255,255,255,0.05)_inset] flex items-center justify-between px-2.5">
-                  <div className="w-2 h-2 rounded-full bg-gray-800/80" />
-                  <div className="w-3 h-3 rounded-full bg-blue-900/30 flex items-center justify-center"><div className="w-1 h-1 rounded-full bg-blue-400" /></div>
-                </div>
-              </div>
+            {/* The Phone (3D Realistic) */}
+            <div 
+              className="w-[320px] sm:w-[340px] h-[680px] bg-[#d4d4d8] rounded-[3.5rem] p-[6px] shadow-[-20px_20px_30px_0px_rgba(0,0,0,0.3),-10px_10px_0px_0px_#9ca3af] relative transition-transform duration-700 ease-out group hover:scale-[1.02]" 
+              style={{ transform: 'perspective(1200px) rotateY(20deg) rotateX(10deg) rotateZ(-2deg)', transformStyle: 'preserve-3d' }}
+            >
+              {/* Outer Bezel Buttons */}
+              <div className="absolute top-32 -left-[4px] w-1 h-12 bg-[#71717a] rounded-l-md shadow-inner" style={{ transform: 'translateZ(-1px)' }} />
+              <div className="absolute top-48 -left-[4px] w-1 h-12 bg-[#71717a] rounded-l-md shadow-inner" style={{ transform: 'translateZ(-1px)' }} />
+              <div className="absolute top-20 -left-[4px] w-1 h-6 bg-[#71717a] rounded-l-md shadow-inner" style={{ transform: 'translateZ(-1px)' }} />
 
-              {/* Side Buttons */}
-              <div className="absolute top-32 -left-[6px] w-1 h-12 bg-gray-800 rounded-l-md shadow-inner" />
-              <div className="absolute top-48 -left-[6px] w-1 h-12 bg-gray-800 rounded-l-md shadow-inner" />
-              <div className="absolute top-20 -left-[6px] w-1 h-6 bg-gray-800 rounded-l-md shadow-inner" />
-              <div className="absolute top-36 -right-[6px] w-1 h-16 bg-gray-800 rounded-r-md shadow-inner" />
-              
-              {/* Screen Content */}
-              <div className="h-full w-full bg-[#fcfaf8] dark:bg-[#111] rounded-[2.8rem] overflow-hidden p-5 pt-12 flex flex-col gap-4 relative">
+              {/* Black Bezel & Screen Wrapper */}
+              <div className="w-full h-full bg-black rounded-[3.2rem] p-2 relative shadow-[inset_0_0_0_2px_#3f3f46]">
                 
-                <div className="flex items-center justify-between mb-2 mt-2">
-                  <div>
-                    <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-none">Günaydın,</h3>
-                    <h3 className="text-2xl font-black text-gray-900 dark:text-white">Ahmet 👋</h3>
+                {/* Dynamic Island */}
+                <div className="absolute top-4 inset-x-0 flex justify-center z-50 pointer-events-none">
+                  <div className="w-28 h-8 bg-black rounded-full shadow-[0_0_0_1px_rgba(255,255,255,0.05)_inset] flex items-center justify-between px-2.5">
+                    <div className="w-2 h-2 rounded-full bg-gray-800/80" />
+                    <div className="w-3 h-3 rounded-full bg-blue-900/30 flex items-center justify-center"><div className="w-1 h-1 rounded-full bg-blue-400" /></div>
                   </div>
-                  <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmet" className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-rose-50" alt="" />
                 </div>
-
-                {/* Big Green/Red Card */}
-                <div className="bg-gradient-to-br from-rose-600 to-rose-700 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
-                  <p className="text-sm font-bold opacity-90 mb-4">Aylık Kota Kullanımı</p>
+                
+                {/* Screen Content */}
+                <div className="h-full w-full bg-[#fcfaf8] dark:bg-[#111] rounded-[2.8rem] overflow-hidden px-5 pt-14 pb-0 flex flex-col relative">
                   
-                  <div className="flex items-center justify-between">
-                    <div className="relative w-20 h-20">
-                      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="12" strokeLinecap="round" />
-                        <circle cx="50" cy="50" r="40" fill="none" stroke="white" strokeWidth="12" strokeLinecap="round" strokeDasharray="251" strokeDashoffset="62" />
-                      </svg>
-                      <div className="absolute inset-0 flex items-center justify-center font-black text-xl">Sınırsız</div>
+                  {/* Header */}
+                  <div className="flex items-center justify-between mb-4 mt-2">
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-500 leading-none mb-1">Günaydın,</h3>
+                      <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-none">Ahmet 👋</h3>
                     </div>
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmet" className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-rose-50" alt="" />
+                  </div>
 
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center"><Phone size={12} /></div>
-                        <div>
-                          <div className="text-[10px] font-bold opacity-80 uppercase tracking-widest">Doğrudan Arama</div>
-                          <div className="font-black">124</div>
+                  {/* Big Red Card */}
+                  <div className="bg-gradient-to-br from-rose-500 to-rose-700 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden shrink-0">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+                    <p className="text-sm font-bold opacity-90 mb-4">Bugünkü Performans</p>
+                    
+                    <div className="flex items-center gap-6">
+                      {/* Circular Progress */}
+                      <div className="relative w-24 h-24 shrink-0">
+                        <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                          <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="10" />
+                          <circle cx="50" cy="50" r="42" fill="none" stroke="white" strokeWidth="10" strokeLinecap="round" strokeDasharray="264" strokeDashoffset="66" />
+                        </svg>
+                        <div className="absolute inset-0 flex items-center justify-center font-black text-2xl">75%</div>
+                      </div>
+
+                      {/* Stats List */}
+                      <div className="flex flex-col gap-3 flex-1">
+                        <div className="flex items-center gap-2">
+                          <Eye size={14} className="text-rose-200" />
+                          <div>
+                            <div className="font-black text-sm leading-none">1,245</div>
+                            <div className="text-[9px] text-rose-200 font-bold uppercase tracking-wider">Tık</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <MessageCircle size={14} className="text-rose-200" />
+                          <div>
+                            <div className="font-black text-sm leading-none">24</div>
+                            <div className="text-[9px] text-rose-200 font-bold uppercase tracking-wider">Mesaj</div>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Star size={14} className="text-rose-200" />
+                          <div>
+                            <div className="font-black text-sm leading-none">4.9</div>
+                            <div className="text-[9px] text-rose-200 font-bold uppercase tracking-wider">Puan</div>
+                          </div>
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center"><Zap size={12} /></div>
-                        <div>
-                          <div className="text-[10px] font-bold opacity-80 uppercase tracking-widest">Komisyon</div>
-                          <div className="font-black">0 TL</div>
+                    </div>
+                  </div>
+
+                  {/* Daily Goals Header */}
+                  <div className="flex items-center justify-between mt-6 mb-3">
+                    <h4 className="font-black text-gray-900 text-sm">Aylık Hedefler</h4>
+                    <span className="text-xs font-bold text-rose-600 cursor-pointer">Düzenle</span>
+                  </div>
+
+                  {/* Goals List */}
+                  <div className="flex flex-col gap-3 pb-24 overflow-y-auto hide-scrollbar">
+                    {/* Goal 1 */}
+                    <div className="bg-white rounded-2xl p-3.5 shadow-sm border border-gray-100 flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+                        <TrendingUp size={18} className="text-emerald-500" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-end mb-1.5">
+                          <div>
+                            <div className="text-xs font-black text-gray-900">Aylık Ciro</div>
+                            <div className="text-[10px] font-bold text-gray-400">85B ₺ / 100B ₺</div>
+                          </div>
+                          <span className="text-xs font-black text-emerald-500">85%</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="w-[85%] h-full bg-emerald-500 rounded-full" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Goal 2 */}
+                    <div className="bg-white rounded-2xl p-3.5 shadow-sm border border-gray-100 flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
+                        <CheckCircle2 size={18} className="text-blue-500" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-end mb-1.5">
+                          <div>
+                            <div className="text-xs font-black text-gray-900">Tamamlanan İş</div>
+                            <div className="text-[10px] font-bold text-gray-400">15 / 20 İş</div>
+                          </div>
+                          <span className="text-xs font-black text-blue-500">75%</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="w-[75%] h-full bg-blue-500 rounded-full" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Goal 3 */}
+                    <div className="bg-white rounded-2xl p-3.5 shadow-sm border border-gray-100 flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
+                        <Star size={18} className="text-amber-500" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex justify-between items-end mb-1.5">
+                          <div>
+                            <div className="text-xs font-black text-gray-900">Müşteri Puanı</div>
+                            <div className="text-[10px] font-bold text-gray-400">4.8 / 5.0</div>
+                          </div>
+                          <span className="text-xs font-black text-amber-500">96%</span>
+                        </div>
+                        <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="w-[96%] h-full bg-amber-500 rounded-full" />
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="flex items-center justify-between mt-2">
-                  <h4 className="font-black text-gray-900 dark:text-white text-sm">Haftalık İstatistik</h4>
-                  <span className="text-xs font-bold text-rose-600">Detay</span>
-                </div>
-
-                {/* Progress bars */}
-                <div className="bg-white dark:bg-[#0a0a0a] rounded-2xl p-4 shadow-sm space-y-4">
-                  <div>
-                    <div className="flex justify-between text-xs font-bold mb-1.5">
-                      <span className="flex items-center gap-1.5"><Users size={12} className="text-emerald-500" /> Profil Ziyareti</span>
-                      <span className="text-gray-900 dark:text-white">1,245</span>
+                  {/* Bottom Navigation */}
+                  <div className="absolute bottom-0 inset-x-0 h-20 bg-white border-t border-gray-100 flex items-center justify-between px-6 z-20 rounded-b-[2.8rem] shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
+                    <div className="flex flex-col items-center gap-1 text-rose-600">
+                      <Home size={20} className="fill-rose-600" />
+                      <span className="text-[9px] font-bold">Ana Sayfa</span>
                     </div>
-                    <div className="w-full h-2 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
-                      <div className="w-[85%] h-full bg-rose-500 rounded-full" />
+                    <div className="flex flex-col items-center gap-1 text-gray-400">
+                      <BarChart3 size={20} />
+                      <span className="text-[9px] font-bold">Analitik</span>
+                    </div>
+                    <div className="w-12 h-12 bg-rose-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-rose-600/40 -translate-y-4 border-4 border-[#fcfaf8]">
+                      <Plus size={24} />
+                    </div>
+                    <div className="flex flex-col items-center gap-1 text-gray-400">
+                      <MessageSquare size={20} />
+                      <span className="text-[9px] font-bold">Mesajlar</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-1 text-gray-400">
+                      <User size={20} />
+                      <span className="text-[9px] font-bold">Profil</span>
                     </div>
                   </div>
-                  <div>
-                    <div className="flex justify-between text-xs font-bold mb-1.5">
-                      <span className="flex items-center gap-1.5"><Star size={12} className="text-amber-500" /> Ortalama Puan</span>
-                      <span className="text-gray-900 dark:text-white">4.8</span>
-                    </div>
-                    <div className="w-full h-2 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
-                      <div className="w-[96%] h-full bg-amber-500 rounded-full" />
-                    </div>
-                  </div>
-                </div>
 
+                </div>
               </div>
             </div>
-            
-            {/* Floating Leaves / Badges */}
-            <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 4 }} className="absolute -left-6 top-20 bg-white dark:bg-[#111] p-3 rounded-2xl shadow-xl flex items-center gap-3">
-              <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center"><Star size={20} className="text-amber-500 fill-amber-500" /></div>
-              <div>
-                <div className="text-xs font-bold text-gray-500">Müşteri Puanı</div>
-                <div className="font-black text-gray-900 dark:text-white">4.9 / 5.0</div>
-              </div>
-            </motion.div>
-
-            <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 5 }} className="absolute -right-12 bottom-32 bg-white dark:bg-[#111] p-3 rounded-2xl shadow-xl flex items-center gap-3">
-              <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center"><Phone size={20} className="text-emerald-600" /></div>
-              <div>
-                <div className="text-xs font-bold text-gray-500">Yeni Arama</div>
-                <div className="font-black text-gray-900 dark:text-white">+24 Bugün</div>
-              </div>
-            </motion.div>
           </motion.div>
 
         </div>
