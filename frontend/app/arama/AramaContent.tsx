@@ -39,11 +39,7 @@ function PeopleCard({
     locationScore: number;
   };
 }) {
-  const [isFlipped, setIsFlipped] = useState(false);
-
-  useEffect(() => {
-    // DOS saldırısına sebep olduğu için devre dışı bırakıldı.
-  }, [provider.id]);
+  const isPromoted = provider.is_promoted || false;
 
   const trackAction = (action: string) => {
     if (!provider.id.startsWith('db-')) return;
@@ -55,232 +51,92 @@ function PeopleCard({
     }).catch(() => {});
   };
 
-  const isNew = provider.reviewCount === 0;
-  const isPromoted = provider.is_promoted || false;
-
   return (
     <motion.article
       variants={scaleIn}
       initial="hidden"
       animate="show"
       transition={{ delay: index * 0.05 }}
-      className={`group relative [perspective:1000px] [-webkit-perspective:1000px] w-full ${isPromoted ? 'mt-6' : ''}`}
+      className={`w-full bg-white dark:bg-[#0a0a0a] rounded-[2rem] p-3 border border-gray-100 dark:border-white/10 shadow-sm hover:shadow-xl transition-all flex flex-col group ${isPromoted ? 'ring-2 ring-rose-500/50' : ''}`}
     >
-      <div 
-        className={`relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] [-webkit-transform-style:preserve-3d] cursor-pointer ${isFlipped ? '[transform:rotateY(180deg)] [-webkit-transform:rotateY(180deg)]' : ''}`}
-        onClick={() => setIsFlipped(!isFlipped)}
-      >
-        {/* FRONT SIDE */}
-        <div className={`[backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:translateZ(1px)] [-webkit-transform:translateZ(1px)] relative flex flex-col h-full bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden ${isFlipped ? 'opacity-0 md:opacity-100' : 'opacity-100'} transition-opacity duration-300 delay-150`}>
-      {/* Decorative Grid Pattern (Neo-brutalism touch) */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-10 bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:1rem_1rem] z-0" />
-
-      {isPromoted && (
-        <div className="absolute top-0 inset-x-0 z-20 flex items-center justify-center py-1.5 bg-rose-600 border-b-[3px] border-gray-950 text-white text-[10px] font-black uppercase tracking-[0.2em]">
-          ⭐ Sponsorlu
-        </div>
-      )}
-
-      {/* COVER IMAGE BANNER */}
-      <div className={`relative w-full h-28 border-b-[3px] border-gray-950 dark:border-white shrink-0 overflow-hidden bg-rose-600 ${isPromoted ? 'mt-6' : ''}`}>
-        {provider.coverUrl ? (
+      {/* Top Image */}
+      <div className="relative w-full aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-gray-100 dark:bg-white/5 shrink-0 mb-4">
+        {provider.coverUrl || provider.avatarUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img 
-            src={provider.coverUrl} 
-            alt="Cover" 
+            src={provider.coverUrl || provider.avatarUrl} 
+            alt={provider.name} 
             onError={(e) => { e.currentTarget.style.display = 'none'; }}
-            className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-80" 
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-tr from-rose-700 to-rose-500" />
+          <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-white/5 dark:to-white/10 flex items-center justify-center">
+             <span className="text-4xl font-black text-gray-300 dark:text-gray-700">{provider.name.charAt(0)}</span>
+          </div>
         )}
         
-        {/* Category Label */}
-        <div className="absolute top-3 left-3 bg-white dark:bg-black border-[2px] border-gray-950 dark:border-white text-gray-950 dark:text-white px-2 py-1 text-[10px] font-black uppercase tracking-widest shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] z-10">
-          {provider.category}
-        </div>
-
-        {/* Rating Star (Prominent) */}
-        <div className="absolute top-3 right-3 bg-amber-400 border-[2px] border-gray-950 px-2 py-1 flex items-center gap-1 text-gray-950 font-black text-sm shadow-[2px_2px_0_0_rgba(3,7,18,1)] z-10">
-          <Star size={14} className="fill-gray-950" />
-          {isNew ? 'Yeni' : provider.rating.toFixed(1)}
-        </div>
+        {isPromoted && (
+          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-gray-900 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-sm">
+            <Star size={10} className="fill-rose-500 text-rose-500" /> Öne Çıkan
+          </div>
+        )}
+        
+        {aiMetrics && (
+          <div className="absolute top-3 right-3 bg-rose-600 text-white px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-sm">
+            <Sparkles size={10} /> %{Math.round(aiMetrics.score * 100)} Uyum
+          </div>
+        )}
       </div>
 
-      <div className="flex flex-col flex-1 p-5 relative z-10">
-        {/* Avatar and Basic Info */}
-        <div className="flex items-start gap-4 mb-4">
-          <div className="w-16 h-16 rounded-full border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] bg-rose-50 overflow-hidden shrink-0 flex items-center justify-center relative">
-            <span className="text-xl font-black text-rose-600">{provider.name.charAt(0).toUpperCase()}</span>
-            {provider.avatarUrl && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={provider.avatarUrl} alt="" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-            )}
-          </div>
-          
-          <div className="flex-1 min-w-0 pt-1">
-            <Link href={`/esnaf/${provider.slug}`} onClick={() => trackAction('click')} className="block group/link">
-              <h2 className="font-black text-gray-950 dark:text-white text-lg leading-tight truncate group-hover/link:text-rose-600 transition-colors">
-                {provider.name}
-              </h2>
-            </Link>
-            <p className="text-[11px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest mt-1 truncate">
-              {provider.jobTitle}
-            </p>
-          </div>
-        </div>
-
-        {/* Finished Jobs & Location */}
-        <div className="flex items-center gap-3 mb-4 text-[11px] font-black uppercase text-gray-950 dark:text-white">
-          <div className="flex items-center gap-1.5 bg-[#efe6dd] dark:bg-white/10 px-2 py-1.5 border-[2px] border-gray-950 dark:border-white shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] rounded-md">
-            <Users size={12} className="shrink-0" />
-            <span>{provider.reviewCount} Bitirilen İş</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <MapPin size={12} className="text-rose-600 shrink-0" />
-            <span className="truncate">{[provider.district, provider.city].filter(Boolean).join(', ')}</span>
-          </div>
+      <div className="flex flex-col flex-1 px-1">
+        {/* Name and Badge */}
+        <div className="flex items-center gap-1.5 mb-1">
+          <Link href={`/esnaf/${provider.slug}`} onClick={() => trackAction('click')} className="flex-1 min-w-0">
+            <h2 className="font-bold text-gray-900 dark:text-white text-lg leading-tight truncate hover:text-rose-600 transition-colors">
+              {provider.name}
+            </h2>
+          </Link>
+          {provider.verified && (
+            <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
+              <CheckCircle2 size={12} className="text-white" />
+            </div>
+          )}
         </div>
 
         {/* Description */}
-        <p className="text-xs font-semibold text-gray-700 dark:text-white/70 line-clamp-2 mb-5 leading-relaxed">
-          {provider.description || 'Bu uzman henüz açıklama eklememiş.'}
+        <p className="text-[13px] text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed mb-4">
+          {provider.jobTitle || provider.category}
         </p>
 
-        {/* Tags */}
-        {(provider.subServices?.length > 0 || provider.tags?.length > 0) && (
-          <div className="flex flex-wrap gap-2 mb-6">
-            {[...(provider.subServices?.slice(0, 2) || []), ...(provider.tags?.slice(0, 2) || [])].slice(0, 2).map((t: string) => (
-              <span key={t} className="text-[9px] font-black uppercase tracking-widest px-2 py-1 bg-gray-100 dark:bg-white/10 text-gray-950 dark:text-white border-[2px] border-gray-950 dark:border-white rounded-md shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)]">
-                {t}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* AI Score (arama yapılınca) */}
-        {aiMetrics && (
-          <div className="mb-6 p-2 bg-rose-50 dark:bg-rose-500/10 border-[2px] border-rose-600 rounded-md shadow-[2px_2px_0_0_#e11d48]">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-400 flex items-center gap-1">
-                Akıllı Eşleşme
-              </span>
-              <span className="text-[11px] font-black text-rose-600">%{Math.round(aiMetrics.score * 100)}</span>
+        {/* Bottom Stats & Button */}
+        <div className="mt-auto flex items-center justify-between gap-2 pt-1">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 text-[13px] font-semibold text-gray-600 dark:text-gray-300">
+              <Users size={14} className="text-gray-400" />
+              {provider.reviewCount}
             </div>
-            <div className="w-full bg-white dark:bg-black border-[2px] border-rose-600 h-2 rounded-full overflow-hidden">
-              <div
-                className="bg-rose-600 h-full rounded-full"
-                style={{ width: `${Math.round(aiMetrics.score * 100)}%` }}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* Profili İncele Button (Neo-brutalism) */}
-        <div className="mt-auto">
-          <Link
-            href={`/esnaf/${provider.slug}`}
-            onClick={(e) => { e.stopPropagation(); trackAction('click'); }}
-            id={`card-profile-${provider.id}`}
-            className="group/btn relative flex items-center justify-center w-full h-[46px] bg-rose-600 text-white font-black uppercase tracking-[0.2em] text-[11px] border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] hover:bg-gray-950 dark:hover:bg-white hover:text-white dark:hover:text-black hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] transition-all duration-200 rounded-md"
-          >
-            Profili İncele
-          </Link>
-        </div>
-      </div>
-      </div>
-
-      {/* BACK SIDE */}
-      <div className={`absolute inset-0 [backface-visibility:hidden] [-webkit-backface-visibility:hidden] [transform:rotateY(180deg)_translateZ(1px)] [-webkit-transform:rotateY(180deg)_translateZ(1px)] flex flex-col h-full bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] transition-all duration-300 group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] dark:group-hover:shadow-[10px_10px_0_0_rgba(255,255,255,1)] overflow-hidden p-5 ${!isFlipped ? 'opacity-0 md:opacity-100' : 'opacity-100'} transition-opacity duration-300 delay-150`}>
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-10 bg-[linear-gradient(to_right,#e11d48_1px,transparent_1px),linear-gradient(to_bottom,#e11d48_1px,transparent_1px)] bg-[size:1rem_1rem] z-0" />
-        
-        <div className="relative z-10 flex flex-col h-full overflow-hidden">
-          <div className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] pb-4 space-y-5">
-            {(!provider.reviews || provider.reviews.length === 0) && (!provider.previewImages || provider.previewImages.length === 0) ? (
-              <div className="flex flex-col items-center justify-center h-full text-center px-2">
-                <div className="w-16 h-16 bg-rose-50 dark:bg-rose-950 border-[3px] border-gray-950 dark:border-white rounded-full flex items-center justify-center mb-4 shadow-[4px_4px_0_0_rgba(225,29,72,1)]">
-                  <Star className="text-rose-600" size={24} />
-                </div>
-                <h3 className="font-black text-gray-950 dark:text-white text-lg mb-2">Henüz Detay Yok</h3>
-                <p className="text-xs font-bold text-gray-600 dark:text-gray-400 mb-4">Bu uzmanın henüz bir yorumu veya portföy görseli bulunmuyor. İlk iletişime geçen siz olun!</p>
-                <div className="bg-gray-100 dark:bg-white/5 border-[2px] border-gray-950 dark:border-white rounded-md p-3 w-full text-left">
-                  <p className="text-xs font-bold text-gray-950 dark:text-white line-clamp-3">
-                    {provider.about || provider.description || 'Uzman profiline giderek doğrudan iletişime geçebilirsiniz.'}
-                  </p>
-                </div>
+            {provider.rating > 0 && (
+              <div className="flex items-center gap-1 text-[13px] font-semibold text-gray-600 dark:text-gray-300">
+                <Star size={14} className="text-amber-500 fill-amber-500" />
+                {provider.rating.toFixed(1)}
               </div>
-            ) : (
-              <>
-                {provider.reviews && provider.reviews.length > 0 ? (
-                  <div className="flex-shrink-0">
-                    <div className="flex items-center justify-between border-b-[3px] border-gray-950 dark:border-white pb-2 mb-3 sticky top-0 bg-white dark:bg-black z-10">
-                      <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest">Yorumlar</h3>
-                      <span className="text-[10px] font-black text-gray-950 dark:text-white bg-gray-100 dark:bg-white/10 px-2 py-1 rounded-md border-[2px] border-gray-950 dark:border-white">{provider.reviewCount || provider.reviews.length} Değerlendirme</span>
-                    </div>
-                    <div className="space-y-3">
-                      {provider.reviews.slice(0, 3).map((review: any, i: number) => (
-                        <div key={i} className="bg-gray-50 dark:bg-white/5 border-[2px] border-gray-950 dark:border-white p-3 rounded-lg shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)]">
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              <div className="w-6 h-6 rounded-full border-[2px] border-gray-950 dark:border-white overflow-hidden bg-rose-100 shrink-0">
-                                {review.avatar ? (
-                                  // eslint-disable-next-line @next/next/no-img-element
-                                  <img src={review.avatar} className="w-full h-full object-cover" alt="" />
-                                ) : (
-                                  <span className="flex items-center justify-center w-full h-full text-[10px] font-black text-rose-600">{review.author.charAt(0)}</span>
-                                )}
-                              </div>
-                              <span className="text-[10px] font-black uppercase tracking-wider text-gray-950 dark:text-white">
-                                {review.author}
-                              </span>
-                            </div>
-                            {review.rating && (
-                              <div className="flex items-center gap-1 bg-amber-400 border-[2px] border-gray-950 px-1.5 py-0.5 rounded shadow-[2px_2px_0_0_rgba(3,7,18,1)]">
-                                <Star size={10} className="fill-gray-950 text-gray-950" />
-                                <span className="text-[10px] font-black text-gray-950">{review.rating}</span>
-                              </div>
-                            )}
-                          </div>
-                          <p className="text-xs font-bold text-gray-900 dark:text-white leading-relaxed italic">
-                            "{review.comment}"
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="flex-shrink-0">
-                    <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest border-b-[3px] border-gray-950 dark:border-white pb-2 mb-3 sticky top-0 bg-white dark:bg-black z-10">Hakkında</h3>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white leading-relaxed">
-                      {provider.about || provider.description || 'Bu uzman henüz hakkında detaylı bir bilgi girmemiş.'}
-                    </p>
-                  </div>
-                )}
-                
-                {provider.previewImages && provider.previewImages.length > 0 && (
-                  <div className="flex-shrink-0">
-                    <h3 className="font-black text-rose-600 text-sm uppercase tracking-widest border-b-[3px] border-gray-950 dark:border-white pb-1 mb-3 sticky top-0 bg-white dark:bg-black z-10">Portföy</h3>
-                    <div className="grid grid-cols-3 gap-2">
-                      {provider.previewImages.slice(0, 6).map((img: string, i: number) => (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img key={i} src={img} className="w-full aspect-square object-cover border-[2px] border-gray-950 dark:border-white rounded-md shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)]" alt="" />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </>
+            )}
+            {provider.district && (
+               <div className="flex items-center gap-1 text-[13px] font-semibold text-gray-600 dark:text-gray-300 truncate max-w-[80px]">
+                 <MapPin size={14} className="text-gray-400 shrink-0" />
+                 <span className="truncate">{provider.district}</span>
+               </div>
             )}
           </div>
-
+          
           <Link
             href={`/esnaf/${provider.slug}`}
             onClick={(e) => { e.stopPropagation(); trackAction('click'); }}
-            className="shrink-0 mt-2 flex items-center justify-center w-full h-[46px] bg-gray-950 dark:bg-white text-white dark:text-black font-black uppercase tracking-[0.2em] text-[11px] border-[3px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(225,29,72,1)] hover:bg-rose-600 hover:text-white hover:border-gray-950 dark:hover:border-white hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0_0_rgba(225,29,72,1)] transition-all rounded-md"
+            className="shrink-0 bg-gray-100 hover:bg-gray-200 dark:bg-white/10 dark:hover:bg-white/20 text-gray-900 dark:text-white px-4 py-2 rounded-full text-[13px] font-semibold transition-colors"
           >
-            Profili İncele
+            İncele +
           </Link>
         </div>
-      </div>
       </div>
     </motion.article>
   );

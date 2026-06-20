@@ -949,77 +949,70 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
             >
               {similarProviders.map((simProvider: any) => (
                 <div key={simProvider.id} className="snap-center shrink-0 w-[300px] md:w-[320px]">
-                  <div className="relative flex flex-col h-full bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[10px_10px_0_0_rgba(3,7,18,1)] transition-all overflow-hidden group">
-                    <div className="absolute inset-0 pointer-events-none opacity-[0.03] dark:opacity-10 bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:1rem_1rem] z-0" />
-                    
-                    {/* COVER IMAGE BANNER */}
-                    <div className="relative w-full h-24 border-b-[3px] border-gray-950 dark:border-white shrink-0 overflow-hidden bg-rose-600">
-                      {simProvider.coverUrl ? (
+                  <div className="w-full h-full bg-white dark:bg-[#0a0a0a] rounded-[2rem] p-3 border border-gray-100 dark:border-white/10 shadow-sm hover:shadow-xl transition-all flex flex-col group">
+                    {/* Top Image */}
+                    <div className="relative w-full aspect-[4/3] rounded-[1.5rem] overflow-hidden bg-gray-100 dark:bg-white/5 shrink-0 mb-4">
+                      {simProvider.coverUrl || simProvider.avatarUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
                         <img 
-                          src={simProvider.coverUrl} 
-                          alt="Cover" 
+                          src={simProvider.coverUrl || simProvider.avatarUrl} 
+                          alt={simProvider.name} 
                           onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                          className="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-80" 
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                         />
                       ) : (
-                        <div className="absolute inset-0 bg-gradient-to-tr from-rose-700 to-rose-500" />
+                        <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-white/5 dark:to-white/10 flex items-center justify-center">
+                           <span className="text-4xl font-black text-gray-300 dark:text-gray-700">{simProvider.name.charAt(0)}</span>
+                        </div>
                       )}
-                      
-                      {/* Category Label */}
-                      <div className="absolute top-3 left-3 bg-white dark:bg-black border-[2px] border-gray-950 dark:border-white text-gray-950 dark:text-white px-2 py-1 text-[10px] font-black uppercase tracking-widest shadow-[2px_2px_0_0_rgba(3,7,18,1)] z-10">
-                        {simProvider.category}
-                      </div>
-
-                      {/* Rating Star */}
-                      <div className="absolute top-3 right-3 bg-amber-400 border-[2px] border-gray-950 px-2 py-1 flex items-center gap-1 text-gray-950 font-black text-sm shadow-[2px_2px_0_0_rgba(3,7,18,1)] z-10">
-                        <Star size={12} className="fill-gray-950" />
-                        {simProvider.rating > 0 ? simProvider.rating.toFixed(1) : 'Yeni'}
-                      </div>
                     </div>
 
-                    <div className="flex flex-col flex-1 p-5 relative z-10">
-                      {/* Avatar and Basic Info */}
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="w-14 h-14 rounded-full border-[3px] border-gray-950 dark:border-white shadow-[3px_3px_0_0_rgba(3,7,18,1)] dark:shadow-[3px_3px_0_0_rgba(255,255,255,1)] bg-rose-50 overflow-hidden shrink-0 flex items-center justify-center relative">
-                          <span className="text-xl font-black text-rose-600">{simProvider.name.charAt(0).toUpperCase()}</span>
-                          {simProvider.avatarUrl && (
-                            <img src={simProvider.avatarUrl} alt="" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                          )}
-                        </div>
-                        
-                        <div className="flex-1 min-w-0 pt-1">
-                          <h2 className="font-black text-gray-950 dark:text-white text-base leading-tight truncate group-hover:text-rose-600 transition-colors">
+                    <div className="flex flex-col flex-1 px-1">
+                      {/* Name and Badge */}
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <Link href={`/esnaf/${simProvider.slug}`} className="flex-1 min-w-0">
+                          <h2 className="font-bold text-gray-900 dark:text-white text-lg leading-tight truncate hover:text-rose-600 transition-colors">
                             {simProvider.name}
                           </h2>
-                          <p className="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest mt-1 truncate">
-                            {simProvider.jobTitle}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Finished Jobs & Location */}
-                      <div className="flex flex-wrap gap-2 mb-4 text-[10px] font-black uppercase text-gray-950 dark:text-white">
-                        <div className="flex items-center gap-1.5 bg-[#efe6dd] dark:bg-white/10 px-2 py-1 border-[2px] border-gray-950 dark:border-white shadow-[2px_2px_0_0_rgba(3,7,18,1)] rounded-md">
-                          <Users size={10} className="shrink-0" />
-                          <span>{simProvider.reviewCount} İş</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 px-2 py-1">
-                          <MapPin size={10} className="text-rose-600 shrink-0" />
-                          <span className="truncate">{[simProvider.district, simProvider.city].filter(Boolean).join(', ')}</span>
-                        </div>
+                        </Link>
+                        {simProvider.verified && (
+                          <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
+                            <CheckCircle2 size={12} className="text-white" />
+                          </div>
+                        )}
                       </div>
 
                       {/* Description */}
-                      <p className="text-xs font-semibold text-gray-700 dark:text-white/70 line-clamp-2 mb-4 leading-relaxed">
-                        {simProvider.description || simProvider.about || 'Bu uzman henüz açıklama eklememiş.'}
+                      <p className="text-[13px] text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed mb-4">
+                        {simProvider.jobTitle || simProvider.category}
                       </p>
 
-                      <div className="mt-auto">
+                      {/* Bottom Stats & Button */}
+                      <div className="mt-auto flex items-center justify-between gap-2 pt-1">
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-1 text-[13px] font-semibold text-gray-600 dark:text-gray-300">
+                            <Users size={14} className="text-gray-400" />
+                            {simProvider.reviewCount}
+                          </div>
+                          {simProvider.rating > 0 && (
+                            <div className="flex items-center gap-1 text-[13px] font-semibold text-gray-600 dark:text-gray-300">
+                              <Star size={14} className="text-amber-500 fill-amber-500" />
+                              {simProvider.rating.toFixed(1)}
+                            </div>
+                          )}
+                          {simProvider.district && (
+                             <div className="flex items-center gap-1 text-[13px] font-semibold text-gray-600 dark:text-gray-300 truncate max-w-[80px]">
+                               <MapPin size={14} className="text-gray-400 shrink-0" />
+                               <span className="truncate">{simProvider.district}</span>
+                             </div>
+                          )}
+                        </div>
+                        
                         <Link
                           href={`/esnaf/${simProvider.slug}`}
-                          className="flex items-center justify-center w-full h-10 bg-gray-950 dark:bg-white text-white dark:text-gray-950 font-black uppercase tracking-wider text-[10px] border-[3px] border-gray-950 dark:border-white shadow-[3px_3px_0_0_rgba(225,29,72,1)] hover:bg-rose-600 hover:text-white hover:border-gray-950 dark:hover:border-white hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-none transition-all rounded-md"
+                          className="shrink-0 bg-gray-100 hover:bg-gray-200 dark:bg-white/10 dark:hover:bg-white/20 text-gray-900 dark:text-white px-4 py-2 rounded-full text-[13px] font-semibold transition-colors"
                         >
-                          Profili İncele
+                          İncele +
                         </Link>
                       </div>
                     </div>
