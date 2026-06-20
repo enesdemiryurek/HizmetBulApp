@@ -22,6 +22,11 @@ export default function ListingFormModal({ isOpen = true, onClose, onSaved, onSa
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [subServiceSearch, setSubServiceSearch] = useState('');
+  
+  // AI Assistant states
+  const [aiPrompt, setAiPrompt] = useState('');
+  const [isAiLoading, setIsAiLoading] = useState(false);
+  const [aiExpanded, setAiExpanded] = useState(false);
 
   const data = listing || initialData;
   const parsedPrice = (data?.price_range || '').split('-');
@@ -63,6 +68,34 @@ export default function ListingFormModal({ isOpen = true, onClose, onSaved, onSa
     if (name === 'service') {
       setSubServices([]);
       setSubServiceSearch('');
+    }
+  };
+
+  const handleAiGenerate = async () => {
+    if (!aiPrompt.trim()) return;
+    setIsAiLoading(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/ai/generate-listing`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: aiPrompt })
+      });
+      const result = await res.json();
+      if (result.success && result.data) {
+        setFormData(prev => ({
+          ...prev,
+          title: result.data.title || prev.title,
+          description: result.data.description || prev.description,
+          tags: result.data.tags ? result.data.tags.join(', ') : prev.tags,
+          service: result.data.category || prev.service,
+        }));
+        setAiExpanded(false);
+        setAiPrompt('');
+      }
+    } catch (err) {
+      console.error("AI Generate Error", err);
+    } finally {
+      setIsAiLoading(false);
     }
   };
 
@@ -221,6 +254,61 @@ export default function ListingFormModal({ isOpen = true, onClose, onSaved, onSa
           </div>
 
           <form onSubmit={handleSubmit} className="p-6 space-y-5">
+            {/* AI Assistant Banner */}
+            <div className="bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-900/10 dark:to-fuchsia-900/10 border-2 border-violet-100 dark:border-violet-500/20 rounded-2xl overflow-hidden shadow-sm">
+              <button 
+                type="button" 
+                onClick={() => setAiExpanded(!aiExpanded)}
+                className="w-full px-5 py-4 flex items-center justify-between text-left hover:bg-white/50 dark:hover:bg-black/20 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-white shadow-md shadow-violet-500/20">
+                    <Sparkles size={20} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-black text-gray-900 dark:text-white flex items-center gap-2">
+                      ✨ Yapay Zeka Asistanı
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-violet-100 dark:bg-violet-500/20 text-violet-600 dark:text-violet-300">YENİ</span>
+                    </h3>
+                    <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mt-0.5">Siz kısaca ne iş yaptığınızı söyleyin, ilanı saniyeler içinde o yazsın.</p>
+                  </div>
+                </div>
+                <ChevronDown size={20} className={`text-gray-400 transition-transform duration-300 ${aiExpanded ? 'rotate-180' : ''}`} />
+              </button>
+              
+              <AnimatePresence>
+                {aiExpanded && (
+                  <motion.div 
+                    initial={{ height: 0, opacity: 0 }} 
+                    animate={{ height: 'auto', opacity: 1 }} 
+                    exit={{ height: 0, opacity: 0 }}
+                    className="px-5 pb-5 pt-1"
+                  >
+                    <div className="relative">
+                      <textarea 
+                        value={aiPrompt}
+                        onChange={e => setAiPrompt(e.target.value)}
+                        placeholder="Örn: İzmir Karşıyaka'da nakliyeciyim, asansörlü taşımacılık yapıyorum..."
+                        className="w-full px-4 py-3 pb-12 rounded-xl bg-white dark:bg-[#1a1a1a] border-2 border-violet-200 dark:border-violet-500/30 focus:border-violet-500 focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] outline-none transition-all text-gray-900 dark:text-white placeholder:text-gray-400 text-sm font-medium resize-none h-24"
+                      />
+                      <button 
+                        type="button"
+                        onClick={handleAiGenerate}
+                        disabled={isAiLoading || !aiPrompt.trim()}
+                        className="absolute bottom-2 right-2 px-4 py-2 rounded-lg font-bold text-white bg-gradient-to-r from-violet-500 to-fuchsia-500 hover:from-violet-600 hover:to-fuchsia-600 transition-all disabled:opacity-50 text-xs flex items-center gap-1.5 shadow-md shadow-violet-500/20"
+                      >
+                        {isAiLoading ? (
+                          <><div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Yazılıyor...</>
+                        ) : (
+                          <><Sparkles size={14} /> Otomatik Doldur</>
+                        )}
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {error && (
               <div className="p-3.5 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 rounded-xl text-sm font-semibold flex items-center gap-2">
                 <X size={15} className="shrink-0" /> {error}

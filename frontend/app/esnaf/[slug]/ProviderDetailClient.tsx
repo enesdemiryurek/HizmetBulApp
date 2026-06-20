@@ -143,6 +143,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
   const [provider, setProvider] = useState<any | null>(staticProvider || null);
   const [loading, setLoading] = useState(!staticProvider);
   const [error, setError] = useState('');
+  const [similarProviders, setSimilarProviders] = useState<any[]>([]);
   
   // Review form states
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '', price_paid: '' });
@@ -192,7 +193,8 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
         .then(res => res.json())
         .then(data => {
           if (data.success && data.listing) {
-            setProvider(mapDbListingToProvider(data.listing));
+            const mappedProvider = mapDbListingToProvider(data.listing);
+            setProvider(mappedProvider);
             
             // Profil görüntülenmesini arka plana bildir
             fetch(`${API_BASE_URL}/api/listings/${data.listing.id}/track`, {
@@ -200,6 +202,20 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ action: 'view' })
             }).catch(() => {}); // Hata olursa yut
+
+            // Fetch similar providers
+            fetch(`${API_BASE_URL}/api/listings/public`)
+              .then(res => res.json())
+              .then(allData => {
+                if (allData.success && allData.listings) {
+                  const similar = allData.listings
+                    .filter((l: any) => l.id !== data.listing.id && getMainCategory(l.service) === mappedProvider.category)
+                    .slice(0, 4)
+                    .map(mapDbListingToProvider);
+                  setSimilarProviders(similar);
+                }
+              })
+              .catch(console.error);
           } else {
             setError('Hizmet ilanı bulunamadı.');
           }
@@ -854,6 +870,48 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
           </aside>
         </div>
       </div>
+
+      {/* Similar Providers Section */}
+      {similarProviders.length > 0 && (
+        <div className="max-w-6xl mx-auto px-4 mt-12 mb-20">
+          <h2 className="text-xl font-black text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+            <Users className="text-rose-600" />
+            Benzer Uzmanlar
+          </h2>
+          <div className="flex overflow-x-auto pb-6 -mx-4 px-4 snap-x snap-mandatory hide-scrollbar gap-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:overflow-visible md:p-0 md:m-0">
+            {similarProviders.map((simProvider: any) => (
+              <Link 
+                href={`/esnaf/${simProvider.slug}`} 
+                key={simProvider.id}
+                className="snap-center shrink-0 w-[280px] md:w-auto bg-white dark:bg-[#111] border-[3px] border-gray-950 dark:border-white rounded-2xl shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[8px_8px_0_0_rgba(3,7,18,1)] dark:hover:shadow-[8px_8px_0_0_rgba(255,255,255,1)] transition-all flex flex-col p-4 group"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-12 h-12 rounded-full border-2 border-gray-950 dark:border-white overflow-hidden bg-rose-50 shrink-0">
+                    {simProvider.avatarUrl ? (
+                      <img src={simProvider.avatarUrl} alt={simProvider.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="flex items-center justify-center w-full h-full text-lg font-black text-rose-600">{simProvider.name.charAt(0)}</span>
+                    )}
+                  </div>
+                  <div className="overflow-hidden">
+                    <h4 className="font-black text-gray-900 dark:text-white truncate group-hover:text-rose-600 transition-colors">{simProvider.name}</h4>
+                    <p className="text-[10px] font-bold text-gray-500 uppercase truncate">{simProvider.jobTitle}</p>
+                  </div>
+                </div>
+                <div className="mt-auto pt-3 border-t-2 border-gray-100 dark:border-white/10 flex items-center justify-between">
+                  <div className="flex items-center gap-1 bg-amber-400 border-2 border-gray-950 px-1.5 py-0.5 rounded shadow-[2px_2px_0_0_rgba(3,7,18,1)]">
+                    <Star size={10} className="fill-gray-950 text-gray-950" />
+                    <span className="text-[10px] font-black text-gray-950">{simProvider.rating || 'Yeni'}</span>
+                  </div>
+                  <span className="text-[10px] font-bold text-gray-500 dark:text-gray-400 truncate max-w-[120px] text-right">
+                    {simProvider.district && simProvider.city ? `${simProvider.district}, ${simProvider.city}` : 'Konum Belirtilmemiş'}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Offer Modal */}
       {isOfferModalOpen && (

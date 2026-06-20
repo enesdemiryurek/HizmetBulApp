@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AiAssistantController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -24,6 +25,9 @@ Route::middleware(['auth:sanctum', \App\Http\Middleware\UpdateLastSeen::class])-
     Route::post('/user/avatar', [AuthController::class, 'updateAvatar']);
     Route::put('/user/password', [AuthController::class, 'updatePassword']);
     Route::get('/user/payments', [\App\Http\Controllers\PaymentController::class, 'userPayments']);
+
+    // AI Assistant
+    Route::post('/ai/generate-listing', [AiAssistantController::class, 'generateListing']);
 
     // Listings CRUD
     Route::get('/listings', [ListingController::class, 'index']);
