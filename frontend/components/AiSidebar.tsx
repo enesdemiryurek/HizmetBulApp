@@ -57,32 +57,25 @@ export default function AiSidebar() {
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* We do NOT close on backdrop click, it just exists to blur or darken slightly if we want. But the user asked for "doesn't close when clicked outside" */}
-          <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 pointer-events-none"
-          />
-          
+          {/* Removed backdrop blur to allow interacting with the page and remove blur effect */}
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 h-full w-full sm:w-[400px] bg-[#fdfaf9] dark:bg-[#0a0a0a] z-50 flex flex-col shadow-2xl border-l border-gray-200 dark:border-white/10"
+            className="fixed top-0 right-0 h-[100dvh] w-full sm:w-[420px] bg-white dark:bg-[#0a0a0a] z-50 flex flex-col shadow-[-10px_0_40px_rgba(0,0,0,0.05)] dark:shadow-[-10px_0_40px_rgba(0,0,0,0.5)] border-l border-gray-100 dark:border-white/10"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-4 bg-white dark:bg-[#111] border-b border-gray-100 dark:border-white/5 shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-rose-700 flex items-center justify-center text-white shadow-md shadow-rose-500/20">
-                  <Bot size={22} />
+            <div className="flex items-center justify-between px-6 py-5 bg-white dark:bg-[#0a0a0a] border-b border-gray-100 dark:border-white/5 shrink-0 z-10 relative shadow-sm">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-500 to-rose-600 flex items-center justify-center text-white shadow-lg shadow-rose-500/30">
+                  <Bot size={24} />
                 </div>
                 <div>
-                  <h2 className="font-black text-gray-900 dark:text-white flex items-center gap-2">
+                  <h2 className="font-black text-lg text-gray-900 dark:text-white flex items-center gap-2">
                     HizmetBul AI
                   </h2>
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                  <div className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 tracking-wider uppercase">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                     Çevrimiçi
                   </div>
@@ -90,53 +83,64 @@ export default function AiSidebar() {
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="p-2 text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-xl transition-colors"
+                className="p-2.5 text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-white/10 rounded-xl transition-all active:scale-95"
               >
                 <X size={20} />
               </button>
             </div>
 
             {/* Chat Area */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-4">
+            <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#fafafa] dark:bg-[#050505]">
               {messages.map((msg, idx) => (
-                <div key={idx} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}>
-                  <div className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm font-medium ${
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  key={idx} 
+                  className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
+                >
+                  <div className={`max-w-[85%] rounded-3xl px-5 py-3.5 text-[15px] leading-relaxed shadow-sm ${
                     msg.role === 'user' 
-                      ? 'bg-rose-600 text-white rounded-tr-sm shadow-md shadow-rose-600/20' 
-                      : 'bg-white dark:bg-[#1a1a1a] text-gray-800 dark:text-gray-200 rounded-tl-sm border border-gray-100 dark:border-white/5 shadow-sm'
+                      ? 'bg-rose-600 text-white rounded-br-sm shadow-rose-600/20' 
+                      : 'bg-white dark:bg-[#111] text-gray-800 dark:text-gray-200 rounded-bl-sm border border-gray-100 dark:border-white/5 font-medium'
                   }`}>
-                    {msg.role === 'bot' && <Sparkles size={14} className="text-rose-500 mb-1.5 inline-block mr-1.5" />}
+                    {msg.role === 'bot' && <Sparkles size={16} className="text-rose-500 mb-2 inline-block mr-2" />}
                     {msg.content}
                   </div>
                   
                   {/* Suggested Provider Card (If bot returns one) */}
                   {msg.suggestedProvider && (
-                    <div className="mt-3 max-w-[90%] self-start w-full bg-white dark:bg-[#111] border-[2px] border-gray-950 dark:border-white/20 rounded-xl p-3 shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)] hover:-translate-y-0.5 hover:-translate-x-0.5 hover:shadow-[6px_6px_0_0_rgba(3,7,18,1)] transition-all">
-                      <div className="flex items-center gap-3 mb-2">
-                        <img src={msg.suggestedProvider.avatarUrl} alt="" className="w-10 h-10 rounded-full border-2 border-gray-950 dark:border-white/20 object-cover" />
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.3 }}
+                      className="mt-4 max-w-[95%] self-start w-full bg-white dark:bg-[#111] border border-gray-100 dark:border-white/10 rounded-2xl p-4 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all group"
+                    >
+                      <div className="flex items-center gap-4 mb-3">
+                        <img src={msg.suggestedProvider.avatarUrl} alt="" className="w-12 h-12 rounded-xl border border-gray-100 dark:border-white/10 object-cover bg-gray-50" />
                         <div>
-                          <h4 className="font-black text-sm text-gray-900 dark:text-white leading-tight">{msg.suggestedProvider.name}</h4>
-                          <p className="text-[10px] font-bold text-gray-500">{msg.suggestedProvider.category}</p>
+                          <h4 className="font-black text-base text-gray-900 dark:text-white leading-tight mb-1">{msg.suggestedProvider.name}</h4>
+                          <p className="text-xs font-bold text-gray-500 uppercase tracking-wide">{msg.suggestedProvider.category}</p>
                         </div>
                       </div>
-                      <div className="flex items-center gap-3 text-xs mb-3">
-                        <span className="flex items-center gap-1 font-bold text-gray-600 dark:text-gray-300"><Star size={12} className="fill-amber-400 text-amber-400" /> {msg.suggestedProvider.rating}</span>
-                        <span className="flex items-center gap-1 font-bold text-gray-600 dark:text-gray-300"><MapPin size={12} className="text-rose-500" /> {msg.suggestedProvider.district}</span>
+                      <div className="flex items-center gap-4 text-sm mb-4 bg-gray-50 dark:bg-white/5 p-2.5 rounded-xl">
+                        <span className="flex items-center gap-1.5 font-bold text-gray-700 dark:text-gray-300"><Star size={14} className="fill-amber-400 text-amber-400" /> {msg.suggestedProvider.rating}</span>
+                        <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-white/20" />
+                        <span className="flex items-center gap-1.5 font-bold text-gray-700 dark:text-gray-300"><MapPin size={14} className="text-rose-500" /> {msg.suggestedProvider.district}</span>
                       </div>
-                      <Link href={`/esnaf/${msg.suggestedProvider.slug}`} onClick={() => setIsOpen(false)} className="block w-full py-2 bg-gray-950 dark:bg-white text-white dark:text-gray-950 text-center rounded-lg text-xs font-black uppercase tracking-wider">
+                      <Link href={`/esnaf/${msg.suggestedProvider.slug}`} onClick={() => setIsOpen(false)} className="block w-full py-3 bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white text-center rounded-xl text-sm font-black transition-colors">
                         Profili İncele
                       </Link>
-                    </div>
+                    </motion.div>
                   )}
-                </div>
+                </motion.div>
               ))}
               
               {loading && (
                 <div className="flex items-start">
-                  <div className="bg-white dark:bg-[#1a1a1a] rounded-2xl rounded-tl-sm px-4 py-3 border border-gray-100 dark:border-white/5 flex gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-rose-400 animate-bounce" />
-                    <span className="w-2 h-2 rounded-full bg-rose-400 animate-bounce" style={{ animationDelay: '0.2s' }} />
-                    <span className="w-2 h-2 rounded-full bg-rose-400 animate-bounce" style={{ animationDelay: '0.4s' }} />
+                  <div className="bg-white dark:bg-[#111] rounded-3xl rounded-tl-sm px-5 py-4 border border-gray-100 dark:border-white/5 flex gap-2 shadow-sm">
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-400 animate-bounce" style={{ animationDuration: '1s' }} />
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-400 animate-bounce" style={{ animationDelay: '0.2s', animationDuration: '1s' }} />
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-400 animate-bounce" style={{ animationDelay: '0.4s', animationDuration: '1s' }} />
                   </div>
                 </div>
               )}
@@ -144,25 +148,25 @@ export default function AiSidebar() {
             </div>
 
             {/* Input Area */}
-            <div className="p-4 bg-white dark:bg-[#111] border-t border-gray-100 dark:border-white/5 shrink-0">
+            <div className="p-5 bg-white dark:bg-[#0a0a0a] border-t border-gray-100 dark:border-white/5 shrink-0 z-10 relative pb-safe">
               <form onSubmit={handleSend} className="relative flex items-center">
                 <input
                   type="text"
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   placeholder="Yapay zekaya bir şey sorun..."
-                  className="w-full pl-5 pr-12 py-3.5 bg-gray-50 dark:bg-[#1a1a1a] rounded-2xl border-2 border-gray-200 dark:border-white/10 outline-none focus:border-rose-500 dark:focus:border-rose-500 focus:bg-white transition-all text-sm font-medium text-gray-900 dark:text-white placeholder:text-gray-400"
+                  className="w-full pl-6 pr-14 py-4 bg-gray-50 dark:bg-[#111] rounded-full border border-gray-200 dark:border-white/10 outline-none focus:border-rose-500 dark:focus:border-rose-500 focus:bg-white dark:focus:bg-black transition-all text-[15px] font-medium text-gray-900 dark:text-white placeholder:text-gray-400 shadow-inner"
                 />
                 <button
                   type="submit"
                   disabled={!input.trim() || loading}
-                  className="absolute right-2 p-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white disabled:opacity-50 transition-colors"
+                  className="absolute right-2 p-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white disabled:opacity-50 disabled:bg-gray-300 dark:disabled:bg-gray-800 transition-colors shadow-md active:scale-95"
                 >
-                  <Send size={16} className="ml-0.5" />
+                  <Send size={18} className="ml-0.5" />
                 </button>
               </form>
-              <p className="text-center text-[10px] font-bold text-gray-400 mt-2">
-                Yapay zeka yanlış veya eksik bilgi üretebilir.
+              <p className="text-center text-[11px] font-bold text-gray-400 mt-3 flex items-center justify-center gap-1">
+                <Sparkles size={10} /> Yapay zeka yanlış veya eksik bilgi üretebilir.
               </p>
             </div>
           </motion.div>
