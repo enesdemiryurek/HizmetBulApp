@@ -472,15 +472,15 @@ function ProfileContent() {
             <div className="lg:col-span-2 space-y-5">
               {/* Personal Info */}
               <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bento-item premium-glow p-6 sm:p-8">
-                <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-rose-50 dark:bg-rose-950/40 flex items-center justify-center">
-                      <User className="text-rose-500" size={16} />
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-rose-50 dark:bg-rose-950/40 flex items-center justify-center shrink-0">
+                      <User className="text-rose-500" size={20} />
                     </div>
-                    <h2 className="font-black text-gray-900 dark:text-white">Kişisel Bilgiler</h2>
+                    <h2 className="text-lg font-black text-gray-900 dark:text-white">Kişisel Bilgiler</h2>
                   </div>
                   {!editing ? (
-                    <Link href="/ayarlar" className="btn-outline text-sm"><Settings size={13} /> Profili Düzenle</Link>
+                    <Link href="/ayarlar" className="btn-outline text-sm w-full sm:w-auto justify-center"><Settings size={14} /> Profili Düzenle</Link>
                   ) : (
                     <div className="flex gap-2">
                       <button onClick={() => setEditing(false)} className="btn-ghost text-sm"><X size={13} /> İptal</button>

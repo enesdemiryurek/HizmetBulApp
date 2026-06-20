@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Zap, Home, MessageCircle, Bot, Moon, LogOut, Send, X, Compass, Briefcase, Settings
+  Zap, Home, MessageCircle, Bot, Moon, LogOut, Send, X, Compass, Briefcase, Settings, User
 } from 'lucide-react';
 import { useTheme } from '@/components/ThemeProvider';
 
@@ -53,7 +53,9 @@ export default function Sidebar() {
     { label: 'Hizmet Bul', icon: Compass, href: '/arama' },
     ...(isLoggedIn 
       ? [
+          { label: 'Profilim', icon: User, href: '/profil' },
           { label: 'Hizmet Sayfam', icon: Briefcase, href: userRole === 'hizmet_veren' ? '/hizmet-sayfam' : '/hizmet-alan' },
+          { label: 'Hizmet Veren', icon: Briefcase, href: '/hizmet-veren' },
           { label: 'Mesajlar', icon: MessageCircle, href: '/mesajlar', badge: 'Yeni' },
           { label: 'Ayarlar', icon: Settings, href: '/ayarlar' }
         ]
