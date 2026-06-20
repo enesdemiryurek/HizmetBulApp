@@ -947,17 +947,19 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
             >
               {similarProviders.map((simProvider: any) => (
                 <div key={simProvider.id} className="snap-center shrink-0 w-[300px] md:w-[320px]">
-                  <div className="w-full h-full bg-gradient-to-br from-rose-500 to-rose-700 rounded-[2rem] p-3 shadow-xl hover:shadow-2xl transition-all flex flex-col group relative">
+                  <div className="w-full h-full bg-gradient-to-br from-rose-400 to-rose-500 rounded-[2rem] p-3 shadow-xl hover:shadow-2xl transition-all flex flex-col group relative">
                     {/* Top Image (Cover Photo) */}
                     <div className="relative w-full h-24 rounded-t-[1.5rem] shrink-0">
-                      <div className="w-full h-full overflow-hidden rounded-[1.5rem]">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img 
-                          src={simProvider.coverUrl || 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=800&auto=format&fit=crop'} 
-                          alt={simProvider.name} 
-                          onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=800&auto=format&fit=crop'; }}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                        />
+                      <div className="w-full h-full overflow-hidden rounded-[1.5rem] bg-white">
+                        {simProvider.coverUrl ? (
+                          /* eslint-disable-next-line @next/next/no-img-element */
+                          <img 
+                            src={simProvider.coverUrl} 
+                            alt={simProvider.name} 
+                            onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                          />
+                        ) : null}
                       </div>
                       
                       {/* Category Label (Pill vertically centered on bottom edge of cover) */}
@@ -976,10 +978,10 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                         <div className="w-12 h-12 rounded-full border-[3px] border-rose-600 bg-rose-50 overflow-hidden shadow-sm flex items-center justify-center relative">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img 
-                            src={simProvider.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(simProvider.name)}&clothing=blazerAndShirt,blazerAndSweater,collarAndSweater,overall&top=shortHairShortFlat,shortHairShortRound,hijab,turban,longHairStraight`} 
+                            src={simProvider.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(simProvider.name)}`} 
                             alt={simProvider.name} 
                             className="absolute inset-0 w-full h-full object-cover" 
-                            onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(simProvider.name)}&clothing=blazerAndShirt,blazerAndSweater,collarAndSweater,overall&top=shortHairShortFlat,shortHairShortRound,hijab,turban,longHairStraight`; }} 
+                            onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(simProvider.name)}`; }} 
                           />
                           {simProvider.verified && (
                             <div className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-rose-600 flex items-center justify-center">
