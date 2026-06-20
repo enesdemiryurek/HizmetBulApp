@@ -950,7 +950,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                   <div className="w-full h-full bg-gradient-to-br from-rose-400 to-rose-500 rounded-[2rem] p-3 shadow-xl hover:shadow-2xl transition-all flex flex-col group relative">
                     {/* Top Image (Cover Photo) */}
                     <div className="relative w-full h-24 rounded-t-[1.5rem] shrink-0">
-                      <div className="w-full h-full overflow-hidden rounded-[1.5rem] bg-white">
+                      <div className="w-full h-full overflow-hidden rounded-[1.5rem] bg-[#fcfaf8]">
                         {simProvider.coverUrl ? (
                           /* eslint-disable-next-line @next/next/no-img-element */
                           <img 
@@ -963,12 +963,12 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                       </div>
                       
                       {/* Category Label (Pill vertically centered on bottom edge of cover) */}
-                      <div className="absolute -bottom-3 right-3 bg-white text-gray-900 px-3 py-1.5 rounded-full text-[10px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
+                      <div className="absolute -bottom-3 right-3 bg-[#fcfaf8] text-gray-900 px-3 py-1.5 rounded-full text-[10px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
                         {simProvider.category}
                       </div>
 
                       {/* Rating Star */}
-                      <div className="absolute top-2 right-2 bg-white/20 backdrop-blur-md px-2 py-1 flex items-center gap-1 rounded-full text-white font-bold text-[10px] shadow-sm z-10">
+                      <div className="absolute top-2 right-2 bg-white/20 backdrop-blur-md px-2 py-1 flex items-center gap-1 rounded-full text-[#fcfaf8] font-bold text-[10px] shadow-sm z-10">
                         <Star size={10} className="fill-amber-400 text-amber-400" />
                         {simProvider.rating > 0 ? simProvider.rating.toFixed(1) : 'Yeni'}
                       </div>
@@ -985,7 +985,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                           />
                           {simProvider.verified && (
                             <div className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-rose-600 flex items-center justify-center">
-                              <CheckCircle2 size={8} className="text-white" />
+                              <CheckCircle2 size={8} className="text-[#fcfaf8]" />
                             </div>
                           )}
                         </div>
@@ -997,7 +997,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1 min-w-0">
                           <Link href={`/esnaf/${simProvider.slug}`}>
-                            <h2 className="font-black text-white text-[16px] leading-tight truncate hover:text-rose-200 transition-colors">
+                            <h2 className="font-black text-[#fcfaf8] text-[16px] leading-tight truncate hover:text-rose-200 transition-colors">
                               {simProvider.name}
                             </h2>
                           </Link>
@@ -1006,8 +1006,8 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                           </p>
                         </div>
                         
-                        <button className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center shrink-0 hover:bg-white/20 transition-colors">
-                          <Bookmark size={12} className="text-white" />
+                        <button className="w-7 h-7 rounded-full bg-[#fcfaf8]/10 flex items-center justify-center shrink-0 hover:bg-[#fcfaf8]/20 transition-colors">
+                          <Bookmark size={12} className="text-[#fcfaf8]" />
                         </button>
                       </div>
 
@@ -1015,7 +1015,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                       <div className="flex items-center justify-between mt-4 mb-3 px-1">
                         {/* Rating */}
                         <div className="flex flex-col items-start gap-0.5">
-                          <div className="flex items-center gap-1 text-[13px] font-black text-white">
+                          <div className="flex items-center gap-1 text-[13px] font-black text-[#fcfaf8]">
                             <Star size={12} className="fill-amber-400 text-amber-400" />
                             {simProvider.rating > 0 ? simProvider.rating.toFixed(1) : 'Yeni'}
                           </div>
@@ -1024,8 +1024,8 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                         
                         {/* Jobs */}
                         <div className="flex flex-col items-start gap-0.5">
-                          <div className="flex items-center gap-1 text-[13px] font-black text-white">
-                            <Users size={12} className="text-white" />
+                          <div className="flex items-center gap-1 text-[13px] font-black text-[#fcfaf8]">
+                            <Users size={12} className="text-[#fcfaf8]" />
                             {simProvider.reviewCount}
                           </div>
                           <span className="text-[9px] font-semibold text-rose-200">Bitirilen İş</span>
@@ -1033,8 +1033,8 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                         
                         {/* Location */}
                         <div className="flex flex-col items-start gap-0.5">
-                          <div className="flex items-center gap-1 text-[13px] font-black text-white">
-                            <MapPin size={12} className="text-white" />
+                          <div className="flex items-center gap-1 text-[13px] font-black text-[#fcfaf8]">
+                            <MapPin size={12} className="text-[#fcfaf8]" />
                             <span className="truncate max-w-[50px]">{simProvider.city || 'Belirtilmedi'}</span>
                           </div>
                           <span className="text-[9px] font-semibold text-rose-200">Konum</span>
@@ -1046,11 +1046,11 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                         {simProvider.description || simProvider.about || 'Bu uzman henüz açıklama eklememiş.'}
                       </p>
 
-                      {/* Bottom Button (White) */}
+                      {/* Bottom Button (Cream) */}
                       <div className="mt-auto">
                         <Link
                           href={`/esnaf/${simProvider.slug}`}
-                          className="flex items-center justify-center w-full bg-white text-rose-600 py-2.5 rounded-full text-xs font-black shadow-lg shadow-black/10 hover:shadow-black/20 hover:scale-[1.02] hover:bg-rose-50 transition-all"
+                          className="flex items-center justify-center w-full bg-[#fcfaf8] text-rose-600 py-2.5 rounded-full text-xs font-black shadow-lg shadow-black/10 hover:shadow-black/20 hover:scale-[1.02] hover:bg-rose-50 transition-all"
                         >
                           Profili İncele
                         </Link>

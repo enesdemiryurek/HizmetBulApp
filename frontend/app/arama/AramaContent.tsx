@@ -61,7 +61,7 @@ function PeopleCard({
     >
       {/* Top Image (Cover Photo) */}
       <div className="relative w-full h-[140px] rounded-[1.5rem] shrink-0">
-        <div className="w-full h-full overflow-hidden rounded-[1.5rem] bg-white">
+        <div className="w-full h-full overflow-hidden rounded-[1.5rem] bg-[#fcfaf8]">
           {provider.coverUrl ? (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img 
@@ -74,18 +74,18 @@ function PeopleCard({
         </div>
         
         {/* Category Label (Pill vertically centered on bottom edge of cover) */}
-        <div className="absolute -bottom-3.5 right-4 bg-white text-gray-900 px-4 py-1.5 rounded-full text-[11px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
+        <div className="absolute -bottom-3.5 right-4 bg-[#fcfaf8] text-gray-900 px-4 py-1.5 rounded-full text-[11px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
           {provider.category}
         </div>
         
         {isPromoted && (
-          <div className="absolute top-3 left-3 bg-white/20 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-sm z-10">
-            <Star size={10} className="fill-white" /> Sponsorlu
+          <div className="absolute top-3 left-3 bg-white/20 backdrop-blur-md text-[#fcfaf8] px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-sm z-10">
+            <Star size={10} className="fill-[#fcfaf8]" /> Sponsorlu
           </div>
         )}
         
         {aiMetrics && (
-          <div className="absolute top-3 right-3 bg-white/20 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-sm z-10">
+          <div className="absolute top-3 right-3 bg-white/20 backdrop-blur-md text-[#fcfaf8] px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-sm z-10">
             <Sparkles size={10} /> %{Math.round(aiMetrics.score * 100)} Uyum
           </div>
         )}
@@ -102,7 +102,7 @@ function PeopleCard({
             />
             {provider.verified && (
               <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 border-2 border-rose-600 flex items-center justify-center">
-                <CheckCircle2 size={8} className="text-white" />
+                <CheckCircle2 size={8} className="text-[#fcfaf8]" />
               </div>
             )}
           </div>
@@ -114,7 +114,7 @@ function PeopleCard({
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
             <Link href={`/esnaf/${provider.slug}`} onClick={() => trackAction('click')}>
-              <h2 className="font-black text-white text-[19px] leading-tight truncate hover:text-rose-200 transition-colors">
+              <h2 className="font-black text-[#fcfaf8] text-[19px] leading-tight truncate hover:text-rose-200 transition-colors">
                 {provider.name}
               </h2>
             </Link>
@@ -124,7 +124,7 @@ function PeopleCard({
           </div>
           
           <button className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center shrink-0 hover:bg-white/20 transition-colors">
-            <Bookmark size={16} className="text-white" />
+            <Bookmark size={16} className="text-[#fcfaf8]" />
           </button>
         </div>
 
@@ -132,7 +132,7 @@ function PeopleCard({
         <div className="flex items-center justify-between mt-5 mb-4 px-1">
           {/* Rating */}
           <div className="flex flex-col items-start gap-1">
-            <div className="flex items-center gap-1.5 text-[15px] font-black text-white">
+            <div className="flex items-center gap-1.5 text-[15px] font-black text-[#fcfaf8]">
               <Star size={16} className="fill-amber-400 text-amber-400" />
               {provider.rating > 0 ? provider.rating.toFixed(1) : 'Yeni'}
             </div>
@@ -141,8 +141,8 @@ function PeopleCard({
           
           {/* Jobs */}
           <div className="flex flex-col items-start gap-1">
-            <div className="flex items-center gap-1.5 text-[15px] font-black text-white">
-              <Users size={16} className="text-white" />
+            <div className="flex items-center gap-1.5 text-[15px] font-black text-[#fcfaf8]">
+              <Users size={16} className="text-[#fcfaf8]" />
               {provider.reviewCount}
             </div>
             <span className="text-[11px] font-semibold text-rose-200">Bitirilen İş</span>
@@ -150,8 +150,8 @@ function PeopleCard({
           
           {/* Location */}
           <div className="flex flex-col items-start gap-1">
-            <div className="flex items-center gap-1.5 text-[15px] font-black text-white">
-              <MapPin size={16} className="text-white" />
+            <div className="flex items-center gap-1.5 text-[15px] font-black text-[#fcfaf8]">
+              <MapPin size={16} className="text-[#fcfaf8]" />
               <span className="truncate max-w-[70px]">{provider.city || 'Belirtilmedi'}</span>
             </div>
             <span className="text-[11px] font-semibold text-rose-200">Konum</span>
@@ -168,7 +168,7 @@ function PeopleCard({
           <Link
             href={`/esnaf/${provider.slug}`}
             onClick={(e) => { e.stopPropagation(); trackAction('click'); }}
-            className="flex items-center justify-center w-full bg-white text-rose-600 py-3.5 rounded-full text-[15px] font-black shadow-lg shadow-black/10 hover:shadow-black/20 hover:scale-[1.02] hover:bg-rose-50 transition-all"
+            className="flex items-center justify-center w-full bg-[#fcfaf8] text-rose-600 py-3.5 rounded-full text-[15px] font-black shadow-lg shadow-black/10 hover:shadow-black/20 hover:scale-[1.02] hover:bg-rose-50 transition-all"
           >
             Profili İncele
           </Link>

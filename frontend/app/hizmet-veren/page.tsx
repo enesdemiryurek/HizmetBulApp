@@ -102,25 +102,36 @@ export default function HizmetVerenPage() {
             transition={{ duration: 0.8, type: 'spring' }}
             className="flex-1 relative z-10 perspective-1000 flex justify-center lg:justify-end"
           >
-            {/* The Phone */}
-            <div className="w-[320px] sm:w-[350px] bg-white dark:bg-[#0a0a0a] rounded-[3rem] p-2 border-[8px] border-gray-900 shadow-2xl relative rotate-[-2deg] hover:rotate-0 transition-transform duration-500">
-              <div className="absolute top-0 inset-x-0 h-6 flex justify-center">
-                <div className="w-1/3 h-full bg-gray-900 rounded-b-xl"></div>
+            {/* The Phone (Realistic) */}
+            <div className="w-[320px] sm:w-[350px] bg-black rounded-[3.5rem] p-2.5 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5),0_0_0_2px_rgba(255,255,255,0.1)_inset] relative rotate-[-2deg] hover:rotate-0 transition-transform duration-500 border-4 border-gray-800">
+              
+              {/* Dynamic Island */}
+              <div className="absolute top-5 inset-x-0 flex justify-center z-50 pointer-events-none">
+                <div className="w-28 h-8 bg-black rounded-full shadow-[0_0_0_1px_rgba(255,255,255,0.05)_inset] flex items-center justify-between px-2.5">
+                  <div className="w-2 h-2 rounded-full bg-gray-800/80" />
+                  <div className="w-3 h-3 rounded-full bg-blue-900/30 flex items-center justify-center"><div className="w-1 h-1 rounded-full bg-blue-400" /></div>
+                </div>
               </div>
+
+              {/* Side Buttons */}
+              <div className="absolute top-32 -left-[6px] w-1 h-12 bg-gray-800 rounded-l-md shadow-inner" />
+              <div className="absolute top-48 -left-[6px] w-1 h-12 bg-gray-800 rounded-l-md shadow-inner" />
+              <div className="absolute top-20 -left-[6px] w-1 h-6 bg-gray-800 rounded-l-md shadow-inner" />
+              <div className="absolute top-36 -right-[6px] w-1 h-16 bg-gray-800 rounded-r-md shadow-inner" />
               
               {/* Screen Content */}
-              <div className="h-full w-full bg-[#fcfaf8] dark:bg-[#111] rounded-[2.5rem] overflow-hidden p-5 pt-10 flex flex-col gap-4">
+              <div className="h-full w-full bg-[#fcfaf8] dark:bg-[#111] rounded-[2.8rem] overflow-hidden p-5 pt-12 flex flex-col gap-4 relative">
                 
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-between mb-2 mt-2">
                   <div>
                     <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-none">Günaydın,</h3>
                     <h3 className="text-2xl font-black text-gray-900 dark:text-white">Ahmet 👋</h3>
                   </div>
-                  <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmet&clothing=blazerAndShirt" className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-rose-50" alt="" />
+                  <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmet" className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-rose-50" alt="" />
                 </div>
 
                 {/* Big Green/Red Card */}
-                <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden">
+                <div className="bg-gradient-to-br from-rose-600 to-rose-700 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
                   <p className="text-sm font-bold opacity-90 mb-4">Aylık Kota Kullanımı</p>
                   
@@ -165,7 +176,7 @@ export default function HizmetVerenPage() {
                       <span className="text-gray-900 dark:text-white">1,245</span>
                     </div>
                     <div className="w-full h-2 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
-                      <div className="w-[85%] h-full bg-emerald-500 rounded-full" />
+                      <div className="w-[85%] h-full bg-rose-500 rounded-full" />
                     </div>
                   </div>
                   <div>
@@ -203,31 +214,86 @@ export default function HizmetVerenPage() {
         </div>
       </section>
 
-      {/* ─── FEATURES GRID ─── */}
-      <section id="ozellikler" className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { icon: Zap, title: '0 TL Komisyon', desc: 'Teklif başı ücret veya gizli kesintiler yok. Ne kazanırsanız sizindir.' },
-            { icon: Phone, title: 'Doğrudan İletişim', desc: 'Müşteriler mesajlaşma beklemeden sizi doğrudan telefonunuzdan arar.' },
-            { icon: Shield, title: 'Güven Rozeti', desc: 'Sertifikalı uzman rozeti ile müşterilere güven verin, işleri kapın.' },
-            { icon: BarChart3, title: 'Analitik ve Takip', desc: 'Profiliniz kaç kez görüntülendi, kaç tık aldı? Hepsini panoda görün.' },
-          ].map((feat, i) => (
-            <motion.div 
-              key={feat.title}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              custom={i}
-              className="bg-white dark:bg-[#0a0a0a] rounded-3xl p-8 border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-xl transition-shadow"
-            >
-              <div className="w-12 h-12 bg-rose-50 dark:bg-rose-950/30 rounded-2xl flex items-center justify-center mb-6">
-                <feat.icon size={24} className="text-rose-600 dark:text-rose-400" />
+      {/* ─── FEATURES GRID (Bento Style) ─── */}
+      <section id="ozellikler" className="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          {/* Card 1: White */}
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-white rounded-[2rem] p-10 border-2 border-gray-900 shadow-sm relative overflow-hidden group hover:shadow-xl transition-shadow flex flex-col justify-between min-h-[280px]">
+            <div className="relative z-10">
+              <div className="inline-block bg-rose-200 text-gray-900 font-black px-3 py-1.5 text-lg rounded-lg mb-4">
+                0 TL Komisyon
               </div>
-              <h3 className="text-lg font-black text-gray-900 dark:text-white mb-2">{feat.title}</h3>
-              <p className="text-sm font-medium text-gray-600 dark:text-white/60 leading-relaxed">{feat.desc}</p>
-            </motion.div>
-          ))}
+              <p className="text-gray-600 font-medium">Teklif başı ücret veya gizli kesintiler yok. Ne kazanırsanız sizindir.</p>
+            </div>
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-10 group-hover:opacity-100 transition-opacity">
+               <Zap size={100} className="text-gray-900" />
+            </div>
+            <div className="flex items-center gap-3 mt-8 text-gray-900 font-black relative z-10">
+              <div className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-white group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+              </div>
+              Daha fazla bilgi
+            </div>
+          </motion.div>
+
+          {/* Card 2: Black */}
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-gray-900 text-white rounded-[2rem] p-10 shadow-sm relative overflow-hidden group hover:shadow-xl transition-shadow flex flex-col justify-between min-h-[280px]">
+            <div className="relative z-10">
+              <div className="inline-block bg-white/10 text-white font-black px-3 py-1.5 text-lg rounded-lg mb-4">
+                Doğrudan İletişim
+              </div>
+              <p className="text-gray-400 font-medium">Müşteriler mesajlaşma beklemeden sizi doğrudan telefonunuzdan arar.</p>
+            </div>
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-10 group-hover:opacity-100 transition-opacity">
+               <Phone size={100} className="text-white" />
+            </div>
+            <div className="flex items-center gap-3 mt-8 text-white font-black relative z-10">
+              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-900 group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+              </div>
+              Daha fazla bilgi
+            </div>
+          </motion.div>
+
+          {/* Card 3: Black */}
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-gray-900 text-white rounded-[2rem] p-10 shadow-sm relative overflow-hidden group hover:shadow-xl transition-shadow flex flex-col justify-between min-h-[280px]">
+            <div className="relative z-10">
+              <div className="inline-block bg-white/10 text-white font-black px-3 py-1.5 text-lg rounded-lg mb-4">
+                Güven Rozeti
+              </div>
+              <p className="text-gray-400 font-medium">Sertifikalı uzman rozeti ile müşterilere güven verin, işleri kapın.</p>
+            </div>
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-10 group-hover:opacity-100 transition-opacity">
+               <Shield size={100} className="text-white" />
+            </div>
+            <div className="flex items-center gap-3 mt-8 text-white font-black relative z-10">
+              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-900 group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+              </div>
+              Daha fazla bilgi
+            </div>
+          </motion.div>
+
+          {/* Card 4: White */}
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} className="bg-white rounded-[2rem] p-10 border-2 border-gray-900 shadow-sm relative overflow-hidden group hover:shadow-xl transition-shadow flex flex-col justify-between min-h-[280px]">
+            <div className="relative z-10">
+              <div className="inline-block bg-rose-200 text-gray-900 font-black px-3 py-1.5 text-lg rounded-lg mb-4">
+                Analitik ve Takip
+              </div>
+              <p className="text-gray-600 font-medium">Profiliniz kaç kez görüntülendi, kaç tık aldı? Hepsini panoda görün.</p>
+            </div>
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-10 group-hover:opacity-100 transition-opacity">
+               <BarChart3 size={100} className="text-gray-900" />
+            </div>
+            <div className="flex items-center gap-3 mt-8 text-gray-900 font-black relative z-10">
+              <div className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-white group-hover:translate-x-1 transition-transform">
+                <ArrowRight size={18} />
+              </div>
+              Daha fazla bilgi
+            </div>
+          </motion.div>
+
         </div>
       </section>
 
@@ -253,15 +319,15 @@ export default function HizmetVerenPage() {
                 '7/24 Kesintisiz destek ekibi'
               ].map((item) => (
                 <li key={item} className="flex items-center gap-3">
-                  <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                    <Check size={12} className="text-emerald-600 stroke-[3]" />
+                  <div className="w-6 h-6 rounded-full bg-rose-100 flex items-center justify-center shrink-0">
+                    <Check size={12} className="text-rose-600 stroke-[3]" />
                   </div>
                   <span className="font-bold text-gray-700 dark:text-white/80">{item}</span>
                 </li>
               ))}
             </ul>
 
-            <Link href="/kayit-ol" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full font-black text-lg transition-all shadow-lg shadow-emerald-500/30">
+            <Link href="/kayit-ol" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-rose-600 hover:bg-rose-700 text-white rounded-full font-black text-lg transition-all shadow-lg shadow-rose-600/30 hover:-translate-y-1">
               Özellikleri İncele <ArrowRight size={18} />
             </Link>
           </div>
@@ -276,14 +342,14 @@ export default function HizmetVerenPage() {
                 <div className="relative w-36 h-36 flex items-center justify-center mb-4">
                   <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                     <circle cx="50" cy="50" r="40" fill="none" stroke="#f1f5f9" strokeWidth="12" strokeLinecap="round" />
-                    <circle cx="50" cy="50" r="40" fill="none" stroke="#10b981" strokeWidth="12" strokeLinecap="round" strokeDasharray="251" strokeDashoffset="75" />
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#34d399" strokeWidth="12" strokeLinecap="round" strokeDasharray="251" strokeDashoffset="75" />
                   </svg>
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <span className="text-3xl font-black text-gray-900 dark:text-white">12K</span>
                     <span className="text-xs font-bold text-gray-400">Profil Tıklaması</span>
                   </div>
                 </div>
-                <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold">Düne göre +%12</div>
+                <div className="bg-rose-50 text-rose-600 px-3 py-1 rounded-full text-xs font-bold">Düne göre +%12</div>
               </div>
 
               {/* Box 2: Line chart / number */}
@@ -313,7 +379,7 @@ export default function HizmetVerenPage() {
                   <div className="text-3xl font-black text-gray-900 dark:text-white">98 / 100</div>
                 </div>
                 <div className="flex gap-2">
-                  <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center"><TrendingUp size={20} className="text-emerald-600" /></div>
+                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center"><TrendingUp size={20} className="text-rose-600" /></div>
                 </div>
               </div>
 
