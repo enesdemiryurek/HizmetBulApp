@@ -7,6 +7,7 @@ import Footer from '@/components/Footer';
 import Sidebar from '@/components/Sidebar';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import GlobalSplash from '@/components/GlobalSplash';
+import AiSidebar from '@/components/AiSidebar';
 
 const notoSerif = Noto_Serif({
   subsets: ['latin'],
@@ -54,6 +55,7 @@ export default function RootLayout({
           <GlobalSplash />
           <Navbar />
           <Sidebar />
+          <AiSidebar />
           <main className="md:pl-[80px] transition-all duration-300">{children}</main>
           <div className="md:pl-[80px]"><Footer /></div>
         </ThemeProvider>

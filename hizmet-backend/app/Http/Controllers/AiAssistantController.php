@@ -132,4 +132,52 @@ class AiAssistantController extends Controller
             'summary' => $summary
         ]);
     }
+
+    /**
+     * POST /api/ai/chat
+     * Hostinger style AI chat assistant.
+     */
+    public function chat(Request $request)
+    {
+        $request->validate([
+            'message' => 'required|string|max:1000'
+        ]);
+
+        $message = strtolower($request->message);
+        
+        sleep(1); // Simulate typing delay
+
+        $responseMessage = "Merhaba! Size nasıl yardımcı olabilirim?";
+        $suggestedProvider = null;
+
+        if (str_contains($message, 'merhaba') || str_contains($message, 'selam')) {
+            $responseMessage = "Merhaba! Ben HizmetBul AI Asistan. Size hizmet bulma, ilan oluşturma veya platformla ilgili her konuda yardımcı olabilirim.";
+        } elseif (str_contains($message, 'ankara') && (str_contains($message, 'web') || str_contains($message, 'site') || str_contains($message, 'yazılım'))) {
+            $responseMessage = "Ankara bölgesindeki web tasarım ve yazılım uzmanlarını taradım. İhtiyacınıza en uygun, yüksek puanlı bir uzmanı aşağıda bulabilirsiniz. Dilerseniz hemen profilini inceleyip teklif isteyebilirsiniz!";
+            $suggestedProvider = [
+                'id' => 'db-99',
+                'slug' => 'db-99',
+                'name' => 'TechNova Yazılım Ajansı',
+                'jobTitle' => 'Kıdemli Web Geliştiricisi & Tasarımcı',
+                'category' => 'Yazılım & Tasarım',
+                'city' => 'Ankara',
+                'district' => 'Çankaya',
+                'rating' => 4.9,
+                'reviewCount' => 24,
+                'avatarUrl' => 'https://api.dicebear.com/7.x/avataaars/svg?seed=TechNova',
+            ];
+        } elseif (str_contains($message, 'temizlik') || str_contains($message, 'ev temiz')) {
+            $responseMessage = "Evinizi veya ofisinizi pırıl pırıl yapacak uzmanlarımız var! Konumunuzu (örneğin 'İzmir Karşıyaka') belirtirseniz size en yakın temizlik şirketini önerebilirim.";
+        } elseif (str_contains($message, 'boya') || str_contains($message, 'badana')) {
+            $responseMessage = "Boya ve badana işleri için platformumuzda yüzlerce profesyonel usta bulunuyor. İstediğiniz bölgeyi yazarsanız size örnek bir usta profili getirebilirim.";
+        } else {
+            $responseMessage = "Şu anda test aşamasındayım, bu yüzden sizi tam olarak anlayamamış olabilirim. Lütfen 'Ankara'da web sitesi yaptıracağım' gibi bir örnek dener misiniz?";
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => $responseMessage,
+            'suggested_provider' => $suggestedProvider
+        ]);
+    }
 }
