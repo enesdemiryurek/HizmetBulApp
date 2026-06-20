@@ -304,7 +304,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
 
   if (error || !provider) {
     return (
-      <div className="min-h-screen bg-[#f9f8f6] dark:bg-[#050505] flex flex-col items-center justify-center p-4 text-center">
+      <div className="min-h-screen bg-[white] dark:bg-[#050505] flex flex-col items-center justify-center p-4 text-center">
         <h2 className="text-2xl font-black text-gray-800 dark:text-white mb-2">{error || 'Profil bulunamadı.'}</h2>
         <Link href="/arama" className="mt-4 px-5 py-2.5 bg-rose-600 text-white font-bold rounded-xl hover:bg-rose-700 transition-colors">
           Aramaya Dön
@@ -404,7 +404,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
   const isOwner = currentUser && provider && Number(currentUser.id) === Number(provider.userId);
 
   return (
-    <div className="min-h-screen bg-[#fcfaf8] dark:bg-[#050505] transition-colors duration-300">
+    <div className="min-h-screen bg-white dark:bg-[#050505] transition-colors duration-300">
       {/* Cover */}
       <div className="relative h-56 md:h-72 bg-gradient-to-br from-rose-900 to-[#1a0010] overflow-hidden">
         {provider.coverUrl && (
@@ -510,7 +510,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
 
             {/* Profile header */}
             <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show" className="bg-gradient-to-br from-rose-400 to-rose-500 p-3 rounded-[2rem] shadow-xl relative">
-              <div className="bg-[#fcfaf8] dark:bg-[#0a0a0a] rounded-[1.5rem] p-6 lg:p-8 w-full h-full">
+              <div className="bg-white dark:bg-[#0a0a0a] rounded-[1.5rem] p-6 lg:p-8 w-full h-full">
               <div className="flex items-end justify-between mb-4">
                 <div className="relative">
                   <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden ring-4 ring-white dark:ring-black shadow-xl bg-rose-50 flex items-center justify-center text-rose-600 font-black text-3xl relative">
@@ -604,7 +604,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
               {provider.userId && (
                 <button
                   onClick={() => setIsOfferModalOpen(true)}
-                  className="w-full flex items-center justify-center gap-3 py-4 bg-[#fcfaf8] dark:bg-white/5 text-gray-900 dark:text-white font-black text-lg border border-gray-200 dark:border-white/10 rounded-[1.5rem] shadow-md hover:-translate-y-1 transition-all mb-3"
+                  className="w-full flex items-center justify-center gap-3 py-4 bg-[white] dark:bg-white/5 text-gray-900 dark:text-white font-black text-lg border border-gray-200 dark:border-white/10 rounded-[1.5rem] shadow-md hover:-translate-y-1 transition-all mb-3"
                 >
                   <MessageSquare size={22} /> Teklif Ver
                 </button>
@@ -708,7 +708,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
 
               {/* Review Input Form for logged in users on DB Listings */}
               {isDb && (
-                <div className="mb-6 p-6 bg-[#fcfaf8] dark:bg-[#111] border border-gray-100 dark:border-white/10 rounded-[1.5rem] shadow-sm">
+                <div className="mb-6 p-6 bg-[white] dark:bg-[#111] border border-gray-100 dark:border-white/10 rounded-[1.5rem] shadow-sm">
                   <h3 className="text-sm font-black text-rose-600 uppercase tracking-widest border-b-[2px] border-gray-950 dark:border-white pb-2 mb-4">Değerlendirme Yazın</h3>
                   {token ? (
                     isOwner ? (
@@ -880,7 +880,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                 {provider.userId && (
                   <button
                     onClick={() => setIsOfferModalOpen(true)}
-                    className="w-full flex items-center justify-center gap-3 py-4 bg-[#fcfaf8] dark:bg-white/5 text-gray-900 dark:text-white font-black text-lg border border-gray-200 dark:border-white/10 rounded-[1.5rem] shadow-md hover:-translate-y-1 transition-all mb-3"
+                    className="w-full flex items-center justify-center gap-3 py-4 bg-[white] dark:bg-white/5 text-gray-900 dark:text-white font-black text-lg border border-gray-200 dark:border-white/10 rounded-[1.5rem] shadow-md hover:-translate-y-1 transition-all mb-3"
                   >
                     <MessageSquare size={22} /> Teklif Ver
                   </button>
@@ -952,7 +952,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                   <div className="w-full h-full bg-gradient-to-br from-rose-400 to-rose-500 rounded-[2rem] p-3 shadow-xl hover:shadow-2xl transition-all flex flex-col group relative">
                     {/* Top Image (Cover Photo) */}
                     <div className="relative w-full h-24 rounded-t-[1.5rem] shrink-0">
-                      <div className="w-full h-full overflow-hidden rounded-[1.5rem] bg-[#fcfaf8]">
+                      <div className="w-full h-full overflow-hidden rounded-[1.5rem] bg-[white]">
                         {simProvider.coverUrl ? (
                           /* eslint-disable-next-line @next/next/no-img-element */
                           <img 
@@ -965,12 +965,12 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                       </div>
                       
                       {/* Category Label (Pill vertically centered on bottom edge of cover) */}
-                      <div className="absolute -bottom-3 right-3 bg-[#fcfaf8] text-gray-900 px-3 py-1.5 rounded-full text-[10px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
+                      <div className="absolute -bottom-3 right-3 bg-[white] text-gray-900 px-3 py-1.5 rounded-full text-[10px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
                         {simProvider.category}
                       </div>
 
                       {/* Rating Star */}
-                      <div className="absolute top-2 right-2 bg-white/20 backdrop-blur-md px-2 py-1 flex items-center gap-1 rounded-full text-[#fcfaf8] font-bold text-[10px] shadow-sm z-10">
+                      <div className="absolute top-2 right-2 bg-white/20 backdrop-blur-md px-2 py-1 flex items-center gap-1 rounded-full text-[white] font-bold text-[10px] shadow-sm z-10">
                         <Star size={10} className="fill-amber-400 text-amber-400" />
                         {simProvider.rating > 0 ? simProvider.rating.toFixed(1) : 'Yeni'}
                       </div>
@@ -987,7 +987,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                           />
                           {simProvider.verified && (
                             <div className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-rose-600 flex items-center justify-center">
-                              <CheckCircle2 size={8} className="text-[#fcfaf8]" />
+                              <CheckCircle2 size={8} className="text-[white]" />
                             </div>
                           )}
                         </div>
@@ -999,7 +999,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1 min-w-0">
                           <Link href={`/esnaf/${simProvider.slug}`}>
-                            <h2 className="font-black text-[#fcfaf8] text-[16px] leading-tight truncate hover:text-rose-200 transition-colors">
+                            <h2 className="font-black text-[white] text-[16px] leading-tight truncate hover:text-rose-200 transition-colors">
                               {simProvider.name}
                             </h2>
                           </Link>
@@ -1008,8 +1008,8 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                           </p>
                         </div>
                         
-                        <button className="w-7 h-7 rounded-full bg-[#fcfaf8]/10 flex items-center justify-center shrink-0 hover:bg-[#fcfaf8]/20 transition-colors">
-                          <Bookmark size={12} className="text-[#fcfaf8]" />
+                        <button className="w-7 h-7 rounded-full bg-[white]/10 flex items-center justify-center shrink-0 hover:bg-[white]/20 transition-colors">
+                          <Bookmark size={12} className="text-[white]" />
                         </button>
                       </div>
 
@@ -1017,7 +1017,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                       <div className="flex items-center justify-between mt-4 mb-3 px-1">
                         {/* Rating */}
                         <div className="flex flex-col items-start gap-0.5">
-                          <div className="flex items-center gap-1 text-[13px] font-black text-[#fcfaf8]">
+                          <div className="flex items-center gap-1 text-[13px] font-black text-[white]">
                             <Star size={12} className="fill-amber-400 text-amber-400" />
                             {simProvider.rating > 0 ? simProvider.rating.toFixed(1) : 'Yeni'}
                           </div>
@@ -1026,8 +1026,8 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                         
                         {/* Jobs */}
                         <div className="flex flex-col items-start gap-0.5">
-                          <div className="flex items-center gap-1 text-[13px] font-black text-[#fcfaf8]">
-                            <Users size={12} className="text-[#fcfaf8]" />
+                          <div className="flex items-center gap-1 text-[13px] font-black text-[white]">
+                            <Users size={12} className="text-[white]" />
                             {simProvider.reviewCount}
                           </div>
                           <span className="text-[9px] font-semibold text-rose-200">Bitirilen İş</span>
@@ -1035,8 +1035,8 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                         
                         {/* Location */}
                         <div className="flex flex-col items-start gap-0.5">
-                          <div className="flex items-center gap-1 text-[13px] font-black text-[#fcfaf8]">
-                            <MapPin size={12} className="text-[#fcfaf8]" />
+                          <div className="flex items-center gap-1 text-[13px] font-black text-[white]">
+                            <MapPin size={12} className="text-[white]" />
                             <span className="truncate max-w-[50px]">{simProvider.city || 'Belirtilmedi'}</span>
                           </div>
                           <span className="text-[9px] font-semibold text-rose-200">Konum</span>
@@ -1052,7 +1052,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                       <div className="mt-auto">
                         <Link
                           href={`/esnaf/${simProvider.slug}`}
-                          className="flex items-center justify-center w-full bg-[#fcfaf8] text-rose-600 py-2.5 rounded-full text-xs font-black shadow-lg shadow-black/10 hover:shadow-black/20 hover:scale-[1.02] hover:bg-rose-50 transition-all"
+                          className="flex items-center justify-center w-full bg-[white] text-rose-600 py-2.5 rounded-full text-xs font-black shadow-lg shadow-black/10 hover:shadow-black/20 hover:scale-[1.02] hover:bg-rose-50 transition-all"
                         >
                           Profili İncele
                         </Link>
