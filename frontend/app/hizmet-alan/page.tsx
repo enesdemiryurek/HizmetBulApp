@@ -103,20 +103,32 @@ const categories = [
 const faqs = [
   {
     q: 'HizmetBul\'u kullanmak ücretsiz mi?',
-    a: 'Evet, hizmet arayanlar için tamamen ücretsizdir. Arama ve profil görüntüleme işlemlerinin tamamı ücretsizdir.',
+    a: 'Evet, hizmet arayanlar için tamamen ücretsizdir. Arama, profil görüntüleme ve uzmanlarla doğrudan iletişime geçme işlemlerinin tamamı için hiçbir ücret veya komisyon ödemezsiniz.',
   },
   {
     q: 'Hizmet veren doğrulanmış mı nasıl anlarım?',
-    a: 'Profil sayfasında yeşil "Doğrulanmış Üye" rozeti olan hizmet verenler kimlik ve referans kontrolünden geçmiştir.',
+    a: 'Profil sayfasında yeşil renkli "Doğrulanmış Üye" rozeti olan hizmet verenler, sistemimiz tarafından referans kontrolünden geçirilmiş ve onaylanmış kullanıcılardır.',
   },
   {
     q: 'Hizmet veren beni hayal kırıklığına uğratırsa ne yapabilirim?',
-    a: 'Hizmet aldıktan sonra profiline yorum ve puan bırakabilirsiniz. Diğer kullanıcılar bu yorumları görecektir.',
+    a: 'Hizmet aldıktan sonra uzmanın profiline detaylı bir yorum ve puan bırakabilirsiniz. Müşteri memnuniyetini sağlamayan uzmanların puanı düşer ve görünürlükleri azalır.',
   },
   {
     q: 'Aynı hizmet için birden fazla kişiyi karşılaştırabilir miyim?',
-    a: 'Evet! Arama sonuçlarında tüm hizmet verenleri fiyat, puan ve yorumlarıyla karşılaştırabilirsiniz.',
+    a: 'Kesinlikle! Arama sonuçlarında tüm hizmet verenleri yan yana görebilir; fiyatlarını, puanlarını, müşteri yorumlarını ve portföylerini kolayca karşılaştırarak en iyi kararı verebilirsiniz.',
   },
+  {
+    q: 'Uzmanla nasıl iletişime geçeceğim?',
+    a: 'Uzmanın profil sayfasına girdiğinizde direkt olarak telefon numarasını görebilir ve tek tuşla arayabilirsiniz. Herhangi bir mesajlaşma trafiği veya teklif süreci beklemenize gerek yoktur.',
+  },
+  {
+    q: 'Ödeme işlemlerini nasıl yapacağım?',
+    a: 'Ödemenizi direkt olarak hizmeti aldığınız uzmana, anlaştığınız şekilde (nakit, havale vb.) yaparsınız. HizmetBul sizden ödeme için hiçbir aşamada para veya kredi kartı bilgisi talep etmez.',
+  },
+  {
+    q: 'Aradığım kategoride uzman bulamazsam ne olacak?',
+    a: 'Sürekli büyüyen uzman ağımıza her gün yeni profesyoneller katılıyor. Eğer aradığınız özel bir hizmetse, ana sayfadaki arama çubuğunu kullanarak spesifik aramalar da yapabilirsiniz.',
+  }
 ];
 
 export default function HizmetAlanPage() {
@@ -312,23 +324,23 @@ export default function HizmetAlanPage() {
                 <CheckCircle2 size={16} />
                 %100 Memnuniyet Garantisi
               </div>
-              <h2 className="text-4xl md:text-5xl font-black text-rose-950 dark:text-white leading-tight">
+              <h2 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white leading-tight">
                 İşinizi Şansa <br />Bırakmıyoruz.
               </h2>
-              <p className="text-lg text-rose-950/70 dark:text-white/60 font-medium">
-                Sistemimizdeki tüm ustalar, detaylı kimlik ve referans doğrulamasından geçmiştir. Güvenli ödeme altyapımızla paranız, siz işi onaylayana kadar koruma altındadır.
+              <p className="text-lg text-gray-600 dark:text-gray-400 font-medium">
+                Sistemimizdeki tüm ustalar, referans doğrulamasından geçmiştir. Doğrudan iletişim ve şeffaf müşteri yorumlarıyla en doğru kararı vermenizi sağlıyoruz.
               </p>
 
               <div className="grid grid-cols-2 gap-6 pt-4">
                 <div className="flex flex-col gap-2">
-                  <Shield size={28} className="text-rose-600" />
-                  <h4 className="font-bold text-rose-950 text-lg">E-Devlet Onaylı</h4>
-                  <p className="text-sm text-rose-950/60 font-medium">Ustaların kimlik ve sabıka kayıtları entegre sistemle teyit edilir.</p>
+                  <Phone size={28} className="text-rose-600" />
+                  <h4 className="font-bold text-gray-900 dark:text-white text-lg">7/24 Kesintisiz İletişim</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">Ustalarla mesajlaşma sırası beklemeden doğrudan iletişim kurabilir, anında çözüm bulabilirsiniz.</p>
                 </div>
                 <div className="flex flex-col gap-2">
                   <Star size={28} className="text-amber-500" />
-                  <h4 className="font-bold text-rose-950 text-lg">Müşteri Puanlı</h4>
-                  <p className="text-sm text-rose-950/60 font-medium">Sadece işi yaptıranlar yorum yapabilir. Sahte yorum imkansızdır.</p>
+                  <h4 className="font-bold text-gray-900 dark:text-white text-lg">Müşteri Puanlı</h4>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">Sadece işi yaptıranlar yorum yapabilir. Sahte yorum imkansızdır.</p>
                 </div>
               </div>
             </div>
