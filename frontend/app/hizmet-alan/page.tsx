@@ -21,6 +21,7 @@ import {
   PawPrint,
   PartyPopper,
   ChevronRight,
+  Zap
 } from 'lucide-react';
 import SearchBar from '@/components/SearchBar';
 import FaqAccordion from '@/components/FaqAccordion';
@@ -171,48 +172,97 @@ export default function HizmetAlanPage() {
       </section>
 
       {/* ─── How It Works ─── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#efe6dd] dark:bg-[#050505] transition-colors duration-300 relative z-10">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-4 transition-colors duration-300">
-              Nasıl Çalışır?
-            </h2>
-            <p className="text-gray-500 dark:text-white/50 max-w-lg mx-auto text-lg transition-colors duration-300">
-              3 basit adımda ihtiyacınız olan hizmet verenle buluşun.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 relative">
-            <div className="hidden md:block absolute top-1/2 left-[15%] right-[15%] h-0.5 bg-gradient-to-r from-transparent via-gray-200 dark:via-white/10 to-transparent -translate-y-1/2 z-0" />
-
-            {steps.map((step, i) => {
-              const Icon = step.icon;
-              return (
-                <div key={step.step} className="relative z-10 bg-[#ffffff] dark:bg-[#0a0a0a] border border-rose-900/10 dark:border-white/10 shadow-lg rounded-3xl p-10 hover:shadow-2xl dark:hover:shadow-[0_0_30px_rgba(255,255,255,0.05)] transition-all duration-500 hover:-translate-y-2 hover:border-[#ff003c]/30 group">
-                  <div className="w-20 h-20 bg-[#ff003c]/5 rounded-[2rem] flex items-center justify-center mb-8 ring-1 ring-[#ff003c]/20 group-hover:bg-gradient-to-br group-hover:from-rose-600 group-hover:to-rose-800 group-hover:ring-[#ff003c]/50 group-hover:shadow-[0_0_30px_rgba(255,0,60,0.3)] transition-all duration-500 mx-auto transform group-hover:scale-110 group-hover:rotate-3">
-                    <Icon size={32} className="text-[#ff003c] group-hover:text-white transition-colors duration-500" />
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#050505] transition-colors duration-300 border-t border-gray-100 dark:border-white/5 relative overflow-hidden">
+        
+        {/* Background Decorative Elements */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-rose-50 dark:bg-rose-900/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+            
+            {/* Left Column: Image */}
+            <div className="w-full lg:w-1/2 relative flex justify-center">
+              <div className="relative w-full max-w-md aspect-[4/5] rounded-[2.5rem] bg-gradient-to-br from-rose-100 to-rose-50 dark:from-rose-900/20 dark:to-rose-800/10 p-6 shadow-2xl shadow-rose-900/5">
+                <div className="absolute inset-0 border-2 border-white/60 dark:border-white/10 rounded-[2.5rem] m-2 pointer-events-none" />
+                
+                {/* Floating Elements Animation wrapper */}
+                <div className="w-full h-full relative animate-[float_6s_ease-in-out_infinite]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src="/how_it_works.png"
+                    alt="HizmetBul Nasıl Çalışır 3D Tasarım"
+                    className="w-full h-full object-contain drop-shadow-2xl scale-[1.15] origin-center"
+                  />
+                </div>
+                
+                {/* Decorative Badges on Image */}
+                <div className="absolute -left-6 top-1/4 bg-white dark:bg-[#0a0a0a] rounded-2xl p-4 shadow-xl border border-gray-100 dark:border-white/5 hidden md:flex items-center gap-3 animate-[float_4s_ease-in-out_infinite]">
+                  <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
+                    <Shield size={20} className="text-emerald-500" />
                   </div>
-                  <div className="text-center">
-                    <div className="text-6xl font-black text-rose-950/5 dark:text-white/5 mb-4 leading-none group-hover:text-[#ff003c]/10 transition-colors duration-500">
-                      {step.step}
-                    </div>
-                    <h3 className="text-2xl font-black text-rose-950 dark:text-white mb-4 transition-colors group-hover:text-[#ff003c]">{step.title}</h3>
-                    <p className="text-[15px] text-rose-950/60 dark:text-white/60 leading-relaxed font-medium transition-colors">{step.desc}</p>
+                  <div>
+                    <div className="text-xs font-black text-gray-900 dark:text-white">Güvenilir</div>
+                    <div className="text-[10px] text-gray-500">Onaylı Uzmanlar</div>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+                
+                <div className="absolute -right-8 bottom-1/4 bg-white dark:bg-[#0a0a0a] rounded-2xl p-4 shadow-xl border border-gray-100 dark:border-white/5 hidden md:flex items-center gap-3 animate-[float_5s_ease-in-out_infinite_reverse]">
+                  <div className="w-10 h-10 bg-rose-50 dark:bg-rose-900/30 rounded-full flex items-center justify-center">
+                    <Zap size={20} className="text-rose-600" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-black text-gray-900 dark:text-white">Hızlı</div>
+                    <div className="text-[10px] text-gray-500">Komisyonsuz</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Right Column: Steps */}
+            <div className="w-full lg:w-1/2">
+              <p className="text-rose-600 font-black text-sm uppercase tracking-widest mb-3">
+                Kolay ve Hızlı
+              </p>
+              <h2 className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-12 max-w-lg leading-tight">
+                Sadece 3 Adımda <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-rose-400">İhtiyacını Çöz.</span>
+              </h2>
 
-          <div className="mt-16 text-center">
-            <Link
-              href="/arama"
-              id="hizmet-alan-cta-btn"
-              className="inline-flex items-center gap-2 px-10 py-5 bg-[#ff003c] hover:bg-[#d40032] text-white font-black text-lg rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,0,60,0.4)] active:scale-95"
-            >
-              Hemen Hizmet Ara
-              <ArrowRight size={20} />
-            </Link>
+              <div className="space-y-8 relative">
+                {/* Connecting Line for Timeline */}
+                <div className="absolute left-7 top-10 bottom-10 w-0.5 bg-gradient-to-b from-rose-200 via-rose-100 to-transparent dark:from-rose-900/50 dark:via-rose-900/20" />
+                
+                {steps.map((step) => {
+                  const Icon = step.icon;
+                  return (
+                    <div key={step.step} className="relative flex gap-6 group">
+                      <div className="relative z-10 flex flex-col items-center">
+                        <div className="w-14 h-14 bg-white dark:bg-[#0a0a0a] rounded-2xl flex items-center justify-center border-2 border-rose-100 dark:border-rose-900/30 group-hover:bg-rose-600 group-hover:border-rose-600 transition-all duration-300 shadow-lg shadow-rose-100/50 dark:shadow-none">
+                          <Icon size={24} className="text-rose-600 dark:text-rose-400 group-hover:text-white transition-colors" />
+                        </div>
+                      </div>
+                      <div className="flex-1 pt-2 pb-6">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-sm font-black text-rose-300 dark:text-rose-900/50 group-hover:text-rose-600 dark:group-hover:text-rose-500 transition-colors">{step.step}</span>
+                          <h3 className="text-xl font-black text-gray-900 dark:text-white group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">{step.title}</h3>
+                        </div>
+                        <p className="text-gray-500 dark:text-white/60 leading-relaxed font-medium">
+                          {step.desc}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              
+              <div className="mt-8 lg:ml-20">
+                <Link href="/arama" className="inline-flex items-center justify-center gap-2 bg-rose-600 text-white px-8 py-4 rounded-full font-black hover:bg-rose-700 hover:-translate-y-1 hover:shadow-xl hover:shadow-rose-600/30 transition-all w-full sm:w-auto">
+                  Hemen Hizmet Ara <ArrowRight size={18} />
+                </Link>
+              </div>
+
+            </div>
+            
           </div>
         </div>
       </section>
