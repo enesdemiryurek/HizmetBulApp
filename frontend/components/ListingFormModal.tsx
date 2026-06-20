@@ -436,8 +436,7 @@ export default function ListingFormModal({ isOpen = true, onClose, onSaved, onSa
               </p>
             </div>
 
-              </p>
-            </div>
+
 
             {/* Tags */}
             <div>
