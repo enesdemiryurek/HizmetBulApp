@@ -69,6 +69,35 @@ ${providersData ? providersData : 'Şu an sistemde kayıtlı esnaf bulunamadı.'
       generationConfig: {
         temperature: 0.7,
         maxOutputTokens: 2000,
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: "object",
+          properties: {
+            reply: {
+              type: "string",
+              description: "Sohbetin metin cevabı. Markdown kullanabilirsin."
+            },
+            suggestedProviders: {
+              type: "array",
+              description: "Eğer usta/esnaf öneriyorsan, veritabanından bulduğun uygun kişilerin listesi. SADECE eşleşen varsa ekle.",
+              items: {
+                type: "object",
+                properties: {
+                  name: { type: "string" },
+                  slug: { type: "string", description: "Esnafın profil linkindeki slug kısmı, örn: db-1" },
+                  level: { type: "string" },
+                  rating: { type: "number" },
+                  avgPricePaid: { type: "string" },
+                  reviewCount: { type: "number" },
+                  city: { type: "string" },
+                  district: { type: "string" }
+                },
+                required: ["name", "slug"]
+              }
+            }
+          },
+          required: ["reply"]
+        }
       }
     };
 
@@ -99,9 +128,16 @@ ${providersData ? providersData : 'Şu an sistemde kayıtlı esnaf bulunamadı.'
       return NextResponse.json({ error: data?.error?.message || 'Gemini sunucuları şu an aşırı yoğun. Lütfen birkaç dakika sonra tekrar deneyin.' }, { status: 503 });
     }
 
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Üzgünüm, cevap üretemedim.';
+    const rawReply = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}';
+    let parsedData = { reply: 'Üzgünüm, cevap üretemedim.' };
+    try {
+      parsedData = JSON.parse(rawReply);
+    } catch (e) {
+      console.error('Failed to parse Gemini JSON:', rawReply);
+      parsedData = { reply: rawReply };
+    }
 
-    return NextResponse.json({ reply });
+    return NextResponse.json(parsedData);
 
   } catch (error: any) {
     console.error('Chat API Sunucu Hatası:', error);

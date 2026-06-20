@@ -640,57 +640,23 @@ export default function AramaContent() {
 
   const initialCategory = initialCategorySlug ? CATEGORY_MAP[initialCategorySlug] || '' : '';
 
-  const [query, setQuery] = useState(() => {
-    if (typeof window !== 'undefined') {
-      if (initialQuery) return initialQuery;
-      const saved = sessionStorage.getItem('search_query');
-      if (saved !== null) return saved;
-    }
-    return '';
-  });
+  const [query, setQuery] = useState(initialQuery);
+  const [city, setCity] = useState(initialCity);
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory);
+  const [selectedDistrict, setSelectedDistrict] = useState('');
 
-  const [city, setCity] = useState(() => {
-    if (typeof window !== 'undefined') {
-      if (initialCity) return initialCity;
-      const saved = sessionStorage.getItem('search_city');
-      if (saved !== null) return saved;
-    }
-    return '';
-  });
-
-  const [selectedCategory, setSelectedCategory] = useState(() => {
-    if (typeof window !== 'undefined') {
-      if (initialCategory) return initialCategory;
-      const saved = sessionStorage.getItem('search_category');
-      if (saved !== null) return saved;
-    }
-    return '';
-  });
-
-  const [selectedDistrict, setSelectedDistrict] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return sessionStorage.getItem('search_district') || '';
-    }
-    return '';
-  });
+  useEffect(() => {
+    setQuery(searchParams.get('q') || '');
+    setCity(searchParams.get('sehir') || '');
+    const catSlug = searchParams.get('kategori');
+    setSelectedCategory(catSlug ? CATEGORY_MAP[catSlug] || '' : '');
+  }, [searchParams]);
 
   const [minRating, setMinRating] = useState(0);
   const [searchMinPrice, setSearchMinPrice] = useState('');
   const [searchMaxPrice, setSearchMaxPrice] = useState('');
 
-  // Sync to session storage
-  useEffect(() => {
-    sessionStorage.setItem('search_query', query);
-  }, [query]);
-  useEffect(() => {
-    sessionStorage.setItem('search_city', city);
-  }, [city]);
-  useEffect(() => {
-    sessionStorage.setItem('search_category', selectedCategory);
-  }, [selectedCategory]);
-  useEffect(() => {
-    sessionStorage.setItem('search_district', selectedDistrict);
-  }, [selectedDistrict]);
+
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [dbProviders, setDbProviders] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
