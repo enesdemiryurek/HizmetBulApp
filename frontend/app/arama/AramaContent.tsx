@@ -57,7 +57,6 @@ function PeopleCard({
       initial="hidden"
       animate="show"
       transition={{ delay: index * 0.05 }}
-      transition={{ delay: index * 0.05 }}
       className={`w-full bg-gradient-to-br from-rose-500 to-rose-700 rounded-[2rem] p-3 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all flex flex-col group relative ${isPromoted ? 'ring-2 ring-white/50' : ''}`}
     >
       {/* Top Image (Cover Photo) */}
