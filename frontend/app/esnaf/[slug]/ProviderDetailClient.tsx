@@ -949,43 +949,40 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
             >
               {similarProviders.map((simProvider: any) => (
                 <div key={simProvider.id} className="snap-center shrink-0 w-[300px] md:w-[320px]">
-                  <div className="w-full h-full bg-white dark:bg-[#0a0a0a] rounded-[2rem] p-3 border border-gray-100 dark:border-white/10 shadow-sm hover:shadow-xl transition-all flex flex-col group">
+                  <div className="w-full h-full bg-gradient-to-br from-rose-600 to-rose-900 rounded-[2rem] p-3 shadow-xl hover:shadow-2xl transition-all flex flex-col group">
                     {/* Top Image (Cover Photo) */}
                     <div className="relative w-full h-24 rounded-t-[1.5rem] rounded-b-xl overflow-hidden shrink-0">
-                      {simProvider.coverUrl || simProvider.avatarUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img 
-                          src={simProvider.coverUrl || simProvider.avatarUrl} 
-                          alt={simProvider.name} 
-                          onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-rose-500 via-purple-500 to-orange-400" />
-                      )}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img 
+                        src={simProvider.coverUrl || 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=800&auto=format&fit=crop'} 
+                        alt={simProvider.name} 
+                        onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=800&auto=format&fit=crop'; }}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                      />
                       
                       {/* Category Label (Pill overlapping bottom right) */}
-                      <div className="absolute bottom-2 right-2 bg-white dark:bg-[#2d303a] text-gray-900 dark:text-white px-3 py-1.5 rounded-full text-[10px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
-                        <CheckCircle2 size={10} className="text-blue-500" /> {simProvider.category}
+                      <div className="absolute bottom-2 right-2 bg-white/10 backdrop-blur-md text-white border border-white/20 px-3 py-1.5 rounded-full text-[10px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
+                        {simProvider.category}
                       </div>
 
                       {/* Rating Star */}
-                      <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-md px-2 py-1 flex items-center gap-1 rounded-full text-gray-900 font-bold text-[10px] shadow-sm z-10">
-                        <Star size={10} className="fill-amber-500 text-amber-500" />
+                      <div className="absolute top-2 right-2 bg-white/20 backdrop-blur-md px-2 py-1 flex items-center gap-1 rounded-full text-white font-bold text-[10px] shadow-sm z-10">
+                        <Star size={10} className="fill-amber-400 text-amber-400" />
                         {simProvider.rating > 0 ? simProvider.rating.toFixed(1) : 'Yeni'}
                       </div>
                       
                       {/* Avatar overlapping bottom left */}
                       <div className="absolute -bottom-5 left-4 z-20">
-                        <div className="w-12 h-12 rounded-full border-[3px] border-white dark:border-[#0a0a0a] bg-white overflow-hidden shadow-sm flex items-center justify-center relative">
-                          {simProvider.avatarUrl ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img src={simProvider.avatarUrl} alt="" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                          ) : (
-                            <span className="text-xl font-black text-rose-600">{simProvider.name.charAt(0)}</span>
-                          )}
+                        <div className="w-12 h-12 rounded-full border-[3px] border-rose-700 bg-rose-50 overflow-hidden shadow-sm flex items-center justify-center relative">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img 
+                            src={simProvider.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(simProvider.name)}`} 
+                            alt={simProvider.name} 
+                            className="absolute inset-0 w-full h-full object-cover" 
+                            onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(simProvider.name)}`; }} 
+                          />
                           {simProvider.verified && (
-                            <div className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-white dark:border-[#0a0a0a] flex items-center justify-center">
+                            <div className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-rose-700 flex items-center justify-center">
                               <CheckCircle2 size={8} className="text-white" />
                             </div>
                           )}
@@ -998,55 +995,60 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1 min-w-0">
                           <Link href={`/esnaf/${simProvider.slug}`}>
-                            <h2 className="font-black text-gray-900 dark:text-white text-[16px] leading-tight truncate hover:text-rose-600 transition-colors">
+                            <h2 className="font-black text-white text-[16px] leading-tight truncate hover:text-rose-200 transition-colors">
                               {simProvider.name}
                             </h2>
                           </Link>
-                          <p className="text-[11px] font-medium text-gray-500 dark:text-gray-400 mt-0.5 truncate">
+                          <p className="text-[11px] font-medium text-rose-200 mt-0.5 truncate">
                             {simProvider.jobTitle}
                           </p>
                         </div>
                         
-                        <button className="w-7 h-7 rounded-full bg-gray-100 dark:bg-[#1f2128] flex items-center justify-center shrink-0 hover:bg-gray-200 dark:hover:bg-[#2d303a] transition-colors">
-                          <Bookmark size={12} className="text-gray-500 dark:text-gray-400" />
+                        <button className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center shrink-0 hover:bg-white/20 transition-colors">
+                          <Bookmark size={12} className="text-white" />
                         </button>
                       </div>
 
                       {/* Stats Row */}
-                      <div className="flex items-center justify-between mt-4 mb-4 px-1">
+                      <div className="flex items-center justify-between mt-4 mb-3 px-1">
                         {/* Rating */}
                         <div className="flex flex-col items-start gap-0.5">
-                          <div className="flex items-center gap-1 text-[13px] font-black text-gray-900 dark:text-white">
+                          <div className="flex items-center gap-1 text-[13px] font-black text-white">
                             <Star size={12} className="fill-amber-400 text-amber-400" />
                             {simProvider.rating > 0 ? simProvider.rating.toFixed(1) : 'Yeni'}
                           </div>
-                          <span className="text-[9px] font-semibold text-gray-500">Rating</span>
+                          <span className="text-[9px] font-semibold text-rose-200">Rating</span>
                         </div>
                         
                         {/* Jobs */}
                         <div className="flex flex-col items-start gap-0.5">
-                          <div className="flex items-center gap-1 text-[13px] font-black text-gray-900 dark:text-white">
-                            <Users size={12} className="text-blue-500" />
+                          <div className="flex items-center gap-1 text-[13px] font-black text-white">
+                            <Users size={12} className="text-white" />
                             {simProvider.reviewCount}
                           </div>
-                          <span className="text-[9px] font-semibold text-gray-500">Bitirilen İş</span>
+                          <span className="text-[9px] font-semibold text-rose-200">Bitirilen İş</span>
                         </div>
                         
                         {/* Location */}
                         <div className="flex flex-col items-start gap-0.5">
-                          <div className="flex items-center gap-1 text-[13px] font-black text-gray-900 dark:text-white">
-                            <MapPin size={12} className="text-purple-500" />
+                          <div className="flex items-center gap-1 text-[13px] font-black text-white">
+                            <MapPin size={12} className="text-white" />
                             <span className="truncate max-w-[50px]">{simProvider.city || 'Belirtilmedi'}</span>
                           </div>
-                          <span className="text-[9px] font-semibold text-gray-500">Konum</span>
+                          <span className="text-[9px] font-semibold text-rose-200">Konum</span>
                         </div>
                       </div>
 
-                      {/* Bottom Button (Gradient Red) */}
+                      {/* Description */}
+                      <p className="text-[10px] text-rose-100 line-clamp-2 leading-relaxed mb-4">
+                        {simProvider.description || simProvider.about || 'Bu uzman henüz açıklama eklememiş.'}
+                      </p>
+
+                      {/* Bottom Button (White) */}
                       <div className="mt-auto">
                         <Link
                           href={`/esnaf/${simProvider.slug}`}
-                          className="flex items-center justify-center w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white py-2.5 rounded-full text-xs font-black shadow-lg shadow-rose-500/30 hover:shadow-rose-500/50 hover:scale-[1.02] transition-all"
+                          className="flex items-center justify-center w-full bg-white text-rose-600 py-2.5 rounded-full text-xs font-black shadow-lg shadow-black/10 hover:shadow-black/20 hover:scale-[1.02] hover:bg-rose-50 transition-all"
                         >
                           Profili İncele
                         </Link>
