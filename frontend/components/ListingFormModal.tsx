@@ -43,8 +43,6 @@ export default function ListingFormModal({ isOpen = true, onClose, onSaved, onSa
     city: data?.city || user?.city || 'İstanbul',
     district: data?.district || user?.district || '',
     tags: data?.tags?.join(', ') || '',
-    price_min: parsedPrice[0]?.replace(/[^0-9]/g, '') || '',
-    price_max: parsedPrice[1]?.replace(/[^0-9]/g, '') || '',
   });
 
   const [subServices, setSubServices] = useState<string[]>(data?.sub_services || []);
@@ -97,10 +95,8 @@ export default function ListingFormModal({ isOpen = true, onClose, onSaved, onSa
       if (result.success && result.data) {
         setFormData(prev => ({
           ...prev,
-          title: result.data.title || prev.title,
           description: result.data.description || prev.description,
           tags: result.data.tags ? result.data.tags.join(', ') : prev.tags,
-          service: result.data.category || prev.service,
         }));
         setAiExpanded(false);
         setAiPrompt('');
@@ -169,19 +165,10 @@ export default function ListingFormModal({ isOpen = true, onClose, onSaved, onSa
         if (key === 'tags') {
           const tagsArray = (value as string).split(',').map((t: string) => t.trim()).filter(Boolean);
           fd.append('tags', JSON.stringify(tagsArray));
-        } else if (key === 'price_min' || key === 'price_max') {
-          // Skip individual price fields — we'll build price_range below
         } else {
           fd.append(key, value);
         }
       });
-      // Build price_range string
-      const min = formData.price_min?.trim();
-      const max = formData.price_max?.trim();
-      if (min || max) {
-        const priceRange = min && max ? `₺${min} - ₺${max}` : min ? `₺${min}+` : `₺${max} altı`;
-        fd.append('price_range', priceRange);
-      }
       fd.append('sub_services', JSON.stringify(subServices));
 
       if (coverImage) fd.append('cover_image', coverImage);
@@ -449,38 +436,6 @@ export default function ListingFormModal({ isOpen = true, onClose, onSaved, onSa
               </p>
             </div>
 
-            {/* Price Range */}
-            <div>
-              <InputLabel icon={Tag}>Fiyat Aralığı (₺)</InputLabel>
-              <div className="flex items-center gap-3">
-                <div className="relative flex-1">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">₺</span>
-                  <input
-                    type="number"
-                    name="price_min"
-                    value={formData.price_min}
-                    onChange={handleChange}
-                    className={inputCls + " pl-7"}
-                    placeholder="Min (örn: 500)"
-                    min="0"
-                  />
-                </div>
-                <span className="text-gray-400 font-bold text-lg">—</span>
-                <div className="relative flex-1">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">₺</span>
-                  <input
-                    type="number"
-                    name="price_max"
-                    value={formData.price_max}
-                    onChange={handleChange}
-                    className={inputCls + " pl-7"}
-                    placeholder="Max (örn: 5000)"
-                    min="0"
-                  />
-                </div>
-              </div>
-              <p className="text-xs text-gray-400 dark:text-gray-500 mt-1.5 font-medium">
-                Fiyat aralığı kart üzerinde müşterilere gösterilir ve filtrelemelere dahil edilir.
               </p>
             </div>
 
