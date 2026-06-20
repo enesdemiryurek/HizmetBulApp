@@ -583,9 +583,6 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
               </div>
             </motion.div>
 
-              </div>
-            </motion.div>
-
             {/* Mobile CTA Buttons (Visible only on mobile) */}
             <div className="lg:hidden bg-white dark:bg-[#0a0a0a] rounded-[2rem] shadow-xl p-6 lg:p-8 border border-gray-100 dark:border-white/5">
               <div className="text-center mb-6">
