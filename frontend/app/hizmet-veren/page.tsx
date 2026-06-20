@@ -1,4 +1,6 @@
+'use client';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import {
   TrendingUp,
   Phone,
@@ -10,402 +12,353 @@ import {
   CheckCircle2,
   ArrowRight,
   BadgeCheck,
-  Sparkles,
-  Smartphone
+  Smartphone,
+  Check,
+  Heart,
+  Activity,
+  Award
 } from 'lucide-react';
-import HeroCTA from './HeroCTA';
 
-const features = [
-  {
-    icon: Zap,
-    title: '0 TL Komisyon Ücreti',
-    desc: 'Başka platformlar yönlendirme ve teklif başı ₺1000+ alır. Biz hiç almıyoruz. Sürpriz ücret yok.',
-    highlight: true,
-  },
-  {
-    icon: Phone,
-    title: 'Doğrudan Müşteri Araması',
-    desc: 'Müşteriler size doğrudan telefonla ulaşır. Mesajlaşma kuyruğu yok, aracı yok, sizi filtreleyen algoritma yok.',
-    highlight: false,
-  },
-  {
-    icon: BadgeCheck,
-    title: 'Güven Rozeti',
-    desc: '"Doğrulanmış Üye" rozeti ile profiliniz öne çıkar. Müşteriler güvenli hisseder, siz daha fazla iş alırsınız.',
-    highlight: false,
-  },
-  {
-    icon: Star,
-    title: 'İtibar Oluşturun',
-    desc: 'Gerçek müşteri yorumları ve puanlarla organik itibar kazanın. İyi iş = daha fazla müşteri.',
-    highlight: false,
-  },
-  {
-    icon: BarChart3,
-    title: 'Görünürlük & İstatistik',
-    desc: 'Profiliniz kaç kez görüntülendi, kaç kez arandınız — tüm veriler şeffaf şekilde panelde.',
-    highlight: false,
-  },
-  {
-    icon: Users,
-    title: 'Yerel Müşteri Kitlesi',
-    desc: 'Şehrinizde hizmet arayan gerçek, niyetli müşterilere ulaşın. Yalnızca alakalı, kaliteli trafik.',
-    highlight: false,
-  },
-];
-
-const plans = [
-  {
-    name: 'Başlangıç',
-    price: '₺299',
-    period: '/ ay',
-    desc: 'Küçük işletmeler için',
-    features: [
-      'Temel profil sayfası',
-      '10 portföy görseli',
-      'Doğrudan arama CTA',
-      'Müşteri yorumları',
-      'Aylık istatistik raporu',
-    ],
-    cta: 'Ücretsiz Dene',
-    ctaStyle: 'border',
-    popular: false,
-  },
-  {
-    name: 'Profesyonel',
-    price: '₺599',
-    period: '/ ay',
-    desc: 'Büyüyen işletmeler için',
-    features: [
-      'Öncelikli listeleme',
-      'Sınırsız portföy görseli',
-      '"Doğrulanmış Üye" rozeti',
-      'Kategori başında görünürlük',
-      'Haftalık detaylı analitik',
-      'Öncelikli destek',
-    ],
-    cta: 'En Popüler Paket',
-    ctaStyle: 'filled',
-    popular: true,
-  },
-  {
-    name: 'Kurumsal',
-    price: '₺1.299',
-    period: '/ ay',
-    desc: 'Ajanslar ve çoklu şube',
-    features: [
-      'Her şey Profesyonel\'de +',
-      'Çoklu konum profili',
-      'API entegrasyonu',
-      'Özel profil sayfası tasarımı',
-      '7/24 VIP destek',
-    ],
-    cta: 'Teklif Al',
-    ctaStyle: 'border',
-    popular: false,
-  },
-];
-
-const testimonials = [
-  {
-    name: 'Ahmet Koçak',
-    job: 'Temizlik Firması Sahibi, Ankara',
-    avatar: 'AK',
-    text: 'Diğer platformlarda harcadığım teklif ücretleri ayda ₺2.000\'i geçiyordu. HizmetBul\'da sabit ödüyor ve 3 katı müşteri alıyorum.',
-    rating: 5,
-  },
-  {
-    name: 'Seda Yıldırım',
-    job: 'Freelance Web Tasarımcı, İstanbul',
-    avatar: 'SY',
-    text: 'Profilimi oluşturduktan 2 gün sonra ilk müşterim beni aradı. Algoritma oyunu yok, gerçek müşteriler var.',
-    rating: 5,
-  },
-  {
-    name: 'Recep Taş',
-    job: 'Nakliyat Firması, İzmir',
-    avatar: 'RT',
-    text: '"Doğrulanmış Üye" rozeti müşterilerimin güvenini çok artırdı. Artık rakiplerimden önce tercih ediliyorum.',
-    rating: 5,
-  },
-];
-
-const comparisonRows = [
-  { feature: 'Komisyon & Teklif Ücreti', us: '0 TL', them: '₺1000+ / teklif' },
-  { feature: 'Doğrudan müşteri araması', us: '✓', them: '✗ Mesajlaşma zorunlu' },
-  { feature: 'Müşteri iletişim bilgileri', us: 'Direkt telefon', them: 'Gizli / Ücretli' },
-  { feature: 'Algoritma rekabeti', us: 'Yok', them: 'Var (Ödedikçe öne çıkarsın)' },
-  { feature: 'Güven & Şeffaflık', us: 'Güvenli Havuz & Gerçek Fiyatlı Yorumlar', them: 'Güvensiz & Sahte Puanlar' },
-];
-
-export const metadata = {
-  title: 'Hizmet Veren — HizmetBul',
-  description: 'Komisyon ücreti ödemekten sıkılmadınız mı? Doğrudan müşteriye ulaşın.',
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
 };
 
 export default function HizmetVerenPage() {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#050505] transition-colors duration-300">
-      {/* ─── Hero ─── */}
-      {/* ─── Hero ─── */}
-      <section className="relative overflow-hidden pt-32 pb-24 noise bg-cover bg-center transition-colors duration-300" style={{ backgroundImage: "url('/images/hizmet_veren_hero.png')" }}>
-        {/* Overlay */}
-        <div className="absolute inset-0 bg-white/40 dark:bg-[#050505]/60 bg-gradient-to-b from-white/30 via-transparent to-white dark:from-[#050505]/50 dark:to-[#050505] transition-colors duration-300" />
-        
-        {/* Background decoration */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#ff003c]/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#ff6b8b]/10 rounded-full blur-[100px]" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#ff003c]/5 via-transparent to-transparent" />
-        </div>
+    <div className="min-h-screen bg-[#fcfaf8] dark:bg-[#050505] overflow-hidden font-sans selection:bg-rose-500/30">
+      
+      {/* Decorative Blob */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-rose-500/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
+      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[100px] pointer-events-none translate-y-1/3 -translate-x-1/3" />
 
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#ff003c]/10 border border-[#ff003c]/20 text-[#ff003c] text-sm font-bold mb-8 shadow-sm backdrop-blur-md">
-            <Sparkles size={14} />
-            Hizmet Verenler İçin
-          </div>
-
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-gray-900 dark:text-white leading-tight mb-6 tracking-tight transition-colors duration-300">
-            Teklif ücreti ödemekten{' '}
-            <span className="text-gradient">sıkılmadınız mı?</span>
-          </h1>
-
-          <p className="text-xl text-gray-700 dark:text-white/80 mb-4 max-w-3xl mx-auto leading-relaxed font-bold transition-colors duration-300">
-            Sabit paket sistemiyle doğrudan müşteriye ulaşın.
-          </p>
-          <p className="text-base text-gray-500 dark:text-white/60 mb-10 max-w-2xl mx-auto leading-relaxed font-medium transition-colors duration-300">
-            Diğer platformlar her teklif için para alır. Siz kazandıkça onlar kazanır. Biz farklı düşünüyoruz: sabit ücret, sınırsız arama, sıfır komisyon.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <HeroCTA />
-          </div>
-
-          <p className="mt-5 text-xs text-slate-500">
-            14 günlük ücretsiz deneme · Kredi kartı gerekmez · İptal her zaman mümkün
-          </p>
-
-          {/* Stats */}
-          <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            {[
-              { value: '12,000+', label: 'Aktif Hizmet Veren', color: 'from-emerald-400 to-teal-500', glow: 'shadow-emerald-500/30', icon: Users },
-              { value: '0 TL', label: 'Komisyon', color: 'from-[#ff003c] to-rose-400', glow: 'shadow-[#ff003c]/30', icon: Zap },
-              { value: '%100', label: 'Güvenli Ödeme & Yorum', color: 'from-blue-400 to-indigo-500', glow: 'shadow-blue-500/30', icon: Shield },
-            ].map((stat) => (
-              <div key={stat.label} className="group relative">
-                {/* Glow Background */}
-                <div className={`absolute -inset-0.5 bg-gradient-to-r ${stat.color} rounded-2xl blur opacity-20 group-hover:opacity-60 transition duration-500 group-hover:duration-200`} />
-                
-                {/* Card Content */}
-                <div className="relative h-full flex flex-col items-center justify-center p-6 bg-white/60 dark:bg-[#050505]/60 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-2xl hover:scale-105 transition-transform duration-300">
-                  <div className={`w-10 h-10 mb-3 rounded-full flex items-center justify-center bg-gradient-to-br ${stat.color} shadow-lg ${stat.glow} group-hover:scale-110 transition-transform duration-300`}>
-                    <stat.icon size={18} className="text-white" />
-                  </div>
-                  <div className={`text-3xl font-black mb-1 bg-clip-text text-transparent bg-gradient-to-br ${stat.color}`}>
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-gray-700 dark:text-gray-300 font-bold text-center leading-tight">
-                    {stat.label}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Wave Transition ─── */}
-      <div className="w-full overflow-hidden leading-[0] bg-white dark:bg-[#050505]">
-        <svg
-          className="relative block w-[200%] sm:w-full h-[80px] sm:h-[120px] md:h-[150px] animate-[wave_15s_ease-in-out_infinite_alternate]"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-          style={{ transformOrigin: 'center' }}
-        >
-          <path
-            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V120H0Z"
-            fill="#9a0002"
-            opacity=".25"
-          />
-          <path
-            d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V120H0Z"
-            fill="#9a0002"
-            opacity=".5"
-          />
-          <path
-            d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V120H0Z"
-            fill="#9a0002"
-          />
-        </svg>
-      </div>
-
-      <style>{`
-        @keyframes wave {
-          0% { transform: scaleX(1); }
-          100% { transform: scaleX(1.1); }
-        }
-      `}</style>
-
-      {/* ─── Features Grid ─── */}
-      <section className="pb-24 pt-0 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#9a0002] to-[#c40003] transition-colors duration-300">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-4 transition-colors duration-300">
-              Neden HizmetBul?
-            </h2>
-            <p className="text-white/80 max-w-xl mx-auto text-lg font-medium transition-colors duration-300">
-              Diğer platformların sizi sömürdüğü dönem bitti. İşte fark:
-            </p>
-          </div>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feat) => {
-              const Icon = feat.icon;
-              return (
-                <div
-                  key={feat.title}
-                  className={`group relative bg-[#ffffff] border rounded-3xl p-8 transition-all duration-300 hover:-translate-y-2 ${
-                    feat.highlight
-                      ? 'border-[#ff003c] shadow-xl shadow-black/20 ring-2 ring-[#ff003c]'
-                      : 'border-white/20 hover:border-[#ff003c] hover:shadow-lg hover:shadow-black/10'
-                  }`}
-                >
-                  {feat.highlight && (
-                    <span className="absolute -top-3 left-6 px-4 py-1 bg-[#ff003c] text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-md z-10">
-                      En Büyük Fark
-                    </span>
-                  )}
-                  <div
-                    className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all ${
-                      feat.highlight
-                        ? 'bg-[#9a0002] text-white shadow-lg shadow-[#9a0002]/30'
-                        : 'bg-[#9a0002]/10 text-[#9a0002] group-hover:bg-[#9a0002] group-hover:text-white group-hover:shadow-lg group-hover:shadow-[#9a0002]/30 ring-1 ring-[#9a0002]/10'
-                    }`}
-                  >
-                    <Icon size={24} />
-                  </div>
-                  <h3 className="text-xl font-black text-[#9a0002] mb-3 transition-colors">{feat.title}</h3>
-                  <p className="text-sm text-gray-700 leading-relaxed transition-colors font-bold">{feat.desc}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Comparison Table ─── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#050505] border-t border-gray-100 dark:border-white/5 transition-colors duration-300">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-black text-gray-900 dark:text-white mb-4 transition-colors">
-              HizmetBul vs. Diğer Platformlar
-            </h2>
-            <p className="text-gray-500 dark:text-white/50 text-lg font-medium transition-colors">Rakamlar açıkça konuşuyor.</p>
-          </div>
-
-          <div className="relative overflow-hidden rounded-3xl p-[1px] bg-gradient-to-b from-[#ff003c]/20 dark:from-[#ff003c]/40 to-gray-200 dark:to-white/5 transition-colors duration-300">
-            <div className="bg-white dark:bg-[#0a0a0a] rounded-[23px] overflow-hidden shadow-sm transition-colors duration-300">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-red-50/50 dark:bg-[#ff003c]/10 border-b border-red-100 dark:border-[#ff003c]/20 transition-colors">
-                    <th className="px-6 py-6 text-left text-xs font-black text-gray-500 dark:text-white/60 uppercase tracking-widest w-1/3 transition-colors">
-                      Özellik
-                    </th>
-                    <th className="px-6 py-6 text-center text-sm font-black text-[#ff003c] tracking-widest uppercase relative w-1/3 bg-[#ff003c]/5">
-                      HizmetBul ✓
-                    </th>
-                    <th className="px-6 py-6 text-center text-xs font-black text-gray-400 dark:text-white/40 uppercase tracking-widest w-1/3 transition-colors">
-                      Diğerleri ✗
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100 dark:divide-white/5 transition-colors">
-                  {comparisonRows.map((row, i) => (
-                    <tr key={i} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
-                      <td className="px-6 py-6 text-sm font-bold text-gray-800 dark:text-white/90 group-hover:dark:text-white transition-colors">{row.feature}</td>
-                      <td className="px-6 py-6 text-center text-base font-black text-[#ff003c] bg-[#ff003c]/[0.02]">
-                        {row.us}
-                      </td>
-                      <td className="px-6 py-6 text-center text-sm font-bold text-gray-400 dark:text-white/30 group-hover:dark:text-white/40 transition-colors">{row.them}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+      {/* ─── HERO SECTION ─── */}
+      <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+          
+          {/* Left Text */}
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
+            className="flex-1 text-center lg:text-left z-10"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-100 text-rose-700 dark:bg-rose-950/30 dark:text-rose-400 text-sm font-black mb-8 shadow-sm">
+              <Heart size={14} className="fill-rose-600 text-rose-600" />
+              Sıfır Komisyon. Doğrudan Müşteri. Bizim Önceliğimiz.
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ─── Testimonials ─── */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-[#0a0a0a] transition-colors duration-300">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold text-slate-900 dark:text-white mb-3 transition-colors">
-              Hizmet Verenler Ne Diyor?
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <div
-                key={t.name}
-                className="bg-white dark:bg-[#050505] border border-slate-100 dark:border-white/10 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all"
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-gray-900 dark:text-white leading-[1.1] mb-6 tracking-tight">
+              Teklif ücreti <br />
+              ödemekten <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-rose-400">
+                sıkılmadınız mı?
+              </span>
+            </h1>
+
+            <p className="text-lg text-gray-600 dark:text-white/70 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
+              HizmetBul, işinizi büyütmeniz için tasarlanmış hepsi bir arada bir araçtır. 
+              Müşteriler doğrudan sizi arar, siz sadece işinize odaklanırsınız.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start mb-12">
+              <Link
+                href="/kayit-ol"
+                className="flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-rose-600 hover:bg-rose-700 text-white rounded-full font-black text-lg transition-all shadow-xl shadow-rose-600/30 hover:shadow-rose-600/50 hover:-translate-y-1"
               >
-                <div className="flex items-center gap-0.5 mb-3">
-                  {Array.from({ length: t.rating }).map((_, i) => (
-                    <Star key={i} size={14} className="fill-amber-400 text-amber-400" />
-                  ))}
+                Hemen Ücretsiz Katıl
+              </Link>
+              <Link
+                href="#ozellikler"
+                className="flex items-center justify-center gap-2 w-full sm:w-auto px-8 py-4 bg-white dark:bg-white/5 border-2 border-gray-100 dark:border-white/10 text-gray-900 dark:text-white rounded-full font-black text-lg hover:border-rose-200 hover:bg-rose-50 dark:hover:bg-white/10 transition-all"
+              >
+                Özellikleri Keşfet
+              </Link>
+            </div>
+
+            <div className="flex items-center justify-center lg:justify-start gap-4">
+              <div className="flex -space-x-3">
+                {[
+                  'https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmet&clothing=blazerAndShirt',
+                  'https://api.dicebear.com/7.x/avataaars/svg?seed=Ayşe&clothing=collarAndSweater',
+                  'https://api.dicebear.com/7.x/avataaars/svg?seed=Mehmet&clothing=overall',
+                  'https://api.dicebear.com/7.x/avataaars/svg?seed=Fatma&top=hijab',
+                  'https://api.dicebear.com/7.x/avataaars/svg?seed=Can&clothing=blazerAndSweater',
+                ].map((src, i) => (
+                  <img key={i} src={src} alt="user" className="w-10 h-10 rounded-full border-2 border-[#fcfaf8] dark:border-[#050505] bg-rose-50 shadow-sm" />
+                ))}
+              </div>
+              <div className="text-sm font-bold text-gray-600 dark:text-gray-400">
+                <span className="text-gray-900 dark:text-white font-black">12,000+</span> mutlu <br />
+                hizmet veren katıldı
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right Phone Mockup */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, rotate: 5 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ duration: 0.8, type: 'spring' }}
+            className="flex-1 relative z-10 perspective-1000 flex justify-center lg:justify-end"
+          >
+            {/* The Phone */}
+            <div className="w-[320px] sm:w-[350px] bg-white dark:bg-[#0a0a0a] rounded-[3rem] p-2 border-[8px] border-gray-900 shadow-2xl relative rotate-[-2deg] hover:rotate-0 transition-transform duration-500">
+              <div className="absolute top-0 inset-x-0 h-6 flex justify-center">
+                <div className="w-1/3 h-full bg-gray-900 rounded-b-xl"></div>
+              </div>
+              
+              {/* Screen Content */}
+              <div className="h-full w-full bg-[#fcfaf8] dark:bg-[#111] rounded-[2.5rem] overflow-hidden p-5 pt-10 flex flex-col gap-4">
+                
+                <div className="flex items-center justify-between mb-2">
+                  <div>
+                    <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-none">Günaydın,</h3>
+                    <h3 className="text-2xl font-black text-gray-900 dark:text-white">Ahmet 👋</h3>
+                  </div>
+                  <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmet&clothing=blazerAndShirt" className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-rose-50" alt="" />
                 </div>
-                <p className="text-sm text-slate-700 dark:text-white/70 leading-relaxed mb-4 italic transition-colors">
-                  &ldquo;{t.text}&rdquo;
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center text-white text-xs font-black shrink-0">
-                    {t.avatar}
+
+                {/* Big Green/Red Card */}
+                <div className="bg-gradient-to-br from-emerald-500 to-teal-600 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+                  <p className="text-sm font-bold opacity-90 mb-4">Aylık Kota Kullanımı</p>
+                  
+                  <div className="flex items-center justify-between">
+                    <div className="relative w-20 h-20">
+                      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.2)" strokeWidth="12" strokeLinecap="round" />
+                        <circle cx="50" cy="50" r="40" fill="none" stroke="white" strokeWidth="12" strokeLinecap="round" strokeDasharray="251" strokeDashoffset="62" />
+                      </svg>
+                      <div className="absolute inset-0 flex items-center justify-center font-black text-xl">Sınırsız</div>
+                    </div>
+
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center"><Phone size={12} /></div>
+                        <div>
+                          <div className="text-[10px] font-bold opacity-80 uppercase tracking-widest">Doğrudan Arama</div>
+                          <div className="font-black">124</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center"><Zap size={12} /></div>
+                        <div>
+                          <div className="text-[10px] font-bold opacity-80 uppercase tracking-widest">Komisyon</div>
+                          <div className="font-black">0 TL</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between mt-2">
+                  <h4 className="font-black text-gray-900 dark:text-white text-sm">Haftalık İstatistik</h4>
+                  <span className="text-xs font-bold text-rose-600">Detay</span>
+                </div>
+
+                {/* Progress bars */}
+                <div className="bg-white dark:bg-[#0a0a0a] rounded-2xl p-4 shadow-sm space-y-4">
+                  <div>
+                    <div className="flex justify-between text-xs font-bold mb-1.5">
+                      <span className="flex items-center gap-1.5"><Users size={12} className="text-emerald-500" /> Profil Ziyareti</span>
+                      <span className="text-gray-900 dark:text-white">1,245</span>
+                    </div>
+                    <div className="w-full h-2 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
+                      <div className="w-[85%] h-full bg-emerald-500 rounded-full" />
+                    </div>
                   </div>
                   <div>
-                    <div className="font-bold text-sm text-slate-900 dark:text-white transition-colors">{t.name}</div>
-                    <div className="text-xs text-slate-500 dark:text-white/40 transition-colors">{t.job}</div>
+                    <div className="flex justify-between text-xs font-bold mb-1.5">
+                      <span className="flex items-center gap-1.5"><Star size={12} className="text-amber-500" /> Ortalama Puan</span>
+                      <span className="text-gray-900 dark:text-white">4.8</span>
+                    </div>
+                    <div className="w-full h-2 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
+                      <div className="w-[96%] h-full bg-amber-500 rounded-full" />
+                    </div>
                   </div>
                 </div>
+
               </div>
-            ))}
-          </div>
+            </div>
+            
+            {/* Floating Leaves / Badges */}
+            <motion.div animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 4 }} className="absolute -left-6 top-20 bg-white dark:bg-[#111] p-3 rounded-2xl shadow-xl flex items-center gap-3">
+              <div className="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center"><Star size={20} className="text-amber-500 fill-amber-500" /></div>
+              <div>
+                <div className="text-xs font-bold text-gray-500">Müşteri Puanı</div>
+                <div className="font-black text-gray-900 dark:text-white">4.9 / 5.0</div>
+              </div>
+            </motion.div>
+
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 5 }} className="absolute -right-12 bottom-32 bg-white dark:bg-[#111] p-3 rounded-2xl shadow-xl flex items-center gap-3">
+              <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center"><Phone size={20} className="text-emerald-600" /></div>
+              <div>
+                <div className="text-xs font-bold text-gray-500">Yeni Arama</div>
+                <div className="font-black text-gray-900 dark:text-white">+24 Bugün</div>
+              </div>
+            </motion.div>
+          </motion.div>
+
         </div>
       </section>
 
-      {/* ─── Final CTA ─── */}
-      <section className="bg-gradient-to-r from-emerald-600 to-emerald-500 py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 border border-white/30 text-white text-sm font-semibold mb-6">
-            <TrendingUp size={14} />
-            İşinizi büyütün
-          </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4">
-            Kazanmaya bugün başlayın.
-          </h2>
-          <p className="text-emerald-100 mb-8 text-lg max-w-xl mx-auto">
-            Uygulamayı indirin, 5 dakikada profilinizi oluşturun ve ilk müşterinizin sizi aramasını bekleyin.
-          </p>
-          <a
-            href="https://play.google.com/store"
-            target="_blank"
-            rel="noopener noreferrer"
-            id="final-playstore-btn"
-            className="inline-flex items-center gap-3 px-10 py-4 bg-white text-emerald-700 font-extrabold text-lg rounded-xl hover:bg-emerald-50 transition-all shadow-xl hover:shadow-2xl active:scale-95"
-          >
-            <Smartphone size={24} />
-            Google Play Store&apos;dan İndir
-            <ArrowRight size={20} />
-          </a>
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-5 text-sm text-emerald-100">
-            <span className="flex items-center gap-1.5"><Shield size={14} /> Güvenli ödeme</span>
-            <span className="flex items-center gap-1.5"><CheckCircle2 size={14} /> İptal her zaman</span>
-            <span className="flex items-center gap-1.5"><Zap size={14} /> 5 dakikada kurulum</span>
-          </div>
+      {/* ─── FEATURES GRID ─── */}
+      <section id="ozellikler" className="py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {[
+            { icon: Zap, title: '0 TL Komisyon', desc: 'Teklif başı ücret veya gizli kesintiler yok. Ne kazanırsanız sizindir.' },
+            { icon: Phone, title: 'Doğrudan İletişim', desc: 'Müşteriler mesajlaşma beklemeden sizi doğrudan telefonunuzdan arar.' },
+            { icon: Shield, title: 'Güven Rozeti', desc: 'Sertifikalı uzman rozeti ile müşterilere güven verin, işleri kapın.' },
+            { icon: BarChart3, title: 'Analitik ve Takip', desc: 'Profiliniz kaç kez görüntülendi, kaç tık aldı? Hepsini panoda görün.' },
+          ].map((feat, i) => (
+            <motion.div 
+              key={feat.title}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              custom={i}
+              className="bg-white dark:bg-[#0a0a0a] rounded-3xl p-8 border border-gray-100 dark:border-white/5 shadow-sm hover:shadow-xl transition-shadow"
+            >
+              <div className="w-12 h-12 bg-rose-50 dark:bg-rose-950/30 rounded-2xl flex items-center justify-center mb-6">
+                <feat.icon size={24} className="text-rose-600 dark:text-rose-400" />
+              </div>
+              <h3 className="text-lg font-black text-gray-900 dark:text-white mb-2">{feat.title}</h3>
+              <p className="text-sm font-medium text-gray-600 dark:text-white/60 leading-relaxed">{feat.desc}</p>
+            </motion.div>
+          ))}
         </div>
       </section>
+
+      {/* ─── BENTO GRID / ALL IN ONE ─── */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row items-center gap-16">
+          
+          {/* Left Text */}
+          <div className="flex-1 text-center lg:text-left">
+            <div className="text-rose-600 dark:text-rose-400 text-sm font-black uppercase tracking-widest mb-4">Size İhtiyacınız Olan Her Şey</div>
+            <h2 className="text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-6 leading-tight">
+              İşinizi Büyütmenin <br /> En Akıllı Yolu
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-white/60 font-medium mb-8 leading-relaxed max-w-lg mx-auto lg:mx-0">
+              HizmetBul, potansiyel müşterilerinize görünürlüğünüzü artırır ve gereksiz maliyetleri ortadan kaldırarak kârınızı maksimize eder.
+            </p>
+
+            <ul className="space-y-4 mb-10 text-left max-w-md mx-auto lg:mx-0">
+              {[
+                'Aylık sabit ve şeffaf fiyatlandırma',
+                'Bilimselliğe dayalı algoritma ile öne çıkma',
+                'Gerçek müşterilerden organik yorumlar',
+                '7/24 Kesintisiz destek ekibi'
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-3">
+                  <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
+                    <Check size={12} className="text-emerald-600 stroke-[3]" />
+                  </div>
+                  <span className="font-bold text-gray-700 dark:text-white/80">{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <Link href="/kayit-ol" className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full font-black text-lg transition-all shadow-lg shadow-emerald-500/30">
+              Özellikleri İncele <ArrowRight size={18} />
+            </Link>
+          </div>
+
+          {/* Right Bento Grid */}
+          <div className="flex-1 w-full relative">
+            <div className="grid grid-cols-2 gap-4 auto-rows-[140px]">
+              
+              {/* Box 1: Circular stat */}
+              <div className="col-span-1 row-span-2 bg-white dark:bg-[#0a0a0a] rounded-[2rem] p-6 border border-gray-100 dark:border-white/5 shadow-xl flex flex-col items-center justify-center text-center">
+                <h4 className="text-sm font-black text-gray-500 mb-6 uppercase tracking-wider">Aylık Görüntülenme</h4>
+                <div className="relative w-36 h-36 flex items-center justify-center mb-4">
+                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#f1f5f9" strokeWidth="12" strokeLinecap="round" />
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#10b981" strokeWidth="12" strokeLinecap="round" strokeDasharray="251" strokeDashoffset="75" />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-3xl font-black text-gray-900 dark:text-white">12K</span>
+                    <span className="text-xs font-bold text-gray-400">Profil Tıklaması</span>
+                  </div>
+                </div>
+                <div className="bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full text-xs font-bold">Düne göre +%12</div>
+              </div>
+
+              {/* Box 2: Line chart / number */}
+              <div className="bg-white dark:bg-[#0a0a0a] rounded-[2rem] p-6 border border-gray-100 dark:border-white/5 shadow-lg flex flex-col justify-between">
+                <h4 className="text-xs font-black text-gray-500 uppercase tracking-wider">Aktif Müşteriler</h4>
+                <div>
+                  <div className="text-3xl font-black text-gray-900 dark:text-white mb-1">320 <span className="text-sm text-gray-400">kişi</span></div>
+                  <div className="flex items-end gap-1 h-8">
+                    {[40, 70, 45, 90, 65, 80, 100].map((h, i) => (
+                      <div key={i} className="w-full bg-rose-500 rounded-t-sm transition-all" style={{ height: `${h}%`, opacity: i === 6 ? 1 : 0.4 }} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Box 3: Small stat */}
+              <div className="bg-gradient-to-br from-rose-500 to-rose-600 rounded-[2rem] p-6 text-white shadow-lg shadow-rose-500/20 flex flex-col justify-center">
+                <h4 className="text-xs font-black text-white/70 uppercase tracking-wider mb-2">Komisyon Kesintisi</h4>
+                <div className="text-4xl font-black mb-1">0 TL</div>
+                <div className="w-12 h-1.5 bg-white/30 rounded-full" />
+              </div>
+
+              {/* Box 4: Bar chart horizontally */}
+              <div className="col-span-2 bg-white dark:bg-[#0a0a0a] rounded-[2rem] p-6 border border-gray-100 dark:border-white/5 shadow-lg flex items-center justify-between">
+                <div>
+                  <h4 className="text-xs font-black text-gray-500 uppercase tracking-wider mb-2">Sıralama Puanı</h4>
+                  <div className="text-3xl font-black text-gray-900 dark:text-white">98 / 100</div>
+                </div>
+                <div className="flex gap-2">
+                  <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center"><TrendingUp size={20} className="text-emerald-600" /></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ─── TRUSTED BY ─── */}
+      <section className="border-t border-gray-100 dark:border-white/5 bg-white dark:bg-[#050505] py-16">
+        <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-10">
+          
+          <div className="flex flex-col sm:flex-row items-center gap-8 text-center sm:text-left">
+            <div>
+              <div className="text-lg font-black text-gray-900 dark:text-white leading-tight">Uzmanlar Tarafından<br/>Güveniliyor</div>
+            </div>
+            <div className="w-px h-12 bg-gray-200 hidden sm:block" />
+            <div className="flex items-center gap-3">
+              <div className="text-3xl font-black text-gray-900 dark:text-white">4.8</div>
+              <div>
+                <div className="flex text-amber-400 mb-1"><Star size={12} className="fill-amber-400" /><Star size={12} className="fill-amber-400" /><Star size={12} className="fill-amber-400" /><Star size={12} className="fill-amber-400" /><Star size={12} className="fill-amber-400" /></div>
+                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">App Store</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="text-3xl font-black text-gray-900 dark:text-white">4.7</div>
+              <div>
+                <div className="flex text-amber-400 mb-1"><Star size={12} className="fill-amber-400" /><Star size={12} className="fill-amber-400" /><Star size={12} className="fill-amber-400" /><Star size={12} className="fill-amber-400" /><Star size={12} className="fill-amber-400" /></div>
+                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Google Play</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-4 pl-0 md:pl-8 md:border-l border-gray-200 dark:border-white/10">
+            <div className="text-right">
+              <p className="text-sm font-bold text-gray-800 dark:text-white italic">"HizmetBul müşteri potansiyelimi değiştirdi!"</p>
+              <p className="text-xs font-medium text-gray-500">— Ayşe Yılmaz, Temizlik Firması</p>
+            </div>
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ayşe&clothing=collarAndSweater" className="w-12 h-12 rounded-full border-2 border-gray-100 bg-rose-50" alt="" />
+          </div>
+
+        </div>
+      </section>
+
     </div>
   );
 }
