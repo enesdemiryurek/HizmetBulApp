@@ -7,8 +7,8 @@ import Link from 'next/link';
 
 export default function AiSidebar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<{role: 'user' | 'bot', content: string, suggestedProvider?: any}[]>([
-    { role: 'bot', content: 'Merhaba! Ben HizmetBul AI Asistan. Size nasıl yardımcı olabilirim?' }
+  const [messages, setMessages] = useState<{role: 'user' | 'assistant', content: string}[]>([
+    { role: 'assistant', content: 'Merhaba! Ben HizmetBul AI Asistan. Size nasıl yardımcı olabilirim?' }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -26,32 +26,41 @@ export default function AiSidebar() {
     }
   }, [messages, loading]);
 
-  const handleSend = async (e?: React.FormEvent) => {
+  const handleSend = async (e?: React.FormEvent, text?: string) => {
     e?.preventDefault();
-    if (!input.trim() || loading) return;
+    const userText = text || input.trim();
+    if (!userText || loading) return;
 
-    const userMessage = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    const newMessages = [...messages, { role: 'user', content: userText } as const];
+    setMessages(newMessages);
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_BASE_URL}/api/ai/chat`, {
+      const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage })
+        body: JSON.stringify({ messages: newMessages })
       });
       const data = await res.json();
       
-      if (data.success) {
-        setMessages(prev => [...prev, { role: 'bot', content: data.message, suggestedProvider: data.suggested_provider }]);
+      if (res.ok && data.reply) {
+        setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
+      } else {
+        setMessages(prev => [...prev, { role: 'assistant', content: data.error || 'Bir hata oluştu.' }]);
       }
     } catch (err) {
-      setMessages(prev => [...prev, { role: 'bot', content: 'Üzgünüm, şu an bağlantı kuramıyorum. Lütfen daha sonra tekrar deneyin.' }]);
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Üzgünüm, şu an bağlantı kuramıyorum. Lütfen daha sonra tekrar deneyin.' }]);
     } finally {
       setLoading(false);
     }
   };
+
+  const quickReplies = [
+    "Ankara'da web sitesi yaptıracağım",
+    "İzmir'de en iyi boyacı kim?",
+    "Ev temizliği fiyatları ne kadar?"
+  ];
 
   return (
     <AnimatePresence>
@@ -101,39 +110,33 @@ export default function AiSidebar() {
                   <div className={`max-w-[85%] rounded-3xl px-5 py-3.5 text-[15px] leading-relaxed shadow-sm ${
                     msg.role === 'user' 
                       ? 'bg-rose-600 text-white rounded-br-sm shadow-rose-600/20' 
-                      : 'bg-white dark:bg-[#111] text-gray-800 dark:text-gray-200 rounded-bl-sm border border-gray-100 dark:border-white/5 font-medium'
+                      : 'bg-white dark:bg-[#111] text-gray-800 dark:text-gray-200 rounded-bl-sm border border-gray-100 dark:border-white/5 font-medium [&_a]:text-rose-600 [&_a]:font-bold [&_a:hover]:underline'
                   }`}>
-                    {msg.role === 'bot' && <Sparkles size={16} className="text-rose-500 mb-2 inline-block mr-2" />}
-                    {msg.content}
+                    {msg.role === 'assistant' && <Sparkles size={16} className="text-rose-500 mb-0.5 inline-block mr-2" />}
+                    <span dangerouslySetInnerHTML={{ 
+                      __html: msg.content
+                        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+                        .replace(/\n/g, '<br/>')
+                    }} />
                   </div>
-                  
-                  {/* Suggested Provider Card (If bot returns one) */}
-                  {msg.suggestedProvider && (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.3 }}
-                      className="mt-4 max-w-[95%] self-start w-full bg-white dark:bg-[#111] border border-gray-100 dark:border-white/10 rounded-2xl p-4 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all group"
-                    >
-                      <div className="flex items-center gap-4 mb-3">
-                        <img src={msg.suggestedProvider.avatarUrl} alt="" className="w-12 h-12 rounded-xl border border-gray-100 dark:border-white/10 object-cover bg-gray-50" />
-                        <div>
-                          <h4 className="font-black text-base text-gray-900 dark:text-white leading-tight mb-1">{msg.suggestedProvider.name}</h4>
-                          <p className="text-xs font-bold text-gray-500 uppercase tracking-wide">{msg.suggestedProvider.category}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4 text-sm mb-4 bg-gray-50 dark:bg-white/5 p-2.5 rounded-xl">
-                        <span className="flex items-center gap-1.5 font-bold text-gray-700 dark:text-gray-300"><Star size={14} className="fill-amber-400 text-amber-400" /> {msg.suggestedProvider.rating}</span>
-                        <span className="w-1 h-1 rounded-full bg-gray-300 dark:bg-white/20" />
-                        <span className="flex items-center gap-1.5 font-bold text-gray-700 dark:text-gray-300"><MapPin size={14} className="text-rose-500" /> {msg.suggestedProvider.district}</span>
-                      </div>
-                      <Link href={`/esnaf/${msg.suggestedProvider.slug}`} onClick={() => setIsOpen(false)} className="block w-full py-3 bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 hover:bg-rose-600 hover:text-white text-center rounded-xl text-sm font-black transition-colors">
-                        Profili İncele
-                      </Link>
-                    </motion.div>
-                  )}
                 </motion.div>
               ))}
+
+              {messages.length === 1 && !loading && (
+                <div className="flex flex-col gap-2 mt-4 items-start">
+                  <p className="text-xs font-bold text-gray-400 mb-1 ml-1">Örnek sorular:</p>
+                  {quickReplies.map((reply, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleSend(undefined, reply)}
+                      className="text-sm font-medium text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-100 dark:hover:bg-rose-500/20 border border-rose-200 dark:border-rose-500/20 px-4 py-2 rounded-full transition-colors text-left"
+                    >
+                      {reply}
+                    </button>
+                  ))}
+                </div>
+              )}
               
               {loading && (
                 <div className="flex items-start">
