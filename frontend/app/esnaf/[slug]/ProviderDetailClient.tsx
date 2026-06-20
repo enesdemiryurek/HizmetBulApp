@@ -581,6 +581,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                   <span key={t} className="px-3 py-1.5 text-xs font-bold bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-white/70 rounded-full hover:bg-rose-50 dark:hover:bg-rose-500/10 hover:text-rose-700 dark:hover:text-rose-400 transition-colors cursor-default">{t}</span>
                 ))}
               </div>
+            </div>
             </motion.div>
 
             {/* Mobile CTA Buttons (Visible only on mobile) */}
