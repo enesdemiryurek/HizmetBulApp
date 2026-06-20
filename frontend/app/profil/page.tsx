@@ -41,7 +41,7 @@ function ListingCard({ listing, user, onEdit, onDelete, onPromote }: {
     <motion.article
       initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
       style={{ backgroundColor: '#ffffff' }}
-      className="dark:bg-[#0a0a0a] rounded-2xl border-[1.5px] border-[#9a0002] dark:border-white/10 overflow-hidden hover:shadow-2xl hover:shadow-[#9a0002]/15 dark:hover:shadow-black/40 hover:-translate-y-1 transition-all duration-300 group"
+      className="dark:bg-[#0a0a0a] rounded-2xl border-[1.5px] border-gray-200 dark:border-white/10 overflow-hidden hover:shadow-2xl hover:shadow-black/5 dark:hover:shadow-white/5 hover:border-gray-300 dark:hover:border-white/20 hover:-translate-y-1 transition-all duration-300 group"
     >
       {/* Cover */}
       <div className="relative h-28 bg-gradient-to-br from-[#1a0010] via-[#7f1d3f] to-[#e11d48] overflow-hidden">
@@ -146,7 +146,7 @@ function ProfileContent() {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveMsg, setSaveMsg] = useState('');
-  const [form, setForm] = useState({ name: '', phone: '', city: '', district: '' });
+  const [form, setForm] = useState({ name: '', phone: '', city: '', district: '', email: '', gender: '', bio: '' });
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
@@ -202,7 +202,7 @@ function ProfileContent() {
     if (cachedUser && cachedListings) {
       const u = JSON.parse(cachedUser);
       setUser(u);
-      setForm({ name: u.name, phone: u.phone ?? '', city: u.city ?? '', district: u.district ?? '' });
+      setForm({ name: u.name, phone: u.phone ?? '', city: u.city ?? '', district: u.district ?? '', email: u.email ?? '', gender: u.gender ?? '', bio: u.bio ?? '' });
       setListings(JSON.parse(cachedListings));
       setLoading(false);
     }
@@ -214,7 +214,7 @@ function ProfileContent() {
       .then(([userData, listingsData]) => {
         const u = userData.user ?? userData;
         setUser(u);
-        setForm({ name: u.name, phone: u.phone ?? '', city: u.city ?? '', district: u.district ?? '' });
+        setForm({ name: u.name, phone: u.phone ?? '', city: u.city ?? '', district: u.district ?? '', email: u.email ?? '', gender: u.gender ?? '', bio: u.bio ?? '' });
         setListings(listingsData.listings ?? []);
         localStorage.setItem('user', JSON.stringify(u));
         localStorage.setItem('user_listings', JSON.stringify(listingsData.listings ?? []));
@@ -471,7 +471,7 @@ function ProfileContent() {
             {/* LEFT */}
             <div className="lg:col-span-2 space-y-5">
               {/* Personal Info */}
-              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bento-item premium-glow">
+              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bento-item premium-glow p-6 sm:p-8">
                 <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-xl bg-rose-50 dark:bg-rose-950/40 flex items-center justify-center">
@@ -594,6 +594,55 @@ function ProfileContent() {
                     ) : (
                       <p className="font-bold text-gray-900 dark:text-white mt-1">
                         {user.district || <span className="text-gray-400 italic text-sm font-normal">—</span>}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* E-posta */}
+                  <div>
+                    <label className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">E-posta</label>
+                    {editing ? (
+                      <div className="relative mt-1.5">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+                        <input type="email" value={form.email} placeholder="ornek@email.com"
+                          onChange={e => setForm({ ...form, email: e.target.value })} className="input-f" />
+                      </div>
+                    ) : (
+                      <p className="font-bold text-gray-900 dark:text-white mt-1">{user.email || <span className="text-gray-400 italic text-sm font-normal">—</span>}</p>
+                    )}
+                  </div>
+
+                  {/* Cinsiyet */}
+                  <div>
+                    <label className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Cinsiyet</label>
+                    {editing ? (
+                      <div className="relative mt-1.5">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
+                        <select value={form.gender || ''} onChange={e => setForm({ ...form, gender: e.target.value })} className="input-f pl-9">
+                          <option value="">Seçiniz</option>
+                          <option value="male">Erkek</option>
+                          <option value="female">Kadın</option>
+                          <option value="other">Diğer</option>
+                        </select>
+                      </div>
+                    ) : (
+                      <p className="font-bold text-gray-900 dark:text-white mt-1">
+                        {user.gender === 'male' ? 'Erkek' : user.gender === 'female' ? 'Kadın' : user.gender === 'other' ? 'Diğer' : <span className="text-gray-400 italic text-sm font-normal">—</span>}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Hakkımda */}
+                  <div className="sm:col-span-2">
+                    <label className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider">Hakkımda</label>
+                    {editing ? (
+                      <div className="relative mt-1.5">
+                        <textarea value={form.bio || ''} placeholder="Kendinizden kısaca bahsedin..." rows={3}
+                          onChange={e => setForm({ ...form, bio: e.target.value })} className="input-f resize-none" />
+                      </div>
+                    ) : (
+                      <p className="font-medium text-gray-700 dark:text-gray-300 mt-1">
+                        {user.bio || <span className="text-gray-400 italic text-sm font-normal">—</span>}
                       </p>
                     )}
                   </div>
