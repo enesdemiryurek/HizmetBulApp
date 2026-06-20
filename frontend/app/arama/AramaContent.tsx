@@ -690,15 +690,15 @@ export default function AramaContent() {
       <div className="relative z-10 max-w-[1600px] mx-auto px-4 sm:px-6 pt-24 pb-8">
         
         {/* Search & Filters */}
-        <div className="bg-white dark:bg-[#111] p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-white/5 mb-8 flex flex-col lg:flex-row gap-4 relative z-20">
+        <div className="bg-[#0a0a0a] p-4 rounded-[2rem] shadow-xl border border-white/5 mb-8 flex flex-col lg:flex-row gap-4 relative z-20">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-white/50" size={18} />
             <input 
               type="text" 
               placeholder="Hizmet veya uzman ara... (Örn: Boya Badana, İngilizce Özel Ders)" 
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-white/5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-rose-500/50 transition-all border border-transparent focus:border-rose-500/30 dark:text-white"
+              className="w-full pl-10 pr-4 py-3 bg-white/5 rounded-[1.5rem] text-sm outline-none focus:ring-2 focus:ring-rose-500/50 transition-all border border-white/10 focus:border-rose-500/30 text-white placeholder-white/40"
             />
           </div>
           
@@ -708,12 +708,12 @@ export default function AramaContent() {
               <select 
                 value={city} 
                 onChange={(e) => setCity(e.target.value)}
-                className="w-full sm:w-auto pl-10 pr-8 py-3 bg-gray-50 dark:bg-white/5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-rose-500/50 transition-all border border-transparent text-gray-700 dark:text-gray-300 min-w-[150px] appearance-none"
+                className="w-full sm:w-auto pl-10 pr-8 py-3 bg-white/5 rounded-[1.5rem] text-sm outline-none focus:ring-2 focus:ring-rose-500/50 transition-all border border-white/10 text-white min-w-[150px] appearance-none"
               >
-                <option value="">Tüm Şehirler</option>
-                {Object.keys(districts).map(c => <option key={c} value={c}>{c}</option>)}
+                <option value="" className="text-gray-900">Tüm Şehirler</option>
+                {Object.keys(districts).map(c => <option key={c} value={c} className="text-gray-900">{c}</option>)}
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" size={14} />
             </div>
             
             <div className="relative flex-1 sm:flex-none">
@@ -721,23 +721,23 @@ export default function AramaContent() {
               <select 
                 value={selectedCategory} 
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full sm:w-auto pl-10 pr-8 py-3 bg-gray-50 dark:bg-white/5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-rose-500/50 transition-all border border-transparent text-gray-700 dark:text-gray-300 min-w-[170px] appearance-none"
+                className="w-full sm:w-auto pl-10 pr-8 py-3 bg-white/5 rounded-[1.5rem] text-sm outline-none focus:ring-2 focus:ring-rose-500/50 transition-all border border-white/10 text-white min-w-[170px] appearance-none"
               >
-                <option value="">Tüm Kategoriler</option>
-                <option value="Temizlik">Temizlik</option>
-                <option value="Nakliyat">Nakliyat</option>
-                <option value="Tamirat">Tamirat & İnşaat</option>
-                <option value="Yazılım & Tasarım">Yazılım & Tasarım</option>
-                <option value="Özel Ders">Özel Ders</option>
-                <option value="Fotoğrafçılık">Fotoğrafçılık</option>
-                <option value="Araç Kiralama">Araç Kiralama</option>
-                <option value="Bahçe & Peyzaj">Bahçe & Peyzaj</option>
-                <option value="Sağlık & Yaşam">Sağlık & Yaşam</option>
-                <option value="Güzellik & Bakım">Güzellik & Bakım</option>
-                <option value="Evcil Hayvan">Evcil Hayvan</option>
-                <option value="Organizasyon & Etkinlik">Organizasyon & Etkinlik</option>
+                <option value="" className="text-gray-900">Tüm Kategoriler</option>
+                <option value="Temizlik" className="text-gray-900">Temizlik</option>
+                <option value="Nakliyat" className="text-gray-900">Nakliyat</option>
+                <option value="Tamirat" className="text-gray-900">Tamirat & İnşaat</option>
+                <option value="Yazılım & Tasarım" className="text-gray-900">Yazılım & Tasarım</option>
+                <option value="Özel Ders" className="text-gray-900">Özel Ders</option>
+                <option value="Fotoğrafçılık" className="text-gray-900">Fotoğrafçılık</option>
+                <option value="Araç Kiralama" className="text-gray-900">Araç Kiralama</option>
+                <option value="Bahçe & Peyzaj" className="text-gray-900">Bahçe & Peyzaj</option>
+                <option value="Sağlık & Yaşam" className="text-gray-900">Sağlık & Yaşam</option>
+                <option value="Güzellik & Bakım" className="text-gray-900">Güzellik & Bakım</option>
+                <option value="Evcil Hayvan" className="text-gray-900">Evcil Hayvan</option>
+                <option value="Organizasyon & Etkinlik" className="text-gray-900">Organizasyon & Etkinlik</option>
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" size={14} />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none" size={14} />
             </div>
             
             <div className="relative flex-1 sm:flex-none">
@@ -745,9 +745,9 @@ export default function AramaContent() {
               <select 
                 value={minRating} 
                 onChange={(e) => setMinRating(Number(e.target.value))}
-                className="w-full sm:w-auto pl-10 pr-8 py-3 bg-gray-50 dark:bg-white/5 rounded-xl text-sm outline-none focus:ring-2 focus:ring-rose-500/50 transition-all border border-transparent text-gray-700 dark:text-gray-300 min-w-[140px] appearance-none"
+                className="w-full sm:w-auto pl-10 pr-8 py-3 bg-white/5 rounded-[1.5rem] text-sm outline-none focus:ring-2 focus:ring-rose-500/50 transition-all border border-white/10 text-white min-w-[140px] appearance-none"
               >
-                <option value={0}>Tüm Puanlar</option>
+                <option value={0} className="text-gray-900">Tüm Puanlar</option>
                 <option value={4.5}>4.5+ Puan</option>
                 <option value={4.0}>4.0+ Puan</option>
                 <option value={3.0}>3.0+ Puan</option>
