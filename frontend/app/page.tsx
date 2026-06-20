@@ -14,7 +14,7 @@ import {
 import { providers, categories } from '@/lib/data';
 import SearchBar from '@/components/SearchBar';
 import { CTASection } from '@/components/blocks/cta-with-rectangle';
-import ProviderCard from '@/components/ProviderCard';
+import PeopleCard from '@/components/PeopleCard';
 
 /* ── Animation variants ─────────────────────────── */
 const fadeUp = {
@@ -335,9 +335,9 @@ export default function HomePage() {
 
             {/* Provider grid — LinkedIn style */}
             <motion.div variants={stagger} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {displayProviders.map((p) => (
+              {displayProviders.map((p, i) => (
                 <motion.div key={p.id} variants={scaleIn}>
-                  <ProviderCard provider={p} />
+                  <PeopleCard provider={p} index={i} />
                 </motion.div>
               ))}
             </motion.div>
