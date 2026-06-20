@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import {
-  Search, MapPin, ArrowRight, Star, Shield, Zap,
+  Search, MapPin, ArrowRight, Star, Shield, Zap, Phone,
   Sparkles, Truck, Wrench, Code2, GraduationCap, Car, Camera, Leaf,
   ChevronDown, TrendingUp, Heart, Scissors, PawPrint, PartyPopper, Megaphone, Users
 } from 'lucide-react';
@@ -388,40 +388,113 @@ export default function HomePage() {
       </section>
 
       {/* ╔══ HOW IT WORKS ══════════════════════════════════╗ */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#efe6dd] transition-colors duration-300">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white dark:bg-[#050505] transition-colors duration-300 border-t border-gray-100 dark:border-white/5 relative overflow-hidden">
+        
+        {/* Background Decorative Elements */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-rose-50 dark:bg-rose-900/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto relative z-10">
           <Section>
-            <motion.p variants={fadeUp} className="text-[#ff003c] font-bold text-sm uppercase tracking-widest mb-3">
-              Nasıl Çalışır
-            </motion.p>
-            <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-rose-900 mb-16 max-w-lg transition-colors">
-              3 adımda hizmet al.
-            </motion.h2>
-
-            <motion.div variants={stagger} className="bento-grid">
-              {[
-                { n: '01', icon: Search, title: 'Arama Yap', desc: 'Hizmet veya uzman adı yaz. Şehrine göre filtrele.' },
-                { n: '02', icon: Star, title: 'Profili İncele', desc: 'Yorumları, portföyü ve fiyatı karşılaştır.' },
-                { n: '03', icon: Zap, title: 'Direkt Ara', desc: 'Komisyon yok, bekleme yok. Telefonda konuş.' },
-              ].map(({ n, icon: Icon, title, desc }) => (
-                <motion.div
-                  key={n}
-                  variants={fadeUp}
-                  className="bento-item premium-glow p-8 flex flex-col justify-between"
-                >
-                  <div className="relative z-10">
-                    <div className="w-14 h-14 bg-rose-50 dark:bg-rose-900/20 rounded-2xl flex items-center justify-center mb-8 border border-rose-100 dark:border-rose-800/30 group-hover:bg-rose-600 transition-colors duration-300">
-                      <Icon size={24} className="text-rose-600 dark:text-rose-400 group-hover:text-white transition-colors" />
+            <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+              
+              {/* Left Column: Image */}
+              <motion.div 
+                variants={fadeUp} 
+                className="w-full lg:w-1/2 relative flex justify-center"
+              >
+                <div className="relative w-full max-w-md aspect-[4/5] rounded-[2.5rem] bg-gradient-to-br from-rose-100 to-rose-50 dark:from-rose-900/20 dark:to-rose-800/10 p-6 shadow-2xl shadow-rose-900/5">
+                  <div className="absolute inset-0 border-2 border-white/60 dark:border-white/10 rounded-[2.5rem] m-2 pointer-events-none" />
+                  
+                  {/* Floating Elements Animation wrapper */}
+                  <motion.div
+                    animate={{ y: [-10, 10, -10] }}
+                    transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+                    className="w-full h-full relative"
+                  >
+                    <Image
+                      src="/how_it_works.png"
+                      alt="HizmetBul Nasıl Çalışır 3D Tasarım"
+                      fill
+                      className="object-contain drop-shadow-2xl scale-[1.15] origin-center"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      unoptimized
+                    />
+                  </motion.div>
+                  
+                  {/* Decorative Badges on Image */}
+                  <div className="absolute -left-6 top-1/4 bg-white dark:bg-[#0a0a0a] rounded-2xl p-4 shadow-xl border border-gray-100 dark:border-white/5 hidden md:flex items-center gap-3 animate-float">
+                    <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
+                      <Shield size={20} className="text-emerald-500" />
                     </div>
-                    <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-3">{title}</h3>
-                    <p className="text-gray-500 dark:text-white/60 leading-relaxed font-medium">{desc}</p>
+                    <div>
+                      <div className="text-xs font-black text-gray-900 dark:text-white">Güvenilir</div>
+                      <div className="text-[10px] text-gray-500">Onaylı Uzmanlar</div>
+                    </div>
                   </div>
-                  <div className="absolute top-4 right-6 text-7xl font-black text-gray-900/5 dark:text-white/5 leading-none select-none">
-                    {n}
+                  
+                  <div className="absolute -right-8 bottom-1/4 bg-white dark:bg-[#0a0a0a] rounded-2xl p-4 shadow-xl border border-gray-100 dark:border-white/5 hidden md:flex items-center gap-3 animate-float-delay">
+                    <div className="w-10 h-10 bg-rose-50 dark:bg-rose-900/30 rounded-full flex items-center justify-center">
+                      <Zap size={20} className="text-rose-600" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-black text-gray-900 dark:text-white">Hızlı</div>
+                      <div className="text-[10px] text-gray-500">Komisyonsuz</div>
+                    </div>
                   </div>
+                </div>
+              </motion.div>
+              
+              {/* Right Column: Steps */}
+              <div className="w-full lg:w-1/2">
+                <motion.p variants={fadeUp} className="text-rose-600 font-black text-sm uppercase tracking-widest mb-3">
+                  Kolay ve Hızlı
+                </motion.p>
+                <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-gray-900 dark:text-white mb-12 max-w-lg leading-tight">
+                  Sadece 3 Adımda <br/>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-rose-400">İhtiyacını Çöz.</span>
+                </motion.h2>
+
+                <motion.div variants={stagger} className="space-y-8 relative">
+                  {/* Connecting Line for Timeline */}
+                  <div className="absolute left-7 top-10 bottom-10 w-0.5 bg-gradient-to-b from-rose-200 via-rose-100 to-transparent dark:from-rose-900/50 dark:via-rose-900/20" />
+                  
+                  {[
+                    { n: '01', icon: Search, title: 'Hizmeti ve Şehri Seçin', desc: 'Arama çubuğuna ihtiyacınız olan hizmeti yazın. Kategoriye göre de göz atabilirsiniz.' },
+                    { n: '02', icon: Star, title: 'Profilleri Karşılaştırın', desc: 'Gerçek müşteri yorumları, portföy görselleri ve fiyat aralıklarını yan yana inceleyin.' },
+                    { n: '03', icon: Phone, title: 'Doğrudan Arayın', desc: 'Hiçbir aracı, mesajlaşma kuyruğu veya teklif bekleme süreci yok. Tek tıkla arayın.' },
+                  ].map(({ n, icon: Icon, title, desc }, idx) => (
+                    <motion.div
+                      key={n}
+                      variants={fadeUp}
+                      className="relative flex gap-6 group"
+                    >
+                      <div className="relative z-10 flex flex-col items-center">
+                        <div className="w-14 h-14 bg-white dark:bg-[#0a0a0a] rounded-2xl flex items-center justify-center border-2 border-rose-100 dark:border-rose-900/30 group-hover:bg-rose-600 group-hover:border-rose-600 transition-all duration-300 shadow-lg shadow-rose-100/50 dark:shadow-none">
+                          <Icon size={24} className="text-rose-600 dark:text-rose-400 group-hover:text-white transition-colors" />
+                        </div>
+                      </div>
+                      <div className="flex-1 pt-2 pb-6">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-sm font-black text-rose-300 dark:text-rose-900/50 group-hover:text-rose-600 dark:group-hover:text-rose-500 transition-colors">{n}</span>
+                          <h3 className="text-xl font-black text-gray-900 dark:text-white group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">{title}</h3>
+                        </div>
+                        <p className="text-gray-500 dark:text-white/60 leading-relaxed font-medium">
+                          {desc}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ))}
                 </motion.div>
-              ))}
-            </motion.div>
+                
+                <motion.div variants={fadeUp} className="mt-8 lg:ml-20">
+                  <Link href="/arama" className="inline-flex items-center justify-center gap-2 bg-rose-600 text-white px-8 py-4 rounded-full font-black hover:bg-rose-700 hover:-translate-y-1 hover:shadow-xl hover:shadow-rose-600/30 transition-all w-full sm:w-auto">
+                    Hemen Hizmet Ara <ArrowRight size={18} />
+                  </Link>
+                </motion.div>
+
+              </div>
+              
+            </div>
           </Section>
         </div>
       </section>
