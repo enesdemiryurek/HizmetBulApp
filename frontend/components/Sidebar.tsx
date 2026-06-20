@@ -107,9 +107,9 @@ export default function Sidebar() {
               <Link
                 key={item.label}
                 href={item.href}
-                onClick={(e) => {
+                onClick={() => {
                   setMobileOpen(false);
-                  if (item.onClick) item.onClick(e);
+                  if (item.onClick) item.onClick();
                 }}
                 className={`flex items-center px-3 py-3.5 rounded-2xl transition-all duration-300 group relative ${
                   isActive 
