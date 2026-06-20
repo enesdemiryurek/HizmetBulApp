@@ -65,4 +65,71 @@ class AiAssistantController extends Controller
             ]
         ]);
     }
+
+    /**
+     * POST /api/ai/summarize-reviews
+     * Receives an array of reviews and returns an AI generated summary.
+     */
+    public function summarizeReviews(Request $request)
+    {
+        $request->validate([
+            'reviews' => 'required|array',
+        ]);
+
+        $reviews = $request->reviews;
+
+        if (count($reviews) === 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Özetlenecek yorum bulunamadı.'
+            ]);
+        }
+
+        // Simulate AI processing
+        sleep(1);
+
+        $totalRating = 0;
+        $texts = '';
+        foreach ($reviews as $r) {
+            $totalRating += floatval($r['rating'] ?? 5);
+            $texts .= ' ' . strtolower($r['comment'] ?? '');
+        }
+        $avgRating = $totalRating / count($reviews);
+
+        $positiveKeywords = ['hızlı', 'temiz', 'harika', 'güzel', 'memnun', 'teşekkür', 'tavsiye', 'iyi', 'profesyonel', 'kaliteli'];
+        $negativeKeywords = ['yavaş', 'kötü', 'gecik', 'pahalı', 'eksik', 'sorun', 'baştansavma', 'berbat'];
+
+        $posCount = 0;
+        $negCount = 0;
+
+        foreach ($positiveKeywords as $word) {
+            if (str_contains($texts, $word)) $posCount++;
+        }
+        foreach ($negativeKeywords as $word) {
+            if (str_contains($texts, $word)) $negCount++;
+        }
+
+        $summary = "Müşteriler genel olarak bu uzmanın hizmetinden memnun.";
+
+        if ($avgRating >= 4.5) {
+            if ($posCount > 2) {
+                $summary = "✨ Müşteriler genellikle uzmanın işçiliğini, hızını ve profesyonelliğini övüyor. Hizmet kalitesinden oldukça memnun kalmışlar ve şiddetle tavsiye ediyorlar.";
+            } else {
+                $summary = "✨ Müşteriler sunulan hizmetin kalitesini yüksek buluyor ve sonuçlardan oldukça memnun kalmış durumdalar.";
+            }
+        } elseif ($avgRating >= 3.5) {
+            if ($negCount > 0) {
+                $summary = "Müşteriler hizmet kalitesini yeterli buluyor, ancak bazı kullanıcılar iletişim veya hız konusunda küçük aksaklıklar yaşandığını belirtmiş.";
+            } else {
+                $summary = "Müşteriler genel olarak hizmetten memnun kalmış ve standart beklentilerin karşılandığını ifade etmişler.";
+            }
+        } else {
+            $summary = "Müşteri yorumları karışık. Bazı kullanıcılar hizmet kalitesi, hız veya iletişim konularında çeşitli sorunlar yaşadıklarını raporlamış.";
+        }
+
+        return response()->json([
+            'success' => true,
+            'summary' => $summary
+        ]);
+    }
 }

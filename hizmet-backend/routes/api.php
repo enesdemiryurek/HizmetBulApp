@@ -17,6 +17,7 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 Route::get('/listings/public', [ListingController::class, 'publicIndex']);
 Route::get('/listings/public/{id}', [ListingController::class, 'showPublic']);
 Route::post('/listings/{id}/track', [ListingController::class, 'trackAnalytics']);
+Route::post('/ai/summarize-reviews', [AiAssistantController::class, 'summarizeReviews']);
 
 Route::middleware(['auth:sanctum', \App\Http\Middleware\UpdateLastSeen::class])->group(function () {
     Route::get('/user', [AuthController::class, 'user']);

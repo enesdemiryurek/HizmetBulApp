@@ -144,6 +144,8 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
   const [loading, setLoading] = useState(!staticProvider);
   const [error, setError] = useState('');
   const [similarProviders, setSimilarProviders] = useState<any[]>([]);
+  const [aiSummary, setAiSummary] = useState<string | null>(null);
+  const [aiSummaryLoading, setAiSummaryLoading] = useState(false);
   
   // Review form states
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '', price_paid: '' });
@@ -216,6 +218,24 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                 }
               })
               .catch(console.error);
+
+            // Fetch AI Summary if there are reviews
+            if (data.listing.reviews && data.listing.reviews.length > 0) {
+              setAiSummaryLoading(true);
+              fetch(`${API_BASE_URL}/api/ai/summarize-reviews`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reviews: data.listing.reviews })
+              })
+                .then(res => res.json())
+                .then(summaryData => {
+                  if (summaryData.success && summaryData.summary) {
+                    setAiSummary(summaryData.summary);
+                  }
+                })
+                .catch(console.error)
+                .finally(() => setAiSummaryLoading(false));
+            }
           } else {
             setError('Hizmet ilanı bulunamadı.');
           }
@@ -615,6 +635,26 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                 <h2 className="text-lg font-black text-gray-900 dark:text-white">Müşteri Değerlendirmeleri</h2>
                 <span className="text-sm text-gray-400 font-bold">{provider.reviewCount} yorum</span>
               </div>
+
+              {/* AI Summary Banner */}
+              {provider.reviewCount > 0 && (aiSummaryLoading || aiSummary) && (
+                <div className="mb-6 bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-violet-900/10 dark:to-fuchsia-900/10 border-[2px] border-violet-200 dark:border-violet-500/20 rounded-2xl p-5 shadow-[4px_4px_0_0_rgba(139,92,246,0.15)]">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Sparkles size={16} className="text-violet-600 dark:text-violet-400" />
+                    <h3 className="text-sm font-black text-violet-900 dark:text-violet-300">Yapay Zeka Müşteri Özeti</h3>
+                  </div>
+                  {aiSummaryLoading ? (
+                    <div className="space-y-2 animate-pulse">
+                      <div className="h-3 bg-violet-200/50 dark:bg-violet-800/30 rounded w-full"></div>
+                      <div className="h-3 bg-violet-200/50 dark:bg-violet-800/30 rounded w-5/6"></div>
+                    </div>
+                  ) : (
+                    <p className="text-sm font-semibold text-violet-800 dark:text-violet-200/80 leading-relaxed">
+                      {aiSummary}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {provider.reviewCount > 0 ? (
                 <div className="bg-gray-50 dark:bg-white/5 rounded-2xl p-5 mb-6">
