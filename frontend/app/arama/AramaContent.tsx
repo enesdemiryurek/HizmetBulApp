@@ -57,20 +57,23 @@ function PeopleCard({
       initial="hidden"
       animate="show"
       transition={{ delay: index * 0.05 }}
-      className={`w-full bg-gradient-to-br from-rose-600 to-rose-900 rounded-[2rem] p-3 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all flex flex-col group ${isPromoted ? 'ring-2 ring-white/50' : ''}`}
+      transition={{ delay: index * 0.05 }}
+      className={`w-full bg-gradient-to-br from-rose-500 to-rose-700 rounded-[2rem] p-3 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all flex flex-col group relative ${isPromoted ? 'ring-2 ring-white/50' : ''}`}
     >
       {/* Top Image (Cover Photo) */}
-      <div className="relative w-full h-[140px] rounded-[1.5rem] overflow-hidden shrink-0">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img 
-          src={provider.coverUrl || 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=800&auto=format&fit=crop'} 
-          alt={provider.name} 
-          onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=800&auto=format&fit=crop'; }}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-        />
+      <div className="relative w-full h-[140px] rounded-[1.5rem] shrink-0">
+        <div className="w-full h-full overflow-hidden rounded-[1.5rem]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img 
+            src={provider.coverUrl || 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=800&auto=format&fit=crop'} 
+            alt={provider.name} 
+            onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=800&auto=format&fit=crop'; }}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+          />
+        </div>
         
-        {/* Category Label (Pill overlapping bottom right, no emoji) */}
-        <div className="absolute bottom-3 right-3 bg-white/10 backdrop-blur-md text-white border border-white/20 px-4 py-1.5 rounded-full text-[11px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
+        {/* Category Label (Pill vertically centered on bottom edge of cover) */}
+        <div className="absolute -bottom-3.5 right-4 bg-white text-gray-900 px-4 py-1.5 rounded-full text-[11px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
           {provider.category}
         </div>
         
@@ -86,18 +89,18 @@ function PeopleCard({
           </div>
         )}
 
-        {/* Avatar overlapping bottom left */}
+        {/* Avatar overlapping bottom left - OUTSIDE overflow-hidden so it's not clipped */}
         <div className="absolute -bottom-6 left-5 z-20">
-          <div className="w-16 h-16 rounded-full border-[4px] border-rose-700 bg-rose-50 overflow-hidden shadow-sm flex items-center justify-center relative">
+          <div className="w-16 h-16 rounded-full border-[4px] border-rose-600 bg-rose-50 overflow-hidden shadow-sm flex items-center justify-center relative">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
-              src={provider.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(provider.name)}`} 
+              src={provider.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(provider.name)}&clothing=blazerAndShirt,blazerAndSweater,collarAndSweater,overall&top=shortHairShortFlat,shortHairShortRound,hijab,turban,longHairStraight`} 
               alt={provider.name} 
               className="absolute inset-0 w-full h-full object-cover" 
-              onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(provider.name)}`; }} 
+              onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(provider.name)}&clothing=blazerAndShirt,blazerAndSweater,collarAndSweater,overall&top=shortHairShortFlat,shortHairShortRound,hijab,turban,longHairStraight`; }} 
             />
             {provider.verified && (
-              <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 border-2 border-rose-700 flex items-center justify-center">
+              <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 border-2 border-rose-600 flex items-center justify-center">
                 <CheckCircle2 size={8} className="text-white" />
               </div>
             )}

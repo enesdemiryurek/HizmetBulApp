@@ -512,16 +512,14 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
             <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show" className="bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] p-6 lg:p-8">
               <div className="flex items-end justify-between mb-4">
                 <div className="relative">
-                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden ring-4 ring-white dark:ring-black shadow-xl bg-gradient-to-br from-rose-600 to-rose-800 flex items-center justify-center text-white font-black text-3xl relative">
-                    {provider.name.charAt(0).toUpperCase()}
-                    {provider.avatarUrl && (
-                      <img 
-                        src={provider.avatarUrl} 
-                        alt={provider.name} 
-                        onError={(e) => { e.currentTarget.style.display = 'none'; }}
-                        className="absolute inset-0 w-full h-full object-cover" 
-                      />
-                    )}
+                  <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden ring-4 ring-white dark:ring-black shadow-xl bg-rose-50 flex items-center justify-center text-rose-600 font-black text-3xl relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img 
+                      src={provider.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(provider.name)}&clothing=blazerAndShirt,blazerAndSweater,collarAndSweater,overall&top=shortHairShortFlat,shortHairShortRound,hijab,turban,longHairStraight`} 
+                      alt={provider.name} 
+                      onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(provider.name)}&clothing=blazerAndShirt,blazerAndSweater,collarAndSweater,overall&top=shortHairShortFlat,shortHairShortRound,hijab,turban,longHairStraight`; }}
+                      className="absolute inset-0 w-full h-full object-cover" 
+                    />
                   </div>
                   {provider.verified && (
                     <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-rose-600 rounded-xl flex items-center justify-center ring-2 ring-white dark:ring-black shadow-md">
@@ -949,19 +947,21 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
             >
               {similarProviders.map((simProvider: any) => (
                 <div key={simProvider.id} className="snap-center shrink-0 w-[300px] md:w-[320px]">
-                  <div className="w-full h-full bg-gradient-to-br from-rose-600 to-rose-900 rounded-[2rem] p-3 shadow-xl hover:shadow-2xl transition-all flex flex-col group">
+                  <div className="w-full h-full bg-gradient-to-br from-rose-500 to-rose-700 rounded-[2rem] p-3 shadow-xl hover:shadow-2xl transition-all flex flex-col group relative">
                     {/* Top Image (Cover Photo) */}
-                    <div className="relative w-full h-24 rounded-t-[1.5rem] rounded-b-xl overflow-hidden shrink-0">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img 
-                        src={simProvider.coverUrl || 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=800&auto=format&fit=crop'} 
-                        alt={simProvider.name} 
-                        onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=800&auto=format&fit=crop'; }}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                      />
+                    <div className="relative w-full h-24 rounded-t-[1.5rem] shrink-0">
+                      <div className="w-full h-full overflow-hidden rounded-[1.5rem]">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img 
+                          src={simProvider.coverUrl || 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=800&auto=format&fit=crop'} 
+                          alt={simProvider.name} 
+                          onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=800&auto=format&fit=crop'; }}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                        />
+                      </div>
                       
-                      {/* Category Label (Pill overlapping bottom right) */}
-                      <div className="absolute bottom-2 right-2 bg-white/10 backdrop-blur-md text-white border border-white/20 px-3 py-1.5 rounded-full text-[10px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
+                      {/* Category Label (Pill vertically centered on bottom edge of cover) */}
+                      <div className="absolute -bottom-3 right-3 bg-white text-gray-900 px-3 py-1.5 rounded-full text-[10px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
                         {simProvider.category}
                       </div>
 
@@ -971,18 +971,18 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                         {simProvider.rating > 0 ? simProvider.rating.toFixed(1) : 'Yeni'}
                       </div>
                       
-                      {/* Avatar overlapping bottom left */}
+                      {/* Avatar overlapping bottom left - OUTSIDE overflow-hidden */}
                       <div className="absolute -bottom-5 left-4 z-20">
-                        <div className="w-12 h-12 rounded-full border-[3px] border-rose-700 bg-rose-50 overflow-hidden shadow-sm flex items-center justify-center relative">
+                        <div className="w-12 h-12 rounded-full border-[3px] border-rose-600 bg-rose-50 overflow-hidden shadow-sm flex items-center justify-center relative">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img 
-                            src={simProvider.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(simProvider.name)}`} 
+                            src={simProvider.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(simProvider.name)}&clothing=blazerAndShirt,blazerAndSweater,collarAndSweater,overall&top=shortHairShortFlat,shortHairShortRound,hijab,turban,longHairStraight`} 
                             alt={simProvider.name} 
                             className="absolute inset-0 w-full h-full object-cover" 
-                            onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(simProvider.name)}`; }} 
+                            onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(simProvider.name)}&clothing=blazerAndShirt,blazerAndSweater,collarAndSweater,overall&top=shortHairShortFlat,shortHairShortRound,hijab,turban,longHairStraight`; }} 
                           />
                           {simProvider.verified && (
-                            <div className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-rose-700 flex items-center justify-center">
+                            <div className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-emerald-500 border-2 border-rose-600 flex items-center justify-center">
                               <CheckCircle2 size={8} className="text-white" />
                             </div>
                           )}
