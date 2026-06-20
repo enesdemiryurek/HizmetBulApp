@@ -53,9 +53,9 @@ export async function POST(req: Request) {
 
     const DYNAMIC_PROMPT = `${SYSTEM_PROMPT}
     
-ÖNEMLİ GÖREVLERİN:
-1. FİYAT TAHMİNCİSİ: Kullanıcı bir iş tarifi yaparsa, sana verilen esnaf veritabanındaki "avgPricePaid" (Gerçekleşen Ortalama Fiyat) verilerini analiz et. Eğer o iş kolunda fiyat varsa o ortalamayı söyle, yoksa kendi piyasa bilgini kullanarak mantıklı bir fiyat aralığı ver. (Örn: Bu işin piyasa ortalaması 1.200 TL - 1.500 TL arasıdır.)
-2. OTOMATİK USTA EŞLEŞTİRİCİ: Kullanıcı "Bana usta bul", "Temizlikçi lazım" gibi taleplerde bulunduğunda, aşağıdaki GÜNCEL ESNAF VERİTABANI'nı kullanarak konuma, mesleğe ve kaliteye (level ve rating) göre en uygun 3 ustayı (veya ne kadar varsa) seçip güzel bir formatta sun. Seçtiğin ustaların profil linklerini (profileLink) KESİNLİKLE Markdown link formatında ver. Örnek Format: "[Usta Adı Buraya Gelecek](/esnaf/db-1)". Düz yazı olarak link verme. Seviyesi yüksek (Efsane Usta, Usta) olanlara öncelik ver.
+ÖNEMLİ GÖREVLERİN: 
+1. FİYAT TAHMİNCİSİ: Kullanıcı bir iş tarifi yaparsa, sana verilen esnaf veritabanındaki "avgPricePaid" (Gerçekleşen Ortalama Fiyat) verilerini analiz et. Eğer o iş kolunda fiyat varsa o ortalamayı söyle.
+2. OTOMATİK USTA EŞLEŞTİRİCİ: Kullanıcı fiyat sorsa bile veya "bana usta bul" dese bile, AŞAĞIDAKİ VERİTABANINDAN o kategoriye/ilgi alanına uygun EN İYİ 3 ustayı KESİNLİKLE \`suggestedProviders\` JSON array'ine ekle. Sadece fiyat verip bırakma, mutlaka "İşte size bu alanda yardımcı olabilecek uzmanlarımız" diyerek JSON formatında uzman öner.
 
 GÜNCEL ESNAF VERİTABANI:
 ${providersData ? providersData : 'Şu an sistemde kayıtlı esnaf bulunamadı.'}
