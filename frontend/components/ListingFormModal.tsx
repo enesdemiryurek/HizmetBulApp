@@ -3,7 +3,7 @@ import { API_BASE_URL } from '@/config';
 
 import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, UploadCloud, Camera, Search, Check, MapPin, Clock, Tag, FileText, Layers, Sparkles } from 'lucide-react';
+import { X, UploadCloud, Camera, Search, Check, MapPin, Clock, Tag, FileText, Layers, Sparkles, ChevronDown } from 'lucide-react';
 import { ALL_CATEGORIES } from '@/lib/data';
 
 interface ListingFormModalProps {
