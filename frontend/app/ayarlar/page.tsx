@@ -468,12 +468,27 @@ export default function SettingsPage() {
               {/* ─── PERFORMANS ─── */}
               {activeSection === 'performans' && (
                 <motion.div key="performans" variants={pageVariants} initial="initial" animate="animate" exit="exit" className="space-y-5">
-                  <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
-                    <StatCard label="Toplam Görüntülenme" value={selectedListing?.views || 0} icon={Eye} color="bg-rose-50 dark:bg-rose-950/30 text-rose-500" />
-                    <StatCard label="İlan Tıklanması" value={selectedListing?.clicks || 0} icon={MousePointerClick} color="bg-orange-50 dark:bg-orange-950/30 text-orange-500" />
-                    <StatCard label="Mesajlar" value={selectedListing?.message_clicks || 0} icon={MessageSquare} color="bg-violet-50 dark:bg-violet-950/30 text-violet-500" />
-                    <StatCard label="Telefon Aramaları" value={selectedListing?.phone_clicks || 0} icon={PhoneCall} color="bg-amber-50 dark:bg-amber-950/30 text-amber-500" />
-                  </div>
+                  {!selectedListing ? (
+                    <Card className="p-10 flex flex-col items-center justify-center text-center border-dashed border-2">
+                      <div className="w-20 h-20 bg-rose-50 dark:bg-rose-950/30 rounded-full flex items-center justify-center mb-6">
+                        <BarChart3 size={32} className="text-rose-600" />
+                      </div>
+                      <h2 className="text-2xl font-black text-zinc-900 dark:text-white mb-3">Henüz bir ilanınız yok</h2>
+                      <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-md mx-auto mb-8 leading-relaxed">
+                        Müşterilerin sizi bulabilmesi ve performans istatistiklerinizi burada gerçek verilerle (görüntülenme, tıklama vb.) analiz edebilmeniz için hemen bir hizmet ilanı oluşturun.
+                      </p>
+                      <Link href="/hizmet-sayfam?ilan-ekle=1" className="flex items-center gap-2 px-8 py-3.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-2xl shadow-xl shadow-rose-500/20 transition-all">
+                        <Plus size={18} /> İlk İlanını Oluştur
+                      </Link>
+                    </Card>
+                  ) : (
+                    <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
+                      <StatCard label="Toplam Görüntülenme" value={selectedListing?.views || 0} icon={Eye} color="bg-rose-50 dark:bg-rose-950/30 text-rose-500" />
+                      <StatCard label="İlan Tıklanması" value={selectedListing?.clicks || 0} icon={MousePointerClick} color="bg-orange-50 dark:bg-orange-950/30 text-orange-500" />
+                      <StatCard label="Mesajlar" value={selectedListing?.message_clicks || 0} icon={MessageSquare} color="bg-violet-50 dark:bg-violet-950/30 text-violet-500" />
+                      <StatCard label="Telefon Aramaları" value={selectedListing?.phone_clicks || 0} icon={PhoneCall} color="bg-amber-50 dark:bg-amber-950/30 text-amber-500" />
+                    </div>
+                  )}
                 </motion.div>
               )}
 
