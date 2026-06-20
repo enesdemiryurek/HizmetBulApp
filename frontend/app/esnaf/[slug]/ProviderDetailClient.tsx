@@ -404,7 +404,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
   const isOwner = currentUser && provider && Number(currentUser.id) === Number(provider.userId);
 
   return (
-    <div className="min-h-screen bg-[#f9f8f6] dark:bg-[#050505] transition-colors duration-300">
+    <div className="min-h-screen bg-[#fcfaf8] dark:bg-[#050505] transition-colors duration-300">
       {/* Cover */}
       <div className="relative h-56 md:h-72 bg-gradient-to-br from-rose-900 to-[#1a0010] overflow-hidden">
         {provider.coverUrl && (
@@ -447,7 +447,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
             <div className={`sticky top-24 space-y-5 ${!isMobileLeftSidebarOpen ? 'hidden lg:block' : ''}`}>
               {/* Gamification Card */}
               {provider.id.startsWith('db-') && provider.gamificationLevel && (
-                <motion.div custom={0.5} variants={fadeUp} initial="hidden" animate="show" className="bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/10 dark:to-orange-900/10 rounded-2xl border border-amber-200/50 dark:border-amber-700/30 p-6 shadow-sm overflow-hidden relative">
+                <motion.div custom={0.5} variants={fadeUp} initial="hidden" animate="show" className="bg-white dark:bg-[#0a0a0a] rounded-[2rem] shadow-xl p-6 lg:p-8 border border-gray-100 dark:border-white/5 overflow-hidden relative">
                   <div className="absolute -right-4 -top-4 text-8xl opacity-10 filter blur-sm">
                     {provider.gamificationLevel === 'Çırak' ? '🛠️' : provider.gamificationLevel === 'Kalfa' ? '⚒️' : provider.gamificationLevel === 'Usta' ? '🔨' : '👑'}
                   </div>
@@ -486,7 +486,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
               )}
 
               {/* Hakkında */}
-              <motion.div custom={1} variants={fadeUp} initial="hidden" animate="show" className="bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] p-6 lg:p-8">
+              <motion.div custom={1} variants={fadeUp} initial="hidden" animate="show" className="bg-white dark:bg-[#0a0a0a] rounded-[2rem] shadow-xl p-6 lg:p-8 border border-gray-100 dark:border-white/5 mt-5">
                 <h2 className="text-lg font-black text-gray-900 dark:text-white mb-4">Hakkında</h2>
                 <p className="text-gray-600 dark:text-white/70 leading-relaxed">{provider.about}</p>
                 <div className="grid grid-cols-2 gap-4 mt-6 pt-5 border-t border-gray-100 dark:border-white/10">
@@ -509,7 +509,8 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
           <div className="flex-1 min-w-0 space-y-5 order-1 lg:order-2">
 
             {/* Profile header */}
-            <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show" className="bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] p-6 lg:p-8">
+            <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show" className="bg-gradient-to-br from-rose-400 to-rose-500 p-3 rounded-[2rem] shadow-xl relative">
+              <div className="bg-[#fcfaf8] dark:bg-[#0a0a0a] rounded-[1.5rem] p-6 lg:p-8 w-full h-full">
               <div className="flex items-end justify-between mb-4">
                 <div className="relative">
                   <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden ring-4 ring-white dark:ring-black shadow-xl bg-rose-50 flex items-center justify-center text-rose-600 font-black text-3xl relative">
@@ -582,8 +583,11 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
               </div>
             </motion.div>
 
+              </div>
+            </motion.div>
+
             {/* Mobile CTA Buttons (Visible only on mobile) */}
-            <div className="lg:hidden bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] p-6">
+            <div className="lg:hidden bg-white dark:bg-[#0a0a0a] rounded-[2rem] shadow-xl p-6 lg:p-8 border border-gray-100 dark:border-white/5">
               <div className="text-center mb-6">
                 <div className="text-4xl font-black text-gray-900 dark:text-white flex items-center justify-center gap-2 mb-1">
                   {provider.rating > 0 ? provider.rating.toFixed(1) : 'Yeni'} <Star size={24} className="fill-amber-400 text-amber-400" />
@@ -594,7 +598,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
               <a
                 href={`tel:${provider.phone}`}
                 id="detail-call-btn-mobile"
-                className="w-full flex items-center justify-center gap-3 py-4 bg-rose-600 text-white font-black text-lg border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] transition-all mb-3"
+                className="w-full flex items-center justify-center gap-3 py-4 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-black text-lg rounded-[1.5rem] shadow-lg shadow-rose-500/30 hover:-translate-y-1 transition-all mb-3"
               >
                 <Phone size={22} /> Doğrudan Ara
               </a>
@@ -602,7 +606,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
               {provider.userId && (
                 <button
                   onClick={() => setIsOfferModalOpen(true)}
-                  className="w-full flex items-center justify-center gap-3 py-4 bg-white dark:bg-black text-gray-950 dark:text-white font-black text-lg border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] hover:bg-gray-100 dark:hover:bg-gray-900 hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] transition-all mb-3"
+                  className="w-full flex items-center justify-center gap-3 py-4 bg-[#fcfaf8] dark:bg-white/5 text-gray-900 dark:text-white font-black text-lg border border-gray-200 dark:border-white/10 rounded-[1.5rem] shadow-md hover:-translate-y-1 transition-all mb-3"
                 >
                   <MessageSquare size={22} /> Teklif Ver
                 </button>
@@ -623,7 +627,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
 
             {/* Portfolio */}
             {provider.portfolioImages && provider.portfolioImages.length > 0 && (
-              <motion.div custom={2} variants={fadeUp} initial="hidden" animate="show" className="bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] p-6 lg:p-8">
+              <motion.div custom={2} variants={fadeUp} initial="hidden" animate="show" className="bg-white dark:bg-[#0a0a0a] rounded-[2rem] shadow-xl p-6 lg:p-8 border border-gray-100 dark:border-white/5">
                 <h2 className="text-lg font-black text-gray-900 dark:text-white mb-4">Portföy</h2>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {provider.portfolioImages.map((src: string, i: number) => (
@@ -641,7 +645,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
             )}
 
             {/* Reviews */}
-            <motion.div custom={3} variants={fadeUp} initial="hidden" animate="show" className="bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] p-6 lg:p-8">
+            <motion.div custom={3} variants={fadeUp} initial="hidden" animate="show" className="bg-white dark:bg-[#0a0a0a] rounded-[2rem] shadow-xl p-6 lg:p-8 border border-gray-100 dark:border-white/5">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-lg font-black text-gray-900 dark:text-white">Müşteri Değerlendirmeleri</h2>
                 <span className="text-sm text-gray-400 font-bold">{provider.reviewCount} yorum</span>
@@ -706,7 +710,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
 
               {/* Review Input Form for logged in users on DB Listings */}
               {isDb && (
-                <div className="mb-6 p-5 bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)]">
+                <div className="mb-6 p-6 bg-[#fcfaf8] dark:bg-[#111] border border-gray-100 dark:border-white/10 rounded-[1.5rem] shadow-sm">
                   <h3 className="text-sm font-black text-rose-600 uppercase tracking-widest border-b-[2px] border-gray-950 dark:border-white pb-2 mb-4">Değerlendirme Yazın</h3>
                   {token ? (
                     isOwner ? (
@@ -735,7 +739,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                               value={reviewForm.price_paid}
                               onChange={e => setReviewForm({ ...reviewForm, price_paid: e.target.value })}
                               placeholder="Örn: 500"
-                              className="w-full px-4 py-3 rounded-md border-[2px] border-gray-950 dark:border-white bg-white dark:bg-black/50 text-sm text-gray-900 dark:text-white outline-none focus:border-rose-600 shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] transition-all"
+                              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] text-sm text-gray-900 dark:text-white outline-none focus:border-rose-500 shadow-sm transition-all"
                               required
                             />
                             <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm">TL</div>
@@ -748,7 +752,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                             onChange={e => setReviewForm({ ...reviewForm, comment: e.target.value })}
                             rows={3}
                             placeholder="Hizmet kalitesi, süreç ve iletişim nasıldı?"
-                            className="w-full px-4 py-3 rounded-md border-[2px] border-gray-950 dark:border-white bg-gray-50 dark:bg-black/50 text-sm text-gray-900 dark:text-white outline-none focus:border-rose-600 shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:shadow-[2px_2px_0_0_rgba(255,255,255,1)] transition-all resize-none"
+                            className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 dark:border-white/10 bg-white dark:bg-[#0a0a0a] text-sm text-gray-900 dark:text-white outline-none focus:border-rose-500 shadow-sm transition-all resize-none"
                             required
                           />
                         </div>
@@ -772,7 +776,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                             <button
                               type="button"
                               onClick={() => reviewFileInputRef.current?.click()}
-                              className="w-16 h-16 rounded-md border-[2px] border-dashed border-gray-950 dark:border-white flex flex-col items-center justify-center text-gray-950 dark:text-white hover:bg-rose-600 hover:text-white hover:border-solid hover:shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] transition-all"
+                              className="w-16 h-16 rounded-xl border-2 border-dashed border-gray-300 dark:border-white/20 flex flex-col items-center justify-center text-gray-500 hover:text-rose-600 hover:border-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-all"
                             >
                               <Camera size={20} />
                             </button>
@@ -790,7 +794,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                         <button
                           type="submit"
                           disabled={submittingReview}
-                          className="inline-flex items-center gap-2 px-6 py-3 bg-gray-950 dark:bg-white text-white dark:text-gray-950 font-black text-xs uppercase tracking-wider rounded-md border-[2px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(225,29,72,1)] hover:bg-rose-600 hover:text-white hover:border-gray-950 dark:hover:border-white hover:translate-y-0.5 hover:translate-x-0.5 hover:shadow-[2px_2px_0_0_rgba(225,29,72,1)] disabled:opacity-60 transition-all mt-2"
+                          className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-rose-500/30 hover:-translate-y-1 hover:shadow-rose-500/40 disabled:opacity-60 transition-all mt-2"
                         >
                           {submittingReview ? (
                             <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -816,7 +820,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
               {/* Reviews List */}
               <div className="space-y-4">
                 {provider.reviews && provider.reviews.map((review: any) => (
-                  <div key={review.id} className="p-5 rounded-xl bg-gray-50 dark:bg-white/5 border-[2px] border-gray-950 dark:border-white shadow-[4px_4px_0_0_rgba(3,7,18,1)] dark:shadow-[4px_4px_0_0_rgba(255,255,255,1)]">
+                  <div key={review.id} className="p-5 rounded-[1.5rem] bg-white dark:bg-[#0a0a0a] border border-gray-100 dark:border-white/5 shadow-md">
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 rounded-full border-[2px] border-gray-950 dark:border-white overflow-hidden shrink-0 bg-rose-600 flex items-center justify-center text-white font-black text-sm">
                         {review.avatar ? (
@@ -859,7 +863,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
           <aside className="w-full lg:w-[280px] xl:w-[320px] shrink-0 order-3">
             <div className="sticky top-24 space-y-4">
 
-              <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show" className="hidden lg:block bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] p-6 lg:p-8">
+              <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show" className="hidden lg:block bg-white dark:bg-[#0a0a0a] rounded-[2rem] shadow-xl p-6 lg:p-8 border border-gray-100 dark:border-white/5">
                 <div className="text-center mb-6">
                   <div className="text-4xl font-black text-gray-900 dark:text-white flex items-center justify-center gap-2 mb-1">
                     {provider.rating > 0 ? provider.rating.toFixed(1) : 'Yeni'} <Star size={24} className="fill-amber-400 text-amber-400" />
@@ -870,7 +874,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                 <a
                   href={`tel:${provider.phone}`}
                   id="detail-call-btn"
-                  className="w-full flex items-center justify-center gap-3 py-4 bg-rose-600 text-white font-black text-lg border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] transition-all mb-3"
+                  className="w-full flex items-center justify-center gap-3 py-4 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-black text-lg rounded-[1.5rem] shadow-lg shadow-rose-500/30 hover:-translate-y-1 transition-all mb-3"
                 >
                   <Phone size={22} /> Doğrudan Ara
                 </a>
@@ -878,7 +882,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                 {provider.userId && (
                   <button
                     onClick={() => setIsOfferModalOpen(true)}
-                    className="w-full flex items-center justify-center gap-3 py-4 bg-white dark:bg-black text-gray-950 dark:text-white font-black text-lg border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] hover:bg-gray-100 dark:hover:bg-gray-900 hover:translate-y-1 hover:translate-x-1 hover:shadow-[2px_2px_0_0_rgba(3,7,18,1)] dark:hover:shadow-[2px_2px_0_0_rgba(255,255,255,1)] transition-all mb-3"
+                    className="w-full flex items-center justify-center gap-3 py-4 bg-[#fcfaf8] dark:bg-white/5 text-gray-900 dark:text-white font-black text-lg border border-gray-200 dark:border-white/10 rounded-[1.5rem] shadow-md hover:-translate-y-1 transition-all mb-3"
                   >
                     <MessageSquare size={22} /> Teklif Ver
                   </button>
@@ -896,7 +900,7 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                 </div>
               </motion.div>
 
-              <motion.div custom={1} variants={fadeUp} initial="hidden" animate="show" className="bg-white dark:bg-black border-[3px] border-gray-950 dark:border-white rounded-xl shadow-[6px_6px_0_0_rgba(3,7,18,1)] dark:shadow-[6px_6px_0_0_rgba(255,255,255,1)] p-5">
+              <motion.div custom={1} variants={fadeUp} initial="hidden" animate="show" className="bg-white dark:bg-[#0a0a0a] rounded-[2rem] shadow-xl p-6 lg:p-8 border border-gray-100 dark:border-white/5">
                 <h3 className="text-sm font-black text-rose-600 uppercase tracking-widest border-b-[3px] border-gray-950 dark:border-white pb-2 mb-4">Hızlı Bilgi</h3>
                 <div className="space-y-3">
                   {[
