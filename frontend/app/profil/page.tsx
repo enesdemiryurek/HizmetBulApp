@@ -19,7 +19,7 @@ const API = `${API_BASE_URL}/api`;
 
 interface UserData {
   id: number; name: string; email: string; phone?: string;
-  role: 'hizmet_alan' | 'hizmet_veren'; services?: string[];
+  role: 'hizmet_alan' | 'hizmet_veren'; gender?: 'male' | 'female' | 'other'; services?: string[];
   avatar?: string; city?: string; district?: string; bio?: string;
   created_at?: string;
 }
@@ -131,7 +131,7 @@ function ListingCard({ listing, user, onEdit, onDelete, onPromote }: {
 
 export default function ProfilePage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#efe6dd] dark:bg-[#050505] flex flex-col pt-[72px] items-center justify-center"><PixarLoader fullScreen={false} /></div>}>
+    <Suspense fallback={<div className="min-h-screen bg-white dark:bg-[#050505] flex flex-col pt-[72px] items-center justify-center"><PixarLoader fullScreen={false} /></div>}>
       <ProfileContent />
     </Suspense>
   );
@@ -313,7 +313,7 @@ function ProfileContent() {
   };
 
   if (loading) return (
-    <div className="flex-1 flex flex-col pt-24 bg-[#efe6dd] dark:bg-[#050505]">
+    <div className="flex-1 flex flex-col pt-24 bg-white dark:bg-[#050505]">
       <PixarLoader fullScreen={false} />
     </div>
   );
@@ -321,7 +321,16 @@ function ProfileContent() {
 
   const isProvider = user.role === 'hizmet_veren';
   const joinDate = user.created_at ? new Date(user.created_at).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long' }) : '—';
-  const avatarUrl = user.avatar ? (user.avatar.startsWith('http') ? user.avatar : `${API_BASE_URL}/storage/${user.avatar}`) : null;
+  
+  const seed = encodeURIComponent(user.name);
+  let defaultAvatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&backgroundColor=f87171,ef4444,dc2626`;
+  if (user.gender === 'female') {
+    defaultAvatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&top=longHair,straight01,straight02,curly,wavy&facialHair=none&backgroundColor=f87171,ef4444,dc2626`;
+  } else if (user.gender === 'male') {
+    defaultAvatar = `https://api.dicebear.com/7.x/avataaars/svg?seed=${seed}&top=shortHair,shortWaved,shortFlat,frizzle&backgroundColor=f87171,ef4444,dc2626`;
+  }
+
+  const avatarUrl = user.avatar ? (user.avatar.startsWith('http') ? user.avatar : `${API_BASE_URL}/storage/${user.avatar}`) : defaultAvatar;
 
   return (
     <>
@@ -362,7 +371,7 @@ function ProfileContent() {
         .hero-badge { background: rgba(255,255,255,0.12); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); }
       `}</style>
 
-      <div className="profile-page min-h-screen bg-[#efe6dd] dark:bg-[#050505] pt-20 pb-16">
+      <div className="profile-page min-h-screen bg-gray-50 dark:bg-[#050505] pt-20 pb-16">
         <div className="max-w-[1500px] mx-auto px-4 sm:px-6">
 
           {/* ── HERO ── */}
@@ -380,9 +389,9 @@ function ProfileContent() {
                 <div className="w-24 h-24 rounded-2xl avatar-ring overflow-hidden bg-gradient-to-br from-rose-400/30 to-rose-800/40 flex items-center justify-center text-4xl font-black text-white shadow-2xl">
                   {avatarPreview ? (
                     <img src={avatarPreview} alt="" className="w-full h-full object-cover" />
-                  ) : avatarUrl ? (
+                  ) : (
                     <img src={avatarUrl} alt="" className="w-full h-full object-cover" />
-                  ) : user.name.charAt(0).toUpperCase()}
+                  )}
                 </div>
                 <button
                   onClick={() => avatarRef.current?.click()}
@@ -671,7 +680,7 @@ function ProfileContent() {
                         initial={{ width: 0 }}
                         animate={{ width: `${nextLevelXp ? Math.min(100, Math.round((totalXp / nextLevelXp) * 100)) : 100}%` }}
                         transition={{ duration: 1.5, ease: "easeOut" }}
-                        className={`h-full bg-[#efe6dd] rounded-full`}
+                        className={`h-full bg-rose-600 rounded-full`}
                       />
                     </div>
                     {nextLevelXp && (

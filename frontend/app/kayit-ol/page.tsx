@@ -31,6 +31,7 @@ export default function RegisterPage() {
     email: '',
     phone: '',
     role: '' as '' | 'hizmet_alan' | 'hizmet_veren',
+    gender: '' as '' | 'male' | 'female' | 'other',
     password: '',
     password_confirmation: '',
     services: [] as string[],
@@ -73,6 +74,7 @@ export default function RegisterPage() {
     e.preventDefault();
 
     if (!formData.role) { setErrorMsg('Lütfen üyelik tipini seçin.'); return; }
+    if (!formData.gender) { setErrorMsg('Lütfen cinsiyet seçin.'); return; }
     if (formData.role === 'hizmet_veren' && formData.services.length === 0) {
       setErrorMsg('Lütfen en az bir hizmet kategorisi seçin.'); return;
     }
@@ -479,6 +481,31 @@ export default function RegisterPage() {
                   />
                 </div>
                 {fieldErrors.name && <p className="mt-1 text-xs text-rose-500">{fieldErrors.name[0]}</p>}
+              </div>
+
+              <div className="fade-in-up d2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+                  Cinsiyet <span className="text-rose-500">*</span>
+                </label>
+                <div className="flex gap-2">
+                  {['male', 'female', 'other'].map(g => (
+                    <button
+                      key={g} type="button"
+                      onClick={() => {
+                        setFormData({ ...formData, gender: g as any });
+                        if (fieldErrors.gender) setFieldErrors({ ...fieldErrors, gender: [] });
+                      }}
+                      className={`flex-1 py-2 px-3 border rounded-xl text-sm font-semibold transition-all ${
+                        formData.gender === g 
+                          ? 'border-rose-600 bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400 shadow-sm' 
+                          : 'border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-400 hover:border-rose-300 dark:hover:border-rose-700 bg-white dark:bg-[#111]'
+                      }`}
+                    >
+                      {g === 'male' ? 'Erkek' : g === 'female' ? 'Kadın' : 'Diğer'}
+                    </button>
+                  ))}
+                </div>
+                {fieldErrors.gender && <p className="mt-1 text-xs text-rose-500">{fieldErrors.gender[0]}</p>}
               </div>
 
               <div className="fade-in-up d3">
