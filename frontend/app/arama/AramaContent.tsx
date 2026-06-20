@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, SlidersHorizontal, Star, MapPin, Shield, Phone, X, ChevronDown, Users, CheckCircle2, Info, MessageSquare, Sparkles } from 'lucide-react';
+import { Search, SlidersHorizontal, Star, MapPin, Shield, Phone, X, ChevronDown, Users, CheckCircle2, Info, MessageSquare, Sparkles, Bookmark } from 'lucide-react';
 import { districts, categories } from '@/lib/data';
 import PixarLoader from '@/components/PixarLoader';
 import NeuralBackground from '@/components/ui/flow-field-background';
@@ -60,95 +60,109 @@ function PeopleCard({
       className={`w-full bg-white dark:bg-[#0a0a0a] rounded-[2rem] p-3 border border-gray-100 dark:border-white/10 shadow-sm hover:shadow-xl transition-all flex flex-col group ${isPromoted ? 'ring-2 ring-rose-500/50' : ''}`}
     >
       {/* Top Image (Cover Photo) */}
-      <div className="relative w-full h-28 rounded-t-[1.5rem] rounded-b-xl overflow-hidden bg-rose-600 shrink-0 mb-3">
+      <div className="relative w-full h-[140px] rounded-[1.5rem] overflow-hidden shrink-0">
         {provider.coverUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img 
             src={provider.coverUrl} 
             alt={provider.name} 
             onError={(e) => { e.currentTarget.style.display = 'none'; }}
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 mix-blend-overlay opacity-90" 
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-rose-500 to-rose-700" />
+          <div className="w-full h-full bg-gradient-to-br from-rose-500 via-purple-500 to-orange-400" />
         )}
         
-        {/* Category Label */}
-        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-gray-900 px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm z-10">
-          {provider.category}
-        </div>
-
-        {/* Rating Star */}
-        <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2 py-1 flex items-center gap-1 rounded-full text-gray-900 font-bold text-sm shadow-sm z-10">
-          <Star size={12} className="fill-amber-500 text-amber-500" />
-          {provider.rating > 0 ? provider.rating.toFixed(1) : 'Yeni'}
+        {/* Category Label (Pill overlapping bottom right) */}
+        <div className="absolute bottom-3 right-3 bg-white dark:bg-[#2d303a] text-gray-900 dark:text-white px-4 py-1.5 rounded-full text-[11px] font-black tracking-wide shadow-md flex items-center gap-1.5 z-10">
+          <CheckCircle2 size={12} className="text-blue-500" /> {provider.category}
         </div>
         
         {isPromoted && (
-          <div className="absolute bottom-3 left-3 bg-rose-600 text-white px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-sm z-10">
-            <Star size={8} className="fill-white" /> Sponsorlu
+          <div className="absolute top-3 left-3 bg-rose-600 text-white px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 shadow-sm z-10">
+            <Star size={10} className="fill-white" /> Sponsorlu
           </div>
         )}
         
         {aiMetrics && (
-          <div className="absolute bottom-3 right-3 bg-rose-600 text-white px-2 py-0.5 rounded-md text-[9px] font-bold flex items-center gap-1 shadow-sm z-10">
-            <Sparkles size={8} /> %{Math.round(aiMetrics.score * 100)} Uyum
+          <div className="absolute top-3 right-3 bg-rose-600 text-white px-2.5 py-1 rounded-full text-[10px] font-bold flex items-center gap-1 shadow-sm z-10">
+            <Sparkles size={10} /> %{Math.round(aiMetrics.score * 100)} Uyum
           </div>
         )}
-      </div>
 
-      <div className="flex flex-col flex-1 px-2 relative z-10">
-        {/* Avatar overlapping the cover photo like Facebook */}
-        <div className="flex items-start gap-3 mb-3 -mt-8 relative z-20">
-          <div className="w-14 h-14 rounded-full border-4 border-white dark:border-[#0a0a0a] bg-rose-50 overflow-hidden shrink-0 flex items-center justify-center shadow-sm relative">
+        {/* Avatar overlapping bottom left */}
+        <div className="absolute -bottom-6 left-5 z-20">
+          <div className="w-16 h-16 rounded-full border-[4px] border-white dark:border-[#0a0a0a] bg-white overflow-hidden shadow-sm flex items-center justify-center relative">
             {provider.avatarUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={provider.avatarUrl} alt="" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
             ) : (
-              <span className="text-xl font-black text-rose-600">{provider.name.charAt(0)}</span>
+              <span className="text-2xl font-black text-rose-600">{provider.name.charAt(0)}</span>
+            )}
+            {provider.verified && (
+              <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-emerald-500 border-2 border-white dark:border-[#0a0a0a] flex items-center justify-center">
+                <CheckCircle2 size={8} className="text-white" />
+              </div>
             )}
           </div>
-          
-          <div className="flex-1 min-w-0 pt-8">
-            <Link href={`/esnaf/${provider.slug}`} onClick={() => trackAction('click')} className="flex items-center gap-1.5 min-w-0">
-              <h2 className="font-bold text-gray-900 dark:text-white text-base leading-tight truncate hover:text-rose-600 transition-colors">
+        </div>
+      </div>
+
+      <div className="flex flex-col flex-1 px-3 mt-8 relative z-10">
+        {/* Name and Bookmark */}
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex-1 min-w-0">
+            <Link href={`/esnaf/${provider.slug}`} onClick={() => trackAction('click')}>
+              <h2 className="font-black text-gray-900 dark:text-white text-[19px] leading-tight truncate hover:text-rose-600 transition-colors">
                 {provider.name}
               </h2>
-              {provider.verified && (
-                <div className="w-4 h-4 rounded-full bg-emerald-500 flex items-center justify-center shrink-0">
-                  <CheckCircle2 size={10} className="text-white" />
-                </div>
-              )}
             </Link>
-            <p className="text-[11px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-widest mt-0.5 truncate">
+            <p className="text-[13px] font-medium text-gray-500 dark:text-gray-400 mt-1 truncate">
               {provider.jobTitle}
             </p>
           </div>
+          
+          <button className="w-9 h-9 rounded-full bg-gray-100 dark:bg-[#1f2128] flex items-center justify-center shrink-0 hover:bg-gray-200 dark:hover:bg-[#2d303a] transition-colors">
+            <Bookmark size={16} className="text-gray-500 dark:text-gray-400" />
+          </button>
         </div>
 
-        {/* Finished Jobs & Location */}
-        <div className="flex items-center gap-3 mb-3 text-[11px] font-bold text-gray-600 dark:text-gray-300">
-          <div className="flex items-center gap-1.5 bg-gray-100 dark:bg-white/5 px-2 py-1 rounded-md">
-            <Users size={12} className="shrink-0 text-gray-400" />
-            <span>{provider.reviewCount} Bitirilen İş</span>
+        {/* Stats Row */}
+        <div className="flex items-center justify-between mt-6 mb-6 px-1">
+          {/* Rating */}
+          <div className="flex flex-col items-start gap-1">
+            <div className="flex items-center gap-1.5 text-[15px] font-black text-gray-900 dark:text-white">
+              <Star size={16} className="fill-amber-400 text-amber-400" />
+              {provider.rating > 0 ? provider.rating.toFixed(1) : 'Yeni'}
+            </div>
+            <span className="text-[11px] font-semibold text-gray-500">Rating</span>
           </div>
-          <div className="flex items-center gap-1.5 px-2 py-1">
-            <MapPin size={12} className="text-rose-600 shrink-0" />
-            <span className="truncate">{[provider.district, provider.city].filter(Boolean).join(', ')}</span>
+          
+          {/* Jobs */}
+          <div className="flex flex-col items-start gap-1">
+            <div className="flex items-center gap-1.5 text-[15px] font-black text-gray-900 dark:text-white">
+              <Users size={16} className="text-blue-500" />
+              {provider.reviewCount}
+            </div>
+            <span className="text-[11px] font-semibold text-gray-500">Bitirilen İş</span>
+          </div>
+          
+          {/* Location */}
+          <div className="flex flex-col items-start gap-1">
+            <div className="flex items-center gap-1.5 text-[15px] font-black text-gray-900 dark:text-white">
+              <MapPin size={16} className="text-purple-500" />
+              <span className="truncate max-w-[70px]">{provider.city || 'Belirtilmedi'}</span>
+            </div>
+            <span className="text-[11px] font-semibold text-gray-500">Konum</span>
           </div>
         </div>
 
-        {/* Description */}
-        <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 leading-relaxed mb-4">
-          {provider.description || provider.about || 'Bu uzman henüz açıklama eklememiş.'}
-        </p>
-
-        {/* Bottom Button (Red) */}
-        <div className="mt-auto pt-1">
+        {/* Bottom Button (Gradient Red) */}
+        <div className="mt-auto">
           <Link
             href={`/esnaf/${provider.slug}`}
             onClick={(e) => { e.stopPropagation(); trackAction('click'); }}
-            className="flex items-center justify-center w-full bg-rose-600 hover:bg-rose-700 text-white py-2.5 rounded-xl text-sm font-semibold transition-colors"
+            className="flex items-center justify-center w-full bg-gradient-to-r from-rose-500 to-rose-600 text-white py-3.5 rounded-full text-[15px] font-black shadow-lg shadow-rose-500/30 hover:shadow-rose-500/50 hover:scale-[1.02] transition-all"
           >
             Profili İncele
           </Link>
