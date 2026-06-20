@@ -29,25 +29,33 @@ function StarRating({ rating, count }: { rating: number; count: number }) {
 export default function ProviderCard({ provider }: ProviderCardProps) {
   return (
     <article className="group bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-rose-200 hover:shadow-lg hover:shadow-rose-50 transition-all duration-300">
-      {/* Preview Images */}
-      <div className="flex h-40 overflow-hidden">
-        {provider.previewImages.slice(0, 3).map((src, i) => (
-          <div
-            key={i}
-            className="flex-1 relative overflow-hidden"
-          >
-            <Image
-              src={src}
-              alt={`${provider.name} çalışma ${i + 1}`}
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-              sizes="(max-width: 768px) 33vw, 20vw"
-            />
-            {i < 2 && (
-              <div className="absolute inset-y-0 right-0 w-px bg-white/40 z-10" />
-            )}
+      {/* Preview Images or Cover */}
+      <div className="flex h-40 overflow-hidden relative bg-rose-50 dark:bg-rose-900/20">
+        {(provider.previewImages && provider.previewImages.length > 0) ? (
+          provider.previewImages.slice(0, 3).map((src, i) => (
+            <div
+              key={i}
+              className="flex-1 relative overflow-hidden"
+            >
+              <Image
+                src={src}
+                alt={`${provider.name} çalışma ${i + 1}`}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                sizes="(max-width: 768px) 33vw, 20vw"
+              />
+              {i < Math.min(2, provider.previewImages.length - 1) && (
+                <div className="absolute inset-y-0 right-0 w-px bg-white/40 z-10" />
+              )}
+            </div>
+          ))
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-tr from-rose-600 to-rose-400 opacity-90 flex items-center justify-center">
+             <div className="w-16 h-16 rounded-full bg-white/20 flex items-center justify-center backdrop-blur-sm border border-white/30">
+               <span className="text-3xl font-black text-white shadow-sm">{provider.name.charAt(0).toUpperCase()}</span>
+             </div>
           </div>
-        ))}
+        )}
       </div>
 
       {/* Content */}

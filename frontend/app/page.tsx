@@ -310,12 +310,12 @@ export default function HomePage() {
       </div>
 
       {/* ╔══ FEATURED PROVIDERS ════════════════════════════╗ */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-white dark:to-[#0a0a0a]">
         <div className="max-w-7xl mx-auto">
           <Section className="">
             <div className="flex items-end justify-between mb-10">
               <div>
-                <motion.p variants={fadeUp} className="text-emerald-600 dark:text-emerald-400 font-bold text-sm uppercase tracking-widest mb-2">
+                <motion.p variants={fadeUp} className="text-rose-600 dark:text-rose-400 font-bold text-sm uppercase tracking-widest mb-2">
                   Öne Çıkan Uzmanlar
                 </motion.p>
                 <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-black text-gray-950 dark:text-white leading-tight transition-colors">
@@ -325,7 +325,7 @@ export default function HomePage() {
               <motion.div variants={fadeUp}>
                 <Link
                   href="/arama"
-                  className="hidden sm:flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors group"
+                  className="hidden sm:flex items-center gap-2 text-sm font-bold text-gray-600 dark:text-gray-400 hover:text-rose-600 dark:hover:text-rose-400 transition-colors group"
                 >
                   Tümünü Gör
                   <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
