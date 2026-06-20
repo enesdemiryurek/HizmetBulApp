@@ -5,6 +5,7 @@ import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, UploadCloud, Camera, Search, Check, MapPin, Clock, Tag, FileText, Layers, Sparkles, ChevronDown } from 'lucide-react';
 import { ALL_CATEGORIES } from '@/lib/data';
+import citiesData from '@/lib/cities.json';
 
 interface ListingFormModalProps {
   isOpen?: boolean;
@@ -70,6 +71,15 @@ export default function ListingFormModal({ isOpen = true, onClose, onSaved, onSa
       setSubServiceSearch('');
     }
   };
+
+  const handleCityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newCity = e.target.value;
+    const cityData = citiesData.find(c => c.city === newCity) || citiesData[0];
+    setFormData(prev => ({ ...prev, city: newCity, district: cityData.districts[0] }));
+  };
+
+  const selectedCityData = citiesData.find(c => c.city === formData.city) || citiesData[0];
+  const districts = selectedCityData.districts;
 
   const handleAiGenerate = async () => {
     if (!aiPrompt.trim()) return;
@@ -264,56 +274,7 @@ export default function ListingFormModal({ isOpen = true, onClose, onSaved, onSa
               </div>
             )}
 
-            {/* Cover Image */}
-            <div>
-              <InputLabel icon={Camera}>Kapak Fotoğrafı</InputLabel>
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="h-36 border-2 border-dashed border-gray-200 dark:border-white/10 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-[#9a0002] hover:bg-[#9a0002]/5 transition-all relative overflow-hidden group"
-              >
-                {coverPreview ? (
-                  <>
-                    <img src={coverPreview} alt="Preview" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity gap-2">
-                      <Camera className="text-white" size={28} />
-                      <span className="text-white font-bold text-sm">Değiştir</span>
-                    </div>
-                  </>
-                ) : (
-                  <div className="text-center">
-                    <UploadCloud size={30} className="text-gray-300 dark:text-gray-600 mx-auto mb-2" />
-                    <span className="text-sm font-semibold text-gray-400 dark:text-gray-500">Kapak fotoğrafı yüklemek için tıkla</span>
-                    <p className="text-xs text-gray-300 dark:text-gray-600 mt-1">JPG, PNG — Maks 5MB</p>
-                  </div>
-                )}
-                <input type="file" ref={fileInputRef} hidden accept="image/*" onChange={handleImageChange} />
-              </div>
-            </div>
 
-            {/* Portfolio */}
-            <div>
-              <InputLabel icon={Layers}>Portföy Görselleri</InputLabel>
-              <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
-                {portfolioPreviews.map((preview, index) => (
-                  <div key={index} className="relative aspect-square rounded-xl overflow-hidden border-2 border-gray-200 dark:border-white/10 group">
-                    <img src={preview} alt="Portfolio" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
-                      <button type="button" onClick={() => removePortfolioImage(index)} className="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 hover:scale-110 transition-all">
-                        <X size={15} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                <div
-                  onClick={() => portfolioInputRef.current?.click()}
-                  className="aspect-square border-2 border-dashed border-gray-200 dark:border-white/10 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-[#9a0002] hover:bg-[#9a0002]/5 transition-all group"
-                >
-                  <UploadCloud size={22} className="text-gray-300 dark:text-gray-600 group-hover:text-[#9a0002] transition-colors mb-1" />
-                  <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 group-hover:text-[#9a0002] transition-colors">Ekle</span>
-                  <input type="file" ref={portfolioInputRef} hidden accept="image/*" multiple onChange={handlePortfolioChange} />
-                </div>
-              </div>
-            </div>
 
             {/* İlan Başlığı */}
             <div>
@@ -411,13 +372,15 @@ export default function ListingFormModal({ isOpen = true, onClose, onSaved, onSa
               </div>
               <div>
                 <InputLabel icon={MapPin}>Şehir</InputLabel>
-                <select name="city" value={formData.city} onChange={handleChange} className={inputCls + " cursor-pointer"}>
-                  {['İstanbul', 'Ankara', 'İzmir', 'Bursa', 'Antalya', 'Adana', 'Konya', 'Gaziantep', 'Mersin', 'Diyarbakır', 'Kayseri', 'Eskişehir', 'Trabzon', 'Samsun'].map(c => <option key={c} value={c}>{c}</option>)}
+                <select name="city" value={formData.city} onChange={handleCityChange} className={inputCls + " cursor-pointer"}>
+                  {citiesData.map(c => <option key={c.city} value={c.city}>{c.city}</option>)}
                 </select>
               </div>
               <div>
                 <InputLabel icon={MapPin}>İlçe</InputLabel>
-                <input required name="district" value={formData.district} onChange={handleChange} className={inputCls} placeholder="Örn: Kadıköy" />
+                <select name="district" value={formData.district} onChange={handleChange} className={inputCls + " cursor-pointer"}>
+                  {districts.map(d => <option key={d} value={d}>{d}</option>)}
+                </select>
               </div>
             </div>
 
@@ -529,6 +492,57 @@ export default function ListingFormModal({ isOpen = true, onClose, onSaved, onSa
                 <Tag size={12} className="text-gray-400 dark:text-gray-500" />
                 <span>Anahtar kelimeler yapay zeka skorunuza katkı sağlar. Virgül ile ayırarak yazın.</span>
               </p>
+            </div>
+
+            {/* Cover Image */}
+            <div>
+              <InputLabel icon={Camera}>Kapak Fotoğrafı</InputLabel>
+              <div
+                onClick={() => fileInputRef.current?.click()}
+                className="h-36 border-2 border-dashed border-gray-200 dark:border-white/10 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-[#9a0002] hover:bg-[#9a0002]/5 transition-all relative overflow-hidden group"
+              >
+                {coverPreview ? (
+                  <>
+                    <img src={coverPreview} alt="Preview" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity gap-2">
+                      <Camera className="text-white" size={28} />
+                      <span className="text-white font-bold text-sm">Değiştir</span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center">
+                    <UploadCloud size={30} className="text-gray-300 dark:text-gray-600 mx-auto mb-2" />
+                    <span className="text-sm font-semibold text-gray-400 dark:text-gray-500">Kapak fotoğrafı yüklemek için tıkla</span>
+                    <p className="text-xs text-gray-300 dark:text-gray-600 mt-1">JPG, PNG — Maks 5MB</p>
+                  </div>
+                )}
+                <input type="file" ref={fileInputRef} hidden accept="image/*" onChange={handleImageChange} />
+              </div>
+            </div>
+
+            {/* Portfolio */}
+            <div>
+              <InputLabel icon={Layers}>Portföy Görselleri</InputLabel>
+              <div className="grid grid-cols-3 sm:grid-cols-5 gap-3">
+                {portfolioPreviews.map((preview, index) => (
+                  <div key={index} className="relative aspect-square rounded-xl overflow-hidden border-2 border-gray-200 dark:border-white/10 group">
+                    <img src={preview} alt="Portfolio" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                      <button type="button" onClick={() => removePortfolioImage(index)} className="w-8 h-8 rounded-full bg-red-500 text-white flex items-center justify-center hover:bg-red-600 hover:scale-110 transition-all">
+                        <X size={15} />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+                <div
+                  onClick={() => portfolioInputRef.current?.click()}
+                  className="aspect-square border-2 border-dashed border-gray-200 dark:border-white/10 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-[#9a0002] hover:bg-[#9a0002]/5 transition-all group"
+                >
+                  <UploadCloud size={22} className="text-gray-300 dark:text-gray-600 group-hover:text-[#9a0002] transition-colors mb-1" />
+                  <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 group-hover:text-[#9a0002] transition-colors">Ekle</span>
+                  <input type="file" ref={portfolioInputRef} hidden accept="image/*" multiple onChange={handlePortfolioChange} />
+                </div>
+              </div>
             </div>
 
             {/* Actions */}

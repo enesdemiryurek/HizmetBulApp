@@ -75,7 +75,7 @@ export default function Sidebar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setMobileOpen(false)}
-            className="md:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+            className="md:hidden fixed inset-0 z-40 bg-black/60 backdrop-blur-sm cursor-pointer"
           />
         )}
       </AnimatePresence>
@@ -107,7 +107,10 @@ export default function Sidebar() {
               <Link
                 key={item.label}
                 href={item.href}
-                onClick={item.onClick}
+                onClick={(e) => {
+                  setMobileOpen(false);
+                  if (item.onClick) item.onClick(e);
+                }}
                 className={`flex items-center px-3 py-3.5 rounded-2xl transition-all duration-300 group relative ${
                   isActive 
                     ? 'bg-gradient-to-r from-rose-600/20 to-rose-600/5 border border-rose-500/20 text-rose-400 font-bold shadow-[0_0_15px_rgba(225,29,72,0.1)]' 
