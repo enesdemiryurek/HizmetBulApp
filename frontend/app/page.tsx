@@ -9,7 +9,8 @@ import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import {
   Search, MapPin, ArrowRight, Star, Shield, Zap, Phone,
   Sparkles, Truck, Wrench, Code2, GraduationCap, Car, Camera, Leaf,
-  ChevronDown, TrendingUp, Heart, Scissors, PawPrint, PartyPopper, Megaphone, Users
+  ChevronDown, TrendingUp, Heart, Scissors, PawPrint, PartyPopper, Megaphone, Users,
+  Calendar, MessageSquare, User, Home, Clock
 } from 'lucide-react';
 import { providers, categories } from '@/lib/data';
 import SearchBar from '@/components/SearchBar';
@@ -408,18 +409,126 @@ export default function HomePage() {
                   
                   {/* Floating Elements Animation wrapper */}
                   <motion.div
-                    animate={{ y: [-10, 10, -10] }}
-                    transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
-                    className="w-full h-full relative"
+                    animate={{ y: [-8, 8, -8] }}
+                    transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
+                    className="w-full h-full relative flex items-center justify-center overflow-hidden rounded-[2rem]"
                   >
-                    <Image
-                      src="/how_it_works.png"
-                      alt="HizmetBul Nasıl Çalışır 3D Tasarım"
-                      fill
-                      className="object-contain drop-shadow-2xl scale-[1.15] origin-center"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      unoptimized
-                    />
+                    {/* The Phone (3D Realistic) */}
+                    <div 
+                      className="w-[320px] sm:w-[340px] h-[680px] bg-[#d4d4d8] rounded-[3.5rem] p-[6px] shadow-[0_20px_40px_rgba(0,0,0,0.2)] relative transition-transform duration-700 ease-out scale-[0.65] sm:scale-[0.8] origin-center" 
+                    >
+                      {/* Outer Bezel Buttons */}
+                      <div className="absolute top-32 -left-[4px] w-1 h-12 bg-[#71717a] rounded-l-md shadow-inner" />
+                      <div className="absolute top-48 -left-[4px] w-1 h-12 bg-[#71717a] rounded-l-md shadow-inner" />
+                      <div className="absolute top-20 -left-[4px] w-1 h-6 bg-[#71717a] rounded-l-md shadow-inner" />
+
+                      {/* Black Bezel & Screen Wrapper */}
+                      <div className="w-full h-full bg-black rounded-[3.2rem] p-2 relative shadow-[inset_0_0_0_2px_#3f3f46]">
+                        
+                        {/* Dynamic Island */}
+                        <div className="absolute top-4 inset-x-0 flex justify-center z-50 pointer-events-none">
+                          <div className="w-28 h-8 bg-black rounded-full shadow-[0_0_0_1px_rgba(255,255,255,0.05)_inset] flex items-center justify-between px-2.5">
+                            <div className="w-2 h-2 rounded-full bg-gray-800/80" />
+                            <div className="w-3 h-3 rounded-full bg-blue-900/30 flex items-center justify-center"><div className="w-1 h-1 rounded-full bg-blue-400" /></div>
+                          </div>
+                        </div>
+                        
+                        {/* Screen Content */}
+                        <div className="h-full w-full bg-[#fcfaf8] dark:bg-[#111] rounded-[2.8rem] overflow-hidden px-5 pt-14 pb-0 flex flex-col relative">
+                          
+                          {/* Header */}
+                          <div className="flex items-center justify-between mb-4 mt-2">
+                            <div>
+                              <h3 className="text-xl font-bold text-gray-500 leading-none mb-1">Merhaba,</h3>
+                              <h3 className="text-2xl font-black text-gray-900 dark:text-white leading-none">Ayşe 👋</h3>
+                            </div>
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Ayşe&clothing=collarAndSweater" className="w-12 h-12 rounded-full border-2 border-white shadow-sm bg-rose-50" alt="" />
+                          </div>
+
+                          {/* Search Bar Fake */}
+                          <div className="bg-white rounded-2xl p-3 shadow-sm border border-gray-100 flex items-center gap-3 mb-6">
+                            <Search size={18} className="text-gray-400" />
+                            <div className="text-sm font-medium text-gray-400">Örn: Boyacı, Temizlik...</div>
+                          </div>
+
+                          {/* Upcoming Booking (Big Red Card) */}
+                          <div className="bg-gradient-to-br from-rose-500 to-rose-700 rounded-3xl p-5 text-white shadow-lg relative overflow-hidden shrink-0 mb-6">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+                            <p className="text-sm font-bold opacity-90 mb-3">Yaklaşan Hizmet</p>
+                            
+                            <div className="flex items-center gap-4">
+                              <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
+                                <Sparkles size={24} className="text-white" />
+                              </div>
+                              <div>
+                                <h4 className="font-black text-lg leading-tight">Ev Temizliği</h4>
+                                <div className="flex items-center gap-1.5 text-rose-100 text-xs font-medium mt-1">
+                                  <Clock size={12} /> Yarın, 10:00
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="mt-4 pt-4 border-t border-white/20 flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Fatma&top=hijab" className="w-6 h-6 rounded-full border border-rose-300" alt="" />
+                                <span className="text-xs font-bold">Fatma K.</span>
+                              </div>
+                              <div className="bg-white text-rose-600 text-[10px] font-black px-3 py-1.5 rounded-lg">
+                                Detaylar
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Popular Categories Header */}
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="font-black text-gray-900 text-sm">Popüler Kategoriler</h4>
+                            <span className="text-xs font-bold text-rose-600">Tümü</span>
+                          </div>
+
+                          {/* Categories Grid */}
+                          <div className="grid grid-cols-4 gap-3 pb-24 overflow-y-auto hide-scrollbar">
+                            {[
+                              { i: Truck, l: 'Nakliyat', c: 'text-blue-500', b: 'bg-blue-50' },
+                              { i: Wrench, l: 'Tamirat', c: 'text-amber-500', b: 'bg-amber-50' },
+                              { i: GraduationCap, l: 'Eğitim', c: 'text-emerald-500', b: 'bg-emerald-50' },
+                              { i: Car, l: 'Araç', c: 'text-purple-500', b: 'bg-purple-50' },
+                            ].map((item, idx) => (
+                              <div key={idx} className="flex flex-col items-center gap-1.5">
+                                <div className={`w-12 h-12 rounded-2xl ${item.b} flex items-center justify-center`}>
+                                  <item.i size={20} className={item.c} />
+                                </div>
+                                <span className="text-[10px] font-bold text-gray-600">{item.l}</span>
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Bottom Navigation */}
+                          <div className="absolute bottom-0 inset-x-0 h-20 bg-white border-t border-gray-100 flex items-center justify-between px-6 z-20 rounded-b-[2.8rem] shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
+                            <div className="flex flex-col items-center gap-1 text-rose-600">
+                              <Home size={20} className="fill-rose-600" />
+                              <span className="text-[9px] font-bold">Keşfet</span>
+                            </div>
+                            <div className="flex flex-col items-center gap-1 text-gray-400">
+                              <Search size={20} />
+                              <span className="text-[9px] font-bold">Arama</span>
+                            </div>
+                            <div className="flex flex-col items-center gap-1 text-gray-400">
+                              <Calendar size={20} />
+                              <span className="text-[9px] font-bold">Randevu</span>
+                            </div>
+                            <div className="flex flex-col items-center gap-1 text-gray-400">
+                              <MessageSquare size={20} />
+                              <span className="text-[9px] font-bold">Mesaj</span>
+                            </div>
+                            <div className="flex flex-col items-center gap-1 text-gray-400">
+                              <User size={20} />
+                              <span className="text-[9px] font-bold">Profil</span>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
                   </motion.div>
                   
                   {/* Decorative Badges on Image */}
