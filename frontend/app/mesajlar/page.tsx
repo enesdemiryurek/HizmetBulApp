@@ -4,7 +4,7 @@ import { API_BASE_URL } from '@/config';
 import { Suspense, useState, useEffect, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Send, Search, Check, CheckCheck, CheckCircle2, MessageSquare, Paperclip, X } from 'lucide-react';
+import { ArrowLeft, Send, Search, Check, CheckCheck, CheckCircle2, MessageSquare, Paperclip, X, Shield } from 'lucide-react';
 import PixarLoader from '@/components/PixarLoader';
 
 const API = `${API_BASE_URL}/api`;
