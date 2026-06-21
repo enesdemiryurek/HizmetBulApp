@@ -230,7 +230,7 @@ function MessagesContent() {
     }
   };
 
-  const handleOfferAction = async (msgId: number, action: 'accept' | 'reject') => {
+  const handleOfferAction = async (msgId: number, action: 'accept' | 'reject' | 'complete') => {
     const token = localStorage.getItem('auth_token');
     try {
       const res = await fetch(`${API}/messages/${msgId}/handle-offer`, {
