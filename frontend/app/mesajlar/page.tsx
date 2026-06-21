@@ -63,6 +63,9 @@ function MessagesContent() {
   const [offerPrice, setOfferPrice] = useState('');
   const [offerDetail, setOfferDetail] = useState('');
 
+  const [paymentOfferId, setPaymentOfferId] = useState<number | null>(null);
+  const [processingPayment, setProcessingPayment] = useState(false);
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const selectedConvRef = useRef<ConversationData | null>(null);
@@ -335,7 +338,8 @@ function MessagesContent() {
                             )}
                             <span className={`truncate ${isUnread ? 'font-bold text-gray-900 dark:text-white' : ''}`}>
                               {conv.last_message.body.startsWith('OFFER|') ? 'Teklif Gönderildi' :
-                               conv.last_message.body.startsWith('OFFER_ACCEPTED|') ? 'Teklif Kabul Edildi' :
+                               conv.last_message.body.startsWith('OFFER_ACCEPTED|') ? 'Ödeme Yapıldı - İş Başladı' :
+                               conv.last_message.body.startsWith('OFFER_COMPLETED|') ? 'İş Tamamlandı' :
                                conv.last_message.body.startsWith('OFFER_REJECTED|') ? 'Teklif Reddedildi' :
                                conv.last_message.body}
                             </span>
@@ -388,34 +392,50 @@ function MessagesContent() {
                           <div className={`max-w-[80%] md:max-w-[65%] px-4 py-2.5 shadow-sm text-[15px] relative group ${isMe ? 'bg-emerald-50 dark:bg-emerald-900/30 text-gray-900 dark:text-gray-100 rounded-2xl rounded-br-sm border border-emerald-100 dark:border-emerald-800/30' : 'bg-white dark:bg-[#1a1a1a] text-gray-900 dark:text-gray-100 rounded-2xl rounded-bl-sm border border-gray-100 dark:border-white/5'}`}>
                             <div className="leading-relaxed">
                               {msg.body && (
-                                (msg.body.startsWith('OFFER|') || msg.body.startsWith('OFFER_ACCEPTED|') || msg.body.startsWith('OFFER_REJECTED|')) ? (() => {
+                                (msg.body.startsWith('OFFER|') || msg.body.startsWith('OFFER_ACCEPTED|') || msg.body.startsWith('OFFER_COMPLETED|') || msg.body.startsWith('OFFER_REJECTED|')) ? (() => {
                                   const parts = msg.body.split('|');
-                                  const type = parts[0]; // OFFER, OFFER_ACCEPTED, OFFER_REJECTED
+                                  const type = parts[0]; // OFFER, OFFER_ACCEPTED, OFFER_COMPLETED, OFFER_REJECTED
                                   const price = parts[1];
                                   const detail = parts.slice(2).join('|');
                                   
                                   const isAccepted = type === 'OFFER_ACCEPTED';
+                                  const isCompleted = type === 'OFFER_COMPLETED';
                                   const isRejected = type === 'OFFER_REJECTED';
                                   const isPending = type === 'OFFER';
 
                                   return (
-                                    <div className={`rounded-xl p-4 border shadow-sm mt-1 mb-1 min-w-[240px] transition-colors ${isAccepted ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800/30' : isRejected ? 'bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800/30' : 'bg-white dark:bg-black/40 border-rose-100 dark:border-rose-900/30'}`}>
-                                      <div className={`flex items-center gap-2 font-black mb-3 text-lg ${isAccepted ? 'text-emerald-600' : isRejected ? 'text-red-600' : 'text-rose-600'}`}>
-                                        {isAccepted ? <CheckCheck size={20} /> : isRejected ? <X size={20} /> : <CheckCircle2 size={20} />} 
-                                        {isAccepted ? 'Teklif Kabul Edildi' : isRejected ? 'Teklif Reddedildi' : 'Yeni Teklif'}
+                                    <div className={`rounded-xl p-4 border shadow-sm mt-1 mb-1 min-w-[240px] transition-colors ${isCompleted ? 'bg-blue-50 border-blue-200 dark:bg-blue-900/20 dark:border-blue-800/30' : isAccepted ? 'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-800/30' : isRejected ? 'bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-800/30' : 'bg-white dark:bg-black/40 border-rose-100 dark:border-rose-900/30'}`}>
+                                      <div className={`flex items-center gap-2 font-black mb-3 text-lg ${isCompleted ? 'text-blue-600' : isAccepted ? 'text-emerald-600' : isRejected ? 'text-red-600' : 'text-rose-600'}`}>
+                                        {isCompleted ? <CheckCheck size={20} /> : isAccepted ? <CheckCircle2 size={20} /> : isRejected ? <X size={20} /> : <CheckCircle2 size={20} />} 
+                                        {isCompleted ? 'İş Tamamlandı' : isAccepted ? 'Ödeme Güvende - İş Başladı' : isRejected ? 'Teklif Reddedildi' : 'Yeni Teklif'}
                                       </div>
                                       <div className="text-[13px] font-medium text-gray-700 dark:text-gray-300 mb-4">{detail}</div>
                                       <div className="text-3xl font-black text-gray-900 dark:text-white mb-5">{price} <span className="text-lg text-gray-500">TL</span></div>
                                       
                                       {isPending && !isMe && (
                                         <div className="flex gap-2">
-                                          <button onClick={() => handleOfferAction(msg.id, 'accept')} className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2.5 rounded-xl text-sm transition-all active:scale-95 shadow-md shadow-emerald-500/20">Kabul Et</button>
+                                          <button onClick={() => setPaymentOfferId(msg.id)} className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2.5 rounded-xl text-sm transition-all active:scale-95 shadow-md shadow-emerald-500/20">Kabul Et ve Öde</button>
                                           <button onClick={() => handleOfferAction(msg.id, 'reject')} className="flex-1 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 text-gray-700 dark:text-white font-bold py-2.5 rounded-xl text-sm transition-all active:scale-95">Reddet</button>
                                         </div>
                                       )}
                                       
                                       {isPending && isMe && (
                                         <div className="text-center text-xs font-bold text-rose-600 bg-rose-50 dark:bg-rose-500/10 py-2 rounded-lg">Cevap Bekleniyor</div>
+                                      )}
+
+                                      {isAccepted && !isMe && (
+                                        <div className="mt-2">
+                                          <button onClick={() => handleOfferAction(msg.id, 'complete')} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-sm transition-all active:scale-95 shadow-md shadow-blue-500/20">İşi Teslim Aldım</button>
+                                          <p className="text-[10px] text-center text-gray-500 mt-2 font-medium">Bu butona bastığınızda ödeme esnafa aktarılır.</p>
+                                        </div>
+                                      )}
+
+                                      {isAccepted && isMe && (
+                                        <div className="text-center text-xs font-bold text-emerald-700 bg-emerald-100/50 py-2 rounded-lg border border-emerald-200/50">Müşteri işi onayladığında paranız IBAN'ınıza aktarılacak.</div>
+                                      )}
+
+                                      {isCompleted && (
+                                        <div className="text-center text-xs font-bold text-blue-700 bg-blue-100/50 py-2 rounded-lg border border-blue-200/50">Tutar esnafa aktarıldı. Artık profiline yorum yapabilirsiniz.</div>
                                       )}
 
                                       {isRejected && (
@@ -581,6 +601,57 @@ function MessagesContent() {
                    <button type="submit" className="flex-[2] bg-rose-600 text-white font-bold py-3.5 rounded-2xl hover:bg-rose-700 transition-all shadow-lg shadow-rose-500/30 active:scale-95 flex items-center justify-center gap-2">
                      <CheckCircle2 size={18} />
                      Teklifi Gönder
+                   </button>
+                 </div>
+              </form>
+           </div>
+        </div>
+      )}
+
+      {/* Escrow Payment Modal */}
+      {paymentOfferId && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 animate-in fade-in duration-200">
+           <div className="bg-white dark:bg-[#111] rounded-3xl p-6 w-full max-w-sm shadow-2xl border border-gray-100 dark:border-white/10 animate-in zoom-in-95 duration-200">
+              <div className="flex items-center gap-3 mb-4">
+                 <div className="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 flex items-center justify-center font-black">
+                   <Shield size={20} />
+                 </div>
+                 <div>
+                   <h3 className="text-xl font-black text-gray-900 dark:text-white">Güvenli Ödeme</h3>
+                   <p className="text-xs text-gray-500">Iyzico & Param Güvende</p>
+                 </div>
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-5">
+                Tutar şu anda havuz hesabına aktarılacaktır. Hizmeti teslim aldığınızı onaylayana kadar esnafa aktarılmaz.
+              </p>
+              <form onSubmit={async (e) => {
+                 e.preventDefault();
+                 setProcessingPayment(true);
+                 // Simulate API delay
+                 await new Promise(r => setTimeout(r, 1500));
+                 handleOfferAction(paymentOfferId, 'accept');
+                 setPaymentOfferId(null);
+                 setProcessingPayment(false);
+              }} className="space-y-4">
+                 <div>
+                   <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-1">Kart Numarası</label>
+                   <input type="text" required placeholder="0000 0000 0000 0000" className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-emerald-500 font-mono text-sm dark:text-white" />
+                 </div>
+                 <div className="flex gap-3">
+                   <div className="flex-1">
+                     <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-1">SKT</label>
+                     <input type="text" required placeholder="MM/YY" className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-emerald-500 font-mono text-sm dark:text-white" />
+                   </div>
+                   <div className="flex-1">
+                     <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 mb-1 ml-1">CVC</label>
+                     <input type="text" required placeholder="***" className="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-xl px-4 py-3 outline-none focus:border-emerald-500 font-mono text-sm dark:text-white" />
+                   </div>
+                 </div>
+                 
+                 <div className="flex gap-3 pt-4">
+                   <button type="button" disabled={processingPayment} onClick={() => setPaymentOfferId(null)} className="flex-1 bg-gray-100 dark:bg-white/10 text-gray-700 dark:text-gray-300 font-bold py-3.5 rounded-xl hover:bg-gray-200 transition-all active:scale-95 disabled:opacity-50">İptal</button>
+                   <button type="submit" disabled={processingPayment} className="flex-[2] bg-emerald-500 text-white font-bold py-3.5 rounded-xl hover:bg-emerald-600 transition-all shadow-lg shadow-emerald-500/30 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50">
+                     {processingPayment ? <span className="animate-spin w-5 h-5 border-2 border-white/40 border-t-white rounded-full"></span> : 'Ödemeyi Tamamla'}
                    </button>
                  </div>
               </form>

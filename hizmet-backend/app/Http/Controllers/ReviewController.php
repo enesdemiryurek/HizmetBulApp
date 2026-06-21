@@ -34,6 +34,22 @@ class ReviewController extends Controller
             ], 403);
         }
 
+        // 1.5. Ensure they have a completed job
+        $hasCompletedJob = \App\Models\Conversation::where(function($q) use ($listing, $request) {
+            $q->where('user_one_id', $listing->user_id)->where('user_two_id', $request->user()->id)
+              ->orWhere('user_two_id', $listing->user_id)->where('user_one_id', $request->user()->id);
+        })->whereHas('messages', function($q) use ($listing) {
+            $q->where('sender_id', $listing->user_id)
+              ->where('body', 'LIKE', 'OFFER_COMPLETED|%');
+        })->exists();
+
+        if (!$hasCompletedJob) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Yalnızca hizmeti satın alıp teslim alan (Güvenli Ödeme sürecini tamamlayan) müşteriler yorum yapabilir.'
+            ], 403);
+        }
+
         // 2. Prevent duplicate reviews by the same user
         $exists = Review::where('listing_id', $listing->id)
             ->where('user_id', $request->user()->id)

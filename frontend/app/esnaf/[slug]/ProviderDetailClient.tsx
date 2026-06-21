@@ -138,10 +138,10 @@ const mapDbListingToProvider = (listing: any) => {
   };
 };
 
-export default function ProviderDetailClient({ slug }: { slug: string }) {
+export default function ProviderDetailClient({ slug, initialData }: { slug: string; initialData?: any }) {
   const staticProvider = providers.find(p => p.slug === slug);
-  const [provider, setProvider] = useState<any | null>(staticProvider || null);
-  const [loading, setLoading] = useState(!staticProvider);
+  const [provider, setProvider] = useState<any | null>(initialData || staticProvider || null);
+  const [loading, setLoading] = useState(!initialData && !staticProvider);
   const [error, setError] = useState('');
   const [similarProviders, setSimilarProviders] = useState<any[]>([]);
   const [aiSummary, setAiSummary] = useState<string | null>(null);
@@ -204,6 +204,11 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
     }
 
     if (listingIdStr) {
+      // Re-fetch in the background to get latest reviews, clicks etc. 
+      // Do not block UI with loading state if we already have initialData
+      if (!initialData) {
+        setLoading(true);
+      }
       fetch(`${API_BASE_URL}/api/listings/public/${listingIdStr}`)
         .then(res => res.json())
         .then(data => {
@@ -211,12 +216,14 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
             const mappedProvider = mapDbListingToProvider(data.listing);
             setProvider(mappedProvider);
             
-            // Profil görüntülenmesini arka plana bildir
-            fetch(`${API_BASE_URL}/api/listings/${data.listing.id}/track`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ action: 'view' })
-            }).catch(() => {}); // Hata olursa yut
+            // Profil görüntülenmesini arka plana bildir (Only if not already requested to prevent duplicate tracking, but let's just do it on first client load)
+            if (!initialData) {
+                fetch(`${API_BASE_URL}/api/listings/${data.listing.id}/track`, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ action: 'view' })
+                }).catch(() => {});
+            }
 
             // Fetch similar providers
             fetch(`${API_BASE_URL}/api/listings/public`)
@@ -249,19 +256,21 @@ export default function ProviderDetailClient({ slug }: { slug: string }) {
                 .catch(console.error)
                 .finally(() => setAiSummaryLoading(false));
             }
-          } else {
+          } else if (!initialData) {
             setError('Hizmet ilanı bulunamadı.');
           }
         })
         .catch((e) => {
           console.error("Provider fetch error:", e);
-          setError('Sunucuya bağlanılamadı: ' + e.message);
+          if (!initialData) {
+            setError('Sunucuya bağlanılamadı: ' + e.message);
+          }
         })
         .finally(() => setLoading(false));
     } else {
       setLoading(false);
     }
-  }, [slug]);
+  }, [slug, initialData]);
 
   const handleSendOffer = async (e: React.FormEvent) => {
     e.preventDefault();

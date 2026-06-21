@@ -155,7 +155,7 @@ class MessageController extends Controller
     public function handleOffer(Request $request, $id)
     {
         $request->validate([
-            'action' => 'required|in:accept,reject'
+            'action' => 'required|in:accept,reject,complete'
         ]);
 
         $message = Message::findOrFail($id);
@@ -173,6 +173,17 @@ class MessageController extends Controller
 
         if (!$conversation) {
             return response()->json(['error' => 'Yetkisiz işlem.'], 403);
+        }
+
+        if ($request->action === 'complete') {
+            if (str_starts_with($message->body, 'OFFER_ACCEPTED|')) {
+                $parts = explode('|', $message->body);
+                $parts[0] = 'OFFER_COMPLETED';
+                $message->update(['body' => implode('|', $parts)]);
+                $conversation->touch();
+                return response()->json(['success' => true, 'message' => $message]);
+            }
+            return response()->json(['error' => 'Sadece kabul edilmiş teklifler tamamlanabilir.'], 400);
         }
 
         if (str_starts_with($message->body, 'OFFER|')) {
